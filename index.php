@@ -6,6 +6,6 @@
     <title>StudySelf</title>
 </head>
 <body>
-    <h1>Welcome to StudySelf</h1>  
+   
 </body>
 </html>
