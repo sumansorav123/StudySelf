@@ -4,7 +4,7 @@
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             hamburger.innerHTML = navLinks.classList.contains('active') ?
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-times"></i>';
         });
 
         // Close mobile menu when clicking a link
@@ -17,13 +17,23 @@
 
         // Sticky Header
         const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
+
+            window.addEventListener('scroll', () => {
+                const navLinks = document.querySelectorAll('.nav-links');
+
+                if ( window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                    navLinks.forEach(link => link.classList.remove('active'));
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+           
+
+                } else {
+                    header.classList.remove('scrolled');
+                   
+                    
+                }
+            });
+
 
         // Notes Filter
         const filterButtons = document.querySelectorAll('.filter-btn');
@@ -198,3 +208,9 @@
         menu.style.visibility = 'hidden';
     }
     });
+
+
+
+
+   
+    

@@ -39,7 +39,7 @@ header {
 
 header.scrolled {
   padding: 0.5rem 2rem;
-  background: linear-gradient(135deg, #000000c1, #006b83c2);
+   background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
   /* backdrop-filter: blur(8px); */
 }
 
@@ -134,8 +134,8 @@ header.scrolled {
   display: flex;
   align-items: center;
   padding: 0 2rem;
-  background: linear-gradient(135deg, #000000, #006a83);
-  color: white;
+ background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
+   color: white;
   position: relative;
   overflow: hidden;
 }
@@ -669,7 +669,7 @@ header.scrolled {
 /* CTA Section */
 .cta {
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #000000, #006a83);
+    background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
   color: white;
   text-align: center;
   position: relative;
@@ -710,7 +710,7 @@ header.scrolled {
 
 /* Footer */
 footer {
-  background-color: var(--text-primary);
+  background-color: #05252e;
   color: white;
   padding: 3rem 2rem 1rem;
 }
@@ -763,7 +763,7 @@ footer {
 }
 
 .footer-links a:hover {
-  color: var(--text-secondary);
+  color: var(--secondary);
   padding-left: 5px;
 }
 
@@ -966,7 +966,7 @@ footer {
 @media (max-width: 768px) {
   .nav-links {
     position: fixed;
-    top: 80px;
+    top: 52px;
     left: -100%;
     width: 100%;
     height: calc(100vh - 80px);
@@ -977,7 +977,7 @@ footer {
     transition: all 0.5s ease;
     padding: 2rem 0;
     /* backdrop-filter: blur(10px); */
-    background: linear-gradient(135deg, #000000, #006a83);
+     background: linear-gradient(135deg,rgba(1, 15, 37, 0.934),rgba(0, 155, 190, 0.89));
   }
 
   .nav-links.active {
@@ -1014,6 +1014,10 @@ footer {
   .floating-notes {
     height: 500px;
   }
+  .hero {
+    padding:2px ;
+  }
+ 
 }
 
 @media (max-width: 576px) {
@@ -1155,4 +1159,10 @@ footer {
 
 .testimonial-pagination button {
   margin: 0 5px;
+}
+.testimonial-detail{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px;
 }

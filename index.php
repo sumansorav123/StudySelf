@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudySelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+<style>
+    .cta{
+        background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
+    }
+</style>
 <body>
      <!-- Header -->
     <header id="header">
         <div class="navbar">
             <div class="logo">
-                <i class="fas fa-book-open"></i>
+                <i class="fas fa-book-open-reader"></i>
                 <span>StudySelf</span>
             </div>
             <ul class="nav-links">
@@ -40,12 +45,12 @@
     <section class="hero" id="home">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Premium Study Notes for Academic <span style="color: #27AE60;"> Success </span> </h1>
+                <h1 style="padding:2px 0px ">Premium Study Notes for Academic <span style="color: #27AE60;"> Success </span> </h1>
                 <p>Access high-quality, curated notes from top students and educators. Boost your grades and save time
                     with our comprehensive study materials.</p>
                 <div class="hero-buttons">
                     <a href="#" class="cta-button"
-                        style="background-color: transparent; color: white; border: 2px solid white;">Explore More
+                        style="background-color: transparent; color: white; border: 2px solid white;">Explore
                         Notes</a>
                 </div>
             </div>
@@ -241,7 +246,7 @@
                     </div>
                     <div class="note-content">
                         <h3>10th Bihar Boad Physics Notes</h3>
-                        <p>Detailed notes covering key concepts in physics for 10th-grade students, including mechanics,
+                        <p>testimonial-detailed notes covering key concepts in physics for 10th-grade students, including mechanics,
                             optics, and thermodynamics.</p>
                         <div class="note-stats">
                             <span><i class="fas fa-eye"></i> 1,234</span>
@@ -273,97 +278,92 @@
     <!-- Testimonials Section -->
     <section class="testimonials" id="testimonials">
         <div class="section-title">
-            <h2>What Students Say</h2>
+            <h2>Testimonials</h2>
             <p>Read what other students have to say about their experience with NoteSphere</p>
         </div>
         <div class="testimonials-grid">
             <div class="testimonial-card">
-                <div class="testimonial-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Sarah">
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">Sarah L.</p>
+                    <p class="testimonial-role">Biology Major</p>
                 </div>
                 <blockquote class="testimonial-quote">
                     NoteSphere's biology notes were a lifesaver! They were so well-organized and easy to understand,
                     which made studying for my exams much less stressful.
                 </blockquote>
-                <p class="testimonial-author">Sarah M.</p>
-                <p class="testimonial-role">University Student</p>
+         
             </div>
             <div class="testimonial-card">
-                <div class="testimonial-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="John">
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">John D.</p>
+                    <p class="testimonial-role">College Student</p>
                 </div>
                 <blockquote class="testimonial-quote">
                     The calculus notes were incredibly helpful for my advanced math course. The step-by-step solutions
                     made even the most challenging problems seem manageable.
                 </blockquote>
-                <p class="testimonial-author">John B.</p>
-                <p class="testimonial-role">Engineering Major</p>
+
             </div>
             <div class="testimonial-card">
-                <div class="testimonial-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="Emily">
-                </div>
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">Emily R.</p>
+                    <p class="testimonial-role">High School Student</p>
+                    </div>
                 <blockquote class="testimonial-quote">
                     I used the world history notes to prepare for my final exam and scored the highest in my class! The
                     timelines and summaries were fantastic.
                 </blockquote>
-                <p class="testimonial-author">Emily L.</p>
-                <p class="testimonial-role">History Enthusiast</p>
             </div>
             <div class="testimonial-card">
-                <div class="testimonial-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/4.jpg" alt="David">
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">David K.</p>
+                    <p class="testimonial-role">Computer Science Student</p>
                 </div>
                 <blockquote class="testimonial-quote">
                     The organic chemistry notes broke down complex reactions into easy-to-follow mechanisms. Definitely
                     improved my understanding of the subject.
                 </blockquote>
-                <p class="testimonial-author">David K.</p>
-                <p class="testimonial-role">Pre-Med Student</p>
             </div>
             <div class="testimonial-card">
-                <div class="testimonial-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/5.jpg" alt="Jessica">
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">Laura W.</p>
+                    <p class="testimonial-role">Economics Major</p>
                 </div>
                 <blockquote class="testimonial-quote">
                     The microeconomics notes provided a clear and concise overview of key concepts. Helped me grasp the
                     fundamentals quickly.
                 </blockquote>
-                <p class="testimonial-author">Jessica P.</p>
-                <p class="testimonial-role">Business Student</p>
             </div>
             <div class="testimonial-card">
-                <div class="testimonial-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/6.jpg" alt="Michael">
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">Michael R.</p>
+                    <p class="testimonial-role">Data Science Student</p>
                 </div>
                 <blockquote class="testimonial-quote">
                     The statistics notes were excellent for brushing up on concepts before my data analysis project.
                     Well-explained and easy to reference.
                 </blockquote>
-                <p class="testimonial-author">Michael R.</p>
-                <p class="testimonial-role">Data Science Aspirant</p>
             </div>
             <div class="testimonial-card">
-                <div class="testimonial-avatar">
-                    <img src="https://randomuser.me/api/portraits/women/7.jpg" alt="Olivia">
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">Sophia T.</p>
+                    <p class="testimonial-role">High School Student</p>
                 </div>
                 <blockquote class="testimonial-quote">
                     I found the software engineering notes incredibly helpful for understanding system design
                     principles. Highly recommended for CS students.
                 </blockquote>
-                <p class="testimonial-author">Olivia G.</p>
-                <p class="testimonial-role">Computer Science Student</p>
             </div>
             <div class="testimonial-card">
-                <div class="testimonial-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/8.jpg" alt="Daniel">
+                <div class="testimonial-detail">
+                <p class="testimonial-author">Daniel S.</p>
+                <p class="testimonial-role">Marketing Intern</p>
                 </div>
                 <blockquote class="testimonial-quote">
                     The marketing strategy notes gave me practical insights that I could immediately apply to my
                     internship. Very valuable resource!
                 </blockquote>
-                <p class="testimonial-author">Daniel S.</p>
-                <p class="testimonial-role">Marketing Intern</p>
+            
             </div>
         </div>
         <div class="testimonial-pagination" id="testimonial-pagination">
@@ -386,11 +386,11 @@
     </section>
 
     <!-- Footer -->
-    <footer id="contact">
+    <footer id="contact" style=" background-color:rgb(5, 63, 79);">
         <div class="footer-container">
             <div class="footer-col">
-                <h3>About NoteSphere</h3>
-                <p>NoteSphere is a platform dedicated to helping students succeed by providing high-quality, curated
+                <h3>About StudySelf</h3>
+                <p>StudySelf is a platform dedicated to helping students succeed by providing high-quality, curated
                     study notes from top students and educators.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
