@@ -8,6 +8,7 @@
      <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <style>
+
     .cta{
         background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
     }
