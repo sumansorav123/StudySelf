@@ -76,14 +76,7 @@ if (searchInput) {
         card.style.display = "block";
       } else {
         card.style.display = "none";
-        // Optional: Show "not available" message
-        if (term.length > 0 && !card.querySelector(".not-available-message")) {
-          const msg = document.createElement("div");
-          msg.className = "not-available-message";
-          msg.textContent = "Sorry, this content is not available";
-          card.innerHTML = "";
-          card.appendChild(msg);
-        }
+       
       }
     });
   });
