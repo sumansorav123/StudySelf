@@ -76,7 +76,11 @@ if (searchInput) {
         card.style.display = "block";
       } else {
         card.style.display = "none";
+<<<<<<< HEAD
+       
+=======
         
+>>>>>>> 8b2060bfa3f59d01d304550e0681c53bc52f5603
       }
     });
   });

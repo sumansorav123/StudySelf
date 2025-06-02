@@ -321,8 +321,7 @@
         <div class="testimonial-pagination" id="testimonial-pagination">
         </div>
     </section>
-
-
+    
     <!-- Footer -->
     <footer id="contact" style=" background-color:rgb(5, 63, 79);">
         <div class="footer-container">

@@ -31,8 +31,8 @@
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
-                    <a href="#" class="cta-button">Sign Up</a>
-                    <a href="#" class="cta-button">Sign In</a>
+                    <a href="./user/user_auth/user_register.php" class="cta-button">Sign Up</a>
+                    <a href="./user/user_auth/user_register.php" class="cta-button">Sign In</a>
                 </ul>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -368,6 +368,7 @@
             </div>
         </div>
         <div class="testimonial-pagination" id="testimonial-pagination">
+            
         </div>
     </section>
 

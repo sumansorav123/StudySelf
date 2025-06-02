@@ -101,7 +101,55 @@
                 </div>
             </div>
         </div>
-   </section>        
+   </section>  
+   
+   
+    <!-- Footer -->
+    <footer id="contact" style=" background-color:rgb(5, 63, 79);">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>About StudySelf</h3>
+                <p>StudySelf is a platform dedicated to helping students succeed by providing high-quality, curated
+                    study notes from top students and educators.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#notes">Notes</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Subjects</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Science</a></li>
+                    <li><a href="#">Mathematics</a></li>
+                    <li><a href="#">Humanities</a></li>
+                    <li><a href="#">Business</a></li>
+                    <li><a href="#">Engineering</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Education St, Boston, MA</p>
+                <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                <p><i class="fas fa-envelope"></i> info@noteshere.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 StudySelf. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
 
 
 
