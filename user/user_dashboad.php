@@ -205,24 +205,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Note 7 -->
-                <div class="note-card" data-category="12thbiharBoad">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="12th Bihar Boad Notes">
-                        <span class="note-category note-title">Chemistry</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>12th Bihar Boad Chemistry Notes</h3>
-                        <p>Comprehensive notes for 12th-grade chemistry covering organic, inorganic, and physical
-                            chemistry with solved examples.</p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 12 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
+          
             </div>
         </div>
     </section>
