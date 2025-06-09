@@ -219,7 +219,10 @@
       <section id="login" class="login active">
         <div class="login-container">
             <div class="flex">
+                
                 <form action="">
+                     <h2>User Login</h2>
+                     <br>
                     <div class="form-group">
                         <i class="fa-solid fa-circle-user"></i>
                         <input type="text" placeholder="Enter your first name" required>
@@ -245,6 +248,7 @@
                            <span>StudySelf</span>
                     </div>
                     <a href="#" class="switch-to-register">Create new account</a>
+                    
                 </div>
             </div>
         </div>
@@ -254,6 +258,8 @@
         <div class="register-container">
             <div class="flex">
                 <form action="">
+                     <h2>User Register</h2>
+                     <br>
                     <div class="form-group">
                         <i class="fa-solid fa-circle-user"></i>
                         <input type="text" placeholder="Enter your first name" required>
