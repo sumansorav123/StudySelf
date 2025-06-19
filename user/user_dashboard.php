@@ -5,14 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudySelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-     <link rel="stylesheet" href="./assets/css/style.css">
+<link rel="stylesheet" href="./user_assets/css/style.css">
 </head>
-<style>
-
-    .cta{
-        background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
-    }
-</style>
 <body>
      <!-- Header -->
     <header id="header">
@@ -23,7 +17,7 @@
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#features">Features</a></li>
+                <li><a href="./view/enroll.php">enroll</a></li>
                 <li><a href="#notes">Notes</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -31,8 +25,8 @@
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
-                    <a href="./user/user_auth/user_login.php" class="cta-button">LogIn</a>
-                    <a href="./user/user_auth/user_sigin.php" class="cta-button">SignIn</a>
+                    <a href="#" class="user-name" >User Name</a>
+                    <a href="#" class="cta-button">Logout</a>
                 </ul>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -78,62 +72,6 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="section-title">
-            <h2>Why Choose NoteSphere?</h2>
-            <p>We provide the best study resources to help you excel in your academic journey</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-star"></i>
-                </div>
-                <h3>Premium Quality</h3>
-                <p>All notes are carefully curated and verified by top students and educators to ensure accuracy and
-                    completeness.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-search"></i>
-                </div>
-                <h3>Easy to Understand</h3>
-                <p>Complex concepts broken down into simple, digestible formats with visuals and examples for better
-                    retention.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <h3>Save Time</h3>
-                <p>Spend less time organizing your study materials and more time actually learning and mastering the
-                    content.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h3>Access Anywhere</h3>
-                <p>Available on all devices - study on your laptop, tablet, or phone whenever and wherever you want.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <h3>Exam Focused</h3>
-                <p>Notes are tailored to help you ace your exams with key points, common questions, and study
-                    strategies.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h3>Community Driven</h3>
-                <p>Contribute your own notes and earn rewards while helping other students succeed in their studies.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Notes Section -->
     <section class="notes" id="notes">
         <div class="notes-container">
@@ -141,37 +79,44 @@
                 <h2>Popular Study Notes</h2>
                 <p>Browse our most popular notes across various subjects and levels</p>
             </div>
+           
             <div class="notes-filter">
-                <button class="filter-btn active" data-filter="all">All Subjects</button>
-                <button class="filter-btn" data-filter="programming">programming</button>
-                <button class="filter-btn" data-filter="10thbiharBoad">10th Bihar Boad</button>
-                <button class="filter-btn" data-filter="12thbiharBoad">12th Bihar Boad</button>
+                 <form action="" style="width:-webkit-fill-available;">
+                    <div class="search-data">
+                        <input type="search" name="search-data" id="search-data" class="search-input" placeholder="Search Course here ....">
+                    </div>
+                 </form>
             </div>
-            <div class="notes-grid">
+            <div class="notes-grid ">
                 <!-- Note 1 -->
                 <div class="note-card" data-category="programming">
                     <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="Chemistry Notes">
-                        <span class="note-category">Pyhton</span>
+                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                            alt="JavaScript Notes">
+                        <span class="note-category">Python</span>
                     </div>
                     <div class="note-content">
-                        <h3>Python Notes For Beginner</h3>
-                        <p>Introduction to Python programming with syntax, data types, control structures, and libraries
-                            for data analysis.</p>
+                        <h3>Python </h3>
+                        <p>
+                            Comprehensive guide to JavaScript fundamentals including variables, functions, and DOM
+                            manipulation.
+                        </p>
                         <div class="note-stats">
-                            <span><i class="fas fa-eye"></i>2345</span>
-                            <span class="note-price"> ₹ 16 </span>
+                            
+                            <span class="note-price">price: ₹ 39 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
                         </div>
                     </div>
                 </div>
+        
 
+        
                 <!-- Note 2 -->
                 <div class="note-card" data-category="programming">
                     <div class="note-image">
                         <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                             alt="JavaScript Notes">
-                        <span class="note-category">JavaScript</span>
+                        <span class="note-category note-title">JavaScript</span>
                     </div>
                     <div class="note-content">
                         <h3>JavaScript Basics</h3>
@@ -180,8 +125,9 @@
                             manipulation.
                         </p>
                         <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,234</span>
-                            <span class="note-price"> ₹ 12 </span>
+                            
+                            <span class="note-price">price: ₹ 12 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
                         </div>
                     </div>
                 </div>
@@ -190,15 +136,16 @@
                     <div class="note-image">
                         <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                             alt="Java Notes">
-                        <span class="note-category">Java</span>
+                        <span class="note-category note-title">Java</span>
                     </div>
                     <div class="note-content">
                         <h3>Java Programming Essentials</h3>
                         <p>Learn the core concepts of Java programming including OOP principles, exception handling,
                             and collections.</p>
                         <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,567</span>
-                            <span class="note-price"> ₹ 14 </span>
+                            
+                            <span class="note-price">price: ₹ 14 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
                         </div>
                     </div>
                 </div>
@@ -208,15 +155,16 @@
                     <div class="note-image">
                         <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                             alt="React Notes">
-                        <span class="note-category">React</span>
+                        <span class="note-category note-title">React</span>
                     </div>
                     <div class="note-content">
                         <h3>React.js Fundamentals</h3>
                         <p>Master the basics of React.js including components, state management, and hooks for building
                             interactive UIs.</p>
                         <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 2,345</span>
-                            <span class="note-price"> ₹ 18 </span>
+                            
+                            <span class="note-price">price: ₹ 18 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
                         </div>
                     </div>
                 </div>
@@ -225,15 +173,16 @@
                     <div class="note-image ">
                         <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                             alt="SQL Notes">
-                        <span class="note-category">SQL</span>
+                        <span class="note-category note-title">SQL</span>
                     </div>
                     <div class="note-content">
                         <h3>SQL programming Management</h3>
                         <p>Learn SQL basics, programming design, and advanced queries for effective data management and
                             analysis.</p>
                         <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,890</span>
-                            <span class="note-price"> ₹ 15 </span>
+                            
+                            <span class="note-price">price: ₹ 15 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
                         </div>
                     </div>
                 </div>
@@ -243,15 +192,15 @@
                     <div class="note-image">
                         <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                             alt="10th Bihar Boad Notes">
-                        <span class="note-category">Physics</span>
+                        <span class="note-category note-title">Physics</span>
                     </div>
                     <div class="note-content">
                         <h3>10th Bihar Boad Physics Notes</h3>
-                        <p>testimonial-detailed notes covering key concepts in physics for 10th-grade students, including mechanics,
-                            optics, and thermodynamics.</p>
+                        <p>testimonial-detailed notes covering key concepts in physics for 10th-grade students,  and thermodynamics.</p>
                         <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,234</span>
-                            <span class="note-price"> ₹ 10 </span>
+                            
+                            <span class="note-price">price: ₹ 10 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
                         </div>
                     </div>
                 </div>
@@ -260,15 +209,16 @@
                     <div class="note-image">
                         <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                             alt="12th Bihar Boad Notes">
-                        <span class="note-category">Chemistry</span>
+                        <span class="note-category note-title">Chemistry</span>
                     </div>
                     <div class="note-content">
                         <h3>12th Bihar Boad Chemistry Notes</h3>
                         <p>Comprehensive notes for 12th-grade chemistry covering organic, inorganic, and physical
                             chemistry with solved examples.</p>
                         <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,567</span>
-                            <span class="note-price"> ₹ 12 </span>
+                            
+                            <span class="note-price">price: ₹ 12 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
                         </div>
                     </div>
                 </div>
@@ -280,7 +230,7 @@
     <section class="testimonials" id="testimonials">
         <div class="section-title">
             <h2>Testimonials</h2>
-            <p>Read what other students have to say about their experience with NoteSphere</p>
+            <p>Read what other students have to say about their experience with Studyself</p>
         </div>
         <div class="testimonials-grid">
             <div class="testimonial-card">
@@ -289,7 +239,7 @@
                     <p class="testimonial-role">Biology Major</p>
                 </div>
                 <blockquote class="testimonial-quote">
-                    NoteSphere's biology notes were a lifesaver! They were so well-organized and easy to understand,
+                    Studyself's biology notes were a lifesaver! They were so well-organized and easy to understand,
                     which made studying for my exams much less stressful.
                 </blockquote>
          
@@ -368,23 +318,9 @@
             </div>
         </div>
         <div class="testimonial-pagination" id="testimonial-pagination">
-            
         </div>
     </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="cta-container">
-            <h2>Ready to Boost Your Grades?</h2>
-            <p>Join thousands of students who are achieving academic success with NoteSphere. Sign up today and get
-                access to premium study materials.</p>
-            <a href="./user/user_auth/user_login.php" class="cta-button"
-                style="background-color: white; color: var(--primary); margin: 0 auto; display: inline-block;">LOGIN</a>
-            <a href="./user/user_auth/user_sigin.php" class="cta-button"
-                style="background-color: white; color: var(--primary); margin: 0 auto; display: inline-block;">Create New Account</a>
-        </div>
-    </section>
-
+    
     <!-- Footer -->
     <footer id="contact" style=" background-color:rgb(5, 63, 79);">
         <div class="footer-container">
@@ -433,5 +369,5 @@
     </footer>
 
 </body>
-<script src="./assets/js/script.js"></script>
+<script src="./user_assets/js/script.js"></script>
 </html>
