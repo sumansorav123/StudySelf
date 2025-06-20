@@ -1,0 +1,263 @@
+   :root {
+          --primary: #046178;
+          --secondary: #f5a623;
+          --accent: #014a5c;
+          --success: #27ae60;
+          --danger: #e74c3c;
+          --bg: #f9f9f9;
+          --card-bg: #ffffff;
+          --text-primary: #2c3e50;
+          --text-secondary: #7f8c8d;
+          --border: #e0e0e0;
+        }
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+          background-color: var(--bg);
+          color: var(--text-primary);
+          min-height: 100vh;
+        }
+
+        /* Floating Notebook Icons */
+        .floating-notebook {
+          position: fixed;
+          color: rgba(4, 97, 120, 0.1);
+          font-size: 5rem;
+          z-index: -1;
+        }
+        #login{
+             max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+        }
+
+        .notebook-1 { top: 10%; left: 10%; animation: float 6s ease-in-out infinite; }
+        .notebook-2 { top: 60%; left: 80%; animation: float2 7s ease-in-out infinite; }
+        .notebook-3 { top: 30%; left: 70%; animation: float3 5s ease-in-out infinite; }
+        .notebook-4 { top: 80%; left: 20%; animation: float 8s ease-in-out infinite; }
+
+        /* Navbar */
+        .nacbar {
+          padding: 1rem 2rem;
+          display: flex;
+          gap: 1.5rem;
+          background-color: var(--card-bg);
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nacbar a {
+          text-decoration: none;
+          color: var(--primary);
+          font-weight: 500;
+          transition: all 0.3s ease;
+        }
+
+        .nacbar a:hover {
+          color: var(--accent);
+        }
+
+        /* Register Container */
+        .register-container {
+          max-width: 1200px;
+          margin: 2rem auto;
+          padding: 0 2rem;
+        }
+
+        .flex {
+          display: flex;
+          min-height: 70vh;
+          background-color: var(--card-bg);
+          border-radius: 10px;
+          overflow: hidden;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Form Styles */
+        .flex form {
+          flex: 1;
+          padding: 3rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .form-group {
+          position: relative;
+          margin-bottom: 1.5rem;
+        }
+
+        .form-group i {
+          position: absolute;
+          left: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--text-secondary);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+          width: 100%;
+          padding: 12px 15px 12px 45px;
+          border: 1px solid var(--border);
+          border-radius: 5px;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+        }
+
+        input:focus {
+          border-color: var(--primary);
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(4, 97, 120, 0.1);
+        }
+
+        .toggle-password {
+          position: absolute;
+          right: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          color: var(--text-secondary);
+        }
+
+        input[type="submit"] {
+          background-color: var(--primary);
+          color: white;
+          border: none;
+          padding: 12px;
+          border-radius: 5px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-top: 1rem;
+        }
+
+        input[type="submit"]:hover {
+          background-color: var(--accent);
+        }
+
+        .div {
+          margin-top: 1rem;
+          text-align: center;
+        }
+
+        .div a {
+          color: var(--primary);
+          text-decoration: none;
+          font-weight: 500;
+        }
+
+        .div a:hover {
+          text-decoration: underline;
+        }
+
+        /* Right Content */
+        .flex .content {
+          flex: 1;
+          background: linear-gradient(135deg, var(--primary), var(--accent));
+          color: white;
+          padding: 3rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
+
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 2rem;
+        }
+
+        .logo i {
+          font-size: 2.5rem;
+          color: var(--secondary);
+        }
+
+        .logo span {
+          font-size: 1.8rem;
+          font-weight: 700;
+        }
+
+        .switch-to-login,.switch-to-register {
+          display: inline-block;
+          margin-top: 2rem;
+          padding: 10px 20px;
+          background-color: transparent;
+          color: white;
+          border: 2px solid white;
+          border-radius: 50px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+
+        .switch-to-register:hover,.switch-to-login:hover {
+          background-color: white;
+          color: var(--primary);
+        }
+
+        /* Error Messages */
+        p[style*="color:red"] {
+          color: var(--danger) !important;
+          margin: 0.5rem 0;
+          font-size: 0.9rem;
+          text-align: center;
+        }
+
+        /* Animations */
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-20px); }
+        }
+
+        @keyframes float2 {
+          0%, 100% { transform: translateY(0) rotate(5deg); }
+          50% { transform: translateY(-15px) rotate(-5deg); }
+        }
+
+        @keyframes float3 {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+          .flex {
+            flex-direction: column;
+          }
+          
+          .flex form,
+          .flex .content {
+            padding: 2rem;
+          }
+          
+          .floating-notebook {
+            font-size: 3rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .register-container {
+            padding: 0 1rem;
+          }
+          
+          .nacbar {
+            padding: 1rem;
+          }
+          
+          input[type="text"],
+          input[type="email"],
+          input[type="password"] {
+            padding: 10px 10px 10px 40px;
+          }
+        }
