@@ -6,10 +6,6 @@ use PHPMailer\PHPMailer\Exception;
 require '../../vendor/autoload.php';
 require "../../config/Database.php";
 
-// Database connection
-// $database = new Database();
-// $connection = $database->connect();
-
 // 1. Redirect if session data missing
 if (!isset($_SESSION["email"], $_SESSION["name"], $_SESSION["password"])) {
     header("Location: signup.php");
@@ -29,14 +25,7 @@ if (isset($_GET['resend'])) {
     // Send email
     $mail = new PHPMailer(true);
     try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.zoho.in';
-        $mail->SMTPAuth = true;
-        $mail->Username = "studyself@zohomail.in"; // sender email
-        $mail->Password = 'mgPX Rf5W BQPM';     // app password
-        $mail->SMTPSecure = 'TLS';
-        $mail->Port = 587;
-
+        require "../../config/otp_confing.php"; // Load SMTP configuration
         $mail->setFrom('studyself@zohomail.in', 'Study Self');
         $mail->addAddress($email, $name);
         $mail->isHTML(true);
@@ -110,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["verify"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>S☆undHaven | Verify OTP</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="../user_assets/css/style.css">
+  <link rel="stylesheet" href="../user_assets/css/otp.css">
   <style>
     body {
       overflow: hidden;
