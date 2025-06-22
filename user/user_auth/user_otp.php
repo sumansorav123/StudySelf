@@ -1,4 +1,4 @@
-<?php
+ <?php
 session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -30,18 +30,18 @@ if (isset($_GET['resend'])) {
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = 'smtp.zoho.in';
         $mail->SMTPAuth = true;
-        $mail->Username = "akash12ranjan@gmail.com"; // sender email
-        $mail->Password = 'qsee ejor buwq znqi';     // app password
-        $mail->SMTPSecure = 'tls';
+        $mail->Username = "studyself@zohomail.in"; // sender email
+        $mail->Password = 'mgPX Rf5W BQPM';     // app password
+        $mail->SMTPSecure = 'TLS';
         $mail->Port = 587;
 
-        $mail->setFrom('akash12ranjan@gmail.com', 'Study Self');
+        $mail->setFrom('studyself@zohomail.in', 'Study Self');
         $mail->addAddress($email, $name);
         $mail->isHTML(true);
         $mail->Subject = 'Resent OTP for Study Self';
-        $mail->Body = 'Your OTP is <b>' . $_SESSION["otp"] . '</b>. It will expire in 10 minutes. <br><br><b>Do not share your OTP.</b>';
+        $mail->Body = 'Your OTP is <b>' . $_SESSION["otp"] . '</b>. It will expire in 4 minutes. <br><br><b>Do not share your OTP.</b>';
         $mail->send();
         $message = "<p style='color:green;'>OTP has been resent to your email.</p>";
     } catch (Exception $e) {
@@ -58,18 +58,18 @@ if (!isset($_SESSION["otp"])) {
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = 'smtp.zoho.in';
         $mail->SMTPAuth = true;
-        $mail->Username = "akash12ranjan@gmail.com";
-        $mail->Password = 'qsee ejor buwq znqi';
-        $mail->SMTPSecure = 'tls';
+        $mail->Username = "studyself@zohomail.in";
+         $mail->Password = 'mgPX Rf5W BQPM';  
+        $mail->SMTPSecure = 'TLS';
         $mail->Port = 587;
 
-        $mail->setFrom('akash12ranjan@gmail.com', 'Study Self');
+        $mail->setFrom('studyself@zohomail.in', 'Study Self');
         $mail->addAddress($email, $name);
         $mail->isHTML(true);
         $mail->Subject = 'Your OTP for Study Self';
-        $mail->Body = 'Your OTP is <b>' . $_SESSION["otp"] . '</b>. It will expire in 10 minutes. <br><br><b>Do not share your OTP.</b>';
+        $mail->Body = 'Your OTP is <b>' . $_SESSION["otp"] . '</b>. It will expire in 4 minutes. <br><br><b>Do not share your OTP.</b>';
         $mail->send();
         $message = "<p style='color:green;'>OTP has been sent to your email.</p>";
     } catch (Exception $e) {
@@ -78,7 +78,7 @@ if (!isset($_SESSION["otp"])) {
 }
 
 // 4. Handle OTP submission
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["verify"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["verify"])) {
     $userOtp = trim($_POST["otp"] ?? "");
 
     if ($userOtp == $_SESSION["otp"]) {
@@ -103,76 +103,179 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["verify"])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>S☆undHaven | Verify OTP</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="../user_assets/css/style.css">
-  <style>
-    body {
-      overflow: hidden;
-    }
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100svh;
-    }
-    .card {
-      width: auto;
-      padding: 20px;
-      background-color: rgba(0, 0, 0, 0.2);
-      margin: 3px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification | StudySelf</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0037ff;
+            --error: #e74c3c;
+            --success: #27ae60;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .otp-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .alert {
+            padding: 12px;
+            margin: 1rem 0;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        
+        .alert.success {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+        
+        .alert.error {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--error);
+            border-left: 4px solid var(--error);
+        }
+        
+        .otp-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 1rem 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+        
+        .verify-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .verify-btn:hover {
+            background: #0028c2;
+        }
+        
+        .timer {
+            margin: 1rem 0;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .timer.expired {
+            color: var(--error);
+        }
+        
+        .resend-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            color: rgba(0, 55, 255, 0.1);
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .icon-1 { top: 20%; left: 10%; font-size: 5rem; }
+        .icon-2 { top: 60%; left: 80%; font-size: 4rem; animation-delay: 1s; }
+        .icon-3 { top: 80%; left: 15%; font-size: 6rem; animation-delay: 2s; }
+        .icon-4 { top: 30%; left: 75%; font-size: 3.5rem; animation-delay: 3s; }
+    </style>
 </head>
 <body>
-  <!-- Floating notebook icons for decoration -->
-  <i class="fas fa-book-open floating-notebook notebook-1"></i>
-  <i class="fas fa-book floating-notebook notebook-2"></i>
-  <i class="fas fa-book-reader floating-notebook notebook-3"></i>
-  <i class="fas fa-pen-fancy floating-notebook notebook-4"></i>
+    <i class="fas fa-book-open floating-icon icon-1"></i>
+    <i class="fas fa-book floating-icon icon-2"></i>
+    <i class="fas fa-book-reader floating-icon icon-3"></i>
+    <i class="fas fa-pen-fancy floating-icon icon-4"></i>
 
-  <div class="form-container">
-    <div class="container">
-      <div class="card">
-        <form method="POST">
-          <input id="wid" type="text" name="otp" placeholder="Enter OTP here..." required />
-          <input class="transparent-btn" type="submit" name="verify" value="Verify OTP" />
+    <div class="otp-container">
+        <h2>Verify Your Email</h2>
+        <p>Enter the 4-digit code sent to <?= htmlspecialchars($email) ?></p>
+        
+        <?php if (!empty($message)) echo $message; ?>
+        
+        <form method="POST" autocomplete="off">
+            <input type="text" 
+                   name="otp" 
+                   class="otp-input" 
+                   placeholder="Enter OTP" 
+                   required
+                   pattern="\d{4}"
+                   title="4-digit OTP"
+                   maxlength="4"
+                   inputmode="numeric">
+            
+            <div id="otp-timer" class="timer"></div>
+            
+            <button type="submit" name="verify" class="verify-btn">Verify</button>
         </form>
-        <br>
-        <?= $message ?><br>
-        <p>Didn't receive OTP? <a href="?resend=true">Resend OTP</a></p>
-        <br>
-        <a href="user_sigin.php">Go Back</a>
-      </div>
+        
+        <p>Didn't receive code? <a href="?resend=true" class="resend-link">Resend OTP</a></p>
     </div>
-  </div>
 
-  <script>
-    window.addEventListener("load", function () {
-      const preloader = document.getElementById("preloader");
-      const contentDiv = document.querySelector(".content");
-
-      if (!localStorage.getItem("visited")) {
-        localStorage.setItem("visited", "true");
-        if (preloader) preloader.style.display = "block";
-
-        setTimeout(function () {
-          if (preloader) preloader.style.display = "none";
-          if (contentDiv) contentDiv.style.display = "block";
-        }, 2000);
-      } else {
-        if (preloader) preloader.style.display = "none";
-        if (contentDiv) contentDiv.style.display = "block";
-      }
-    });
-  </script>
+    <script>
+        // OTP Timer Countdown
+        const expiryTime = <?= ($_SESSION["otp_created_at"] ?? 0) + OTP_EXPIRY ?>;
+        
+        function updateTimer() {
+            const now = Math.floor(Date.now() / 1000);
+            const remaining = expiryTime - now;
+            
+            if (remaining <= 0) {
+                document.getElementById('otp-timer').textContent = 'OTP expired';
+                document.getElementById('otp-timer').classList.add('expired');
+                return;
+            }
+            
+            const mins = Math.floor(remaining / 60);
+            const secs = remaining % 60;
+            document.getElementById('otp-timer').textContent = 
+                `Valid for: ${mins}:${secs.toString().padStart(2, '0')}`;
+            
+            setTimeout(updateTimer, 1000);
+        }
+        
+        if (expiryTime > 0) {
+            updateTimer();
+        }
+    </script>
 </body>
 </html>

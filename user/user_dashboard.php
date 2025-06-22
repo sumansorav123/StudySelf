@@ -1,5 +1,22 @@
+<?php
+require "../config/Database.php";
+session_start();
+// if set session then enter userdashboard
 
-
+if(!isset($_SESSION['username'])) {
+      echo '<script>window.location.href = "../index.php";</script>';
+    exit();
+}
+?>
+<!-- logout and session destroy -->
+<?php
+if(isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+      echo '<script>window.location.href = " ../index.php";</script>';
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +26,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="./user_assets/css/style.css">
 </head>
+<style>
+ .logout {
+  width: 100px;
+  height: 35px;
+  border-radius: 8px;
+  outline: none;
+  border: 2px solid #fff;
+  font-weight: 600;
+  background: transparent;
+  color: #fff;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.4s linear;
+}
+
+.logout:hover {
+  background-color: #eee;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+</style>
 <body>
      <!-- Header -->
     <header id="header">
@@ -27,8 +66,10 @@
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
-                    <a href="#" class="user-name" >User Name</a>
-                    <a href="#" class="cta-button">Logout</a>
+                    <a href="#" class="user-name" style="color:rgb(238, 208, 38);" ><?PHP echo $_SESSION['username']; ?></a>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                        <input type="submit" name="logout" value="Logout" class="logout">
+                    </form>
                 </ul>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -301,8 +342,40 @@
                 </blockquote>
             
             </div>
+             <div class="testimonial-card">
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">Michael R.</p>
+                    <p class="testimonial-role">Data Science Student</p>
+                </div>
+                <blockquote class="testimonial-quote">
+                    The statistics notes were excellent for brushing up on concepts before my data analysis project.
+                    Well-explained and easy to reference.
+                </blockquote>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-detail">
+                    <p class="testimonial-author">Sophia T.</p>
+                    <p class="testimonial-role">High School Student</p>
+                </div>
+                <blockquote class="testimonial-quote">
+                    I found the software engineering notes incredibly helpful for understanding system design
+                    principles. Highly recommended for CS students.
+                </blockquote>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-detail">
+                <p class="testimonial-author">Daniel S.</p>
+                <p class="testimonial-role">Marketing Intern</p>
+                </div>
+                <blockquote class="testimonial-quote">
+                    The marketing strategy notes gave me practical insights that I could immediately apply to my
+                    internship. Very valuable resource!
+                </blockquote>
+            
+            </div>
         </div>
-        <div class="testimonial-pagination" id="testimonial-pagination">
+      <div class="testimonial-pagination" id="testimonial-pagination">
+            
         </div>
     </section>
     
@@ -392,193 +465,140 @@ function handleScroll() {
 window.addEventListener("scroll", handleScroll);
 
 // Testimonial Slider
-class TestimonialSlider {
-  constructor() {
-    this.slides = document.querySelectorAll(".testimonial-card");
-    this.dots = document.querySelectorAll(".slider-dot");
-    this.currentIndex = 0;
-    this.interval = null;
-    this.slideDuration = 5000;
-    
-    this.init();
-  }
-  
-  init() {
-    if (this.slides.length > 0) {
-      this.showSlide(this.currentIndex);
-      this.startAutoSlide();
-      this.addEventListeners();
-    }
-  }
-  
-  showSlide(index) {
-    // Handle index wrapping
-    if (index >= this.slides.length) this.currentIndex = 0;
-    else if (index < 0) this.currentIndex = this.slides.length - 1;
-    else this.currentIndex = index;
-    
-    // Update slides and dots
-    this.slides.forEach(slide => {
-      slide.classList.remove("active");
-      slide.style.opacity = 0;
-    });
-    
-    this.dots.forEach(dot => dot.classList.remove("active"));
-    
-    setTimeout(() => {
-      this.slides[this.currentIndex].classList.add("active");
-      this.slides[this.currentIndex].style.opacity = 1;
-    }, 10);
-    
-    if (this.dots.length > 0) {
-      this.dots[this.currentIndex].classList.add("active");
-    }
-  }
-  
-  nextSlide() {
-    this.showSlide(this.currentIndex + 1);
-  }
-  
-  prevSlide() {
-    this.showSlide(this.currentIndex - 1);
-  }
-  
-  startAutoSlide() {
-    this.interval = setInterval(() => this.nextSlide(), this.slideDuration);
-  }
-  
-  pauseAutoSlide() {
-    clearInterval(this.interval);
-  }
-  
-  addEventListeners() {
-    // Dot navigation
-    this.dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => {
-        this.pauseAutoSlide();
-        this.showSlide(index);
-        this.startAutoSlide();
+const testimonialSlides = document.querySelectorAll(".testimonial-slide");
+const sliderDots = document.querySelectorAll(".slider-dot");
+let currentSlide = 0;
+
+function showSlide(index) {
+  testimonialSlides.forEach((slide) => slide.classList.remove("active"));
+  sliderDots.forEach((dot) => dot.classList.remove("active"));
+
+  testimonialSlides[index].classList.add("active");
+  sliderDots[index].classList.add("active");
+  currentSlide = index;
+}
+
+sliderDots.forEach((dot, index) => {
+  dot.addEventListener("click", () => {
+    showSlide(index);
+  });
+});
+
+// Auto slide change
+setInterval(() => {
+  currentSlide = (currentSlide + 1) % testimonialSlides.length;
+  showSlide(currentSlide);
+}, 5000);
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const targetId = this.getAttribute("href");
+    if (targetId === "#") return;
+
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 80,
+        behavior: "smooth",
       });
+    }
+  });
+});
+
+// Animation on scroll
+function animateOnScroll() {
+  const elements = document.querySelectorAll(
+    ".feature-card, .note-card, .testimonial-slide"
+  );
+
+  elements.forEach((element) => {
+    const elementPosition = element.getBoundingClientRect().top;
+    const screenPosition = window.innerHeight / 1.2;
+
+    if (elementPosition < screenPosition) {
+      element.style.opacity = "1";
+      element.style.transform = "translateY(0)";
+    }
+  });
+}
+
+// Set initial state for animated elements
+document.querySelectorAll(".feature-card, .note-card").forEach((element) => {
+  element.style.opacity = "0";
+  element.style.transform = "translateY(20px)";
+  element.style.transition = "all 0.5s ease";
+});
+
+window.addEventListener("scroll", animateOnScroll);
+window.addEventListener("load", animateOnScroll);
+
+// Testimonial Pagination Logic
+const testimonialGrid = document.querySelector(".testimonials-grid");
+const testimonialCards = document.querySelectorAll(".testimonial-card");
+const paginationContainer = document.getElementById("testimonial-pagination");
+const testimonialsPerPage = 3;
+let currentPage = 1;
+
+function displayTestimonials(page) {
+  const startIndex = (page - 1) * testimonialsPerPage;
+  const endIndex = startIndex + testimonialsPerPage;
+
+  testimonialCards.forEach((card, index) => {
+    if (index >= startIndex && index < endIndex) {
+      card.style.display = "grid";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+function generatePaginationButtons() {
+  const totalPages = Math.ceil(testimonialCards.length / testimonialsPerPage);
+  paginationContainer.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
+    const button = document.createElement("button");
+    button.textContent = i;
+    if (i === currentPage) {
+      button.classList.add("active");
+    }
+    button.addEventListener("click", () => {
+      currentPage = i;
+      displayTestimonials(currentPage);
+      updateActiveButton();
     });
-    
-    // Optional keyboard navigation
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") this.nextSlide();
-      if (e.key === "ArrowLeft") this.prevSlide();
+    paginationContainer.appendChild(button);
+  }
+
+  // Add "Next" button if there are more pages
+  if (totalPages > 1) {
+    const nextButton = document.createElement("button");
+    nextButton.textContent = "Next";
+    nextButton.addEventListener("click", () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayTestimonials(currentPage);
+        updateActiveButton();
+      }
     });
+    paginationContainer.appendChild(nextButton);
   }
 }
 
-// Initialize slider if elements exist
-if (document.querySelector(".testimonial-card")) {
-  new TestimonialSlider();
+function updateActiveButton() {
+  const buttons = paginationContainer.querySelectorAll("button");
+  buttons.forEach((button) => button.classList.remove("active"));
+  buttons[currentPage - 1]?.classList.add("active"); // Select the correct numbered button
 }
 
-// Testimonial Pagination
-class TestimonialPagination {
-  constructor() {
-    this.grid = document.querySelector(".testimonials-grid");
-    this.cards = document.querySelectorAll(".testimonial-card");
-    this.paginationContainer = document.getElementById("testimonial-pagination");
-    this.perPage = 3;
-    this.currentPage = 1;
-    
-    if (this.cards.length > 0) {
-      this.init();
-    }
-  }
-  
-  init() {
-    this.displayCards();
-    this.createPagination();
-    this.addResponsiveHandlers();
-  }
-  
-  displayCards() {
-    const start = (this.currentPage - 1) * this.perPage;
-    const end = start + this.perPage;
-    
-    this.cards.forEach((card, index) => {
-      card.style.display = (index >= start && index < end) ? "grid" : "none";
-    });
-  }
-  
-  createPagination() {
-    const pageCount = Math.ceil(this.cards.length / this.perPage);
-    this.paginationContainer.innerHTML = "";
-    
-    // Previous button
-    if (pageCount > 1) {
-      const prevBtn = document.createElement("button");
-      prevBtn.innerHTML = "&laquo;";
-      prevBtn.addEventListener("click", () => {
-        if (this.currentPage > 1) {
-          this.currentPage--;
-          this.updateDisplay();
-        }
-      });
-      this.paginationContainer.appendChild(prevBtn);
-    }
-    
-    // Page buttons
-    for (let i = 1; i <= pageCount; i++) {
-      const btn = document.createElement("button");
-      btn.textContent = i;
-      if (i === this.currentPage) btn.classList.add("active");
-      
-      btn.addEventListener("click", () => {
-        this.currentPage = i;
-        this.updateDisplay();
-      });
-      
-      this.paginationContainer.appendChild(btn);
-    }
-    
-    // Next button
-    if (pageCount > 1) {
-      const nextBtn = document.createElement("button");
-      nextBtn.innerHTML = "&raquo;";
-      nextBtn.addEventListener("click", () => {
-        if (this.currentPage < pageCount) {
-          this.currentPage++;
-          this.updateDisplay();
-        }
-      });
-      this.paginationContainer.appendChild(nextBtn);
-    }
-  }
-  
-  updateDisplay() {
-    this.displayCards();
-    this.updateActiveButton();
-  }
-  
-  updateActiveButton() {
-    const buttons = this.paginationContainer.querySelectorAll("button");
-    buttons.forEach(btn => btn.classList.remove("active"));
-    
-    // The active button is at position this.currentPage (0-indexed would be +1 for prev button)
-    buttons[this.currentPage]?.classList.add("active");
-  }
-  
-  addResponsiveHandlers() {
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-    this.handleResponsive(mediaQuery);
-    mediaQuery.addListener(this.handleResponsive);
-  }
-  
-  handleResponsive = (mq) => {
-    this.perPage = mq.matches ? 1 : 3;
-    this.currentPage = 1;
-    this.displayCards();
-    this.createPagination();
-  }
-}
+// Initial setup
+displayTestimonials(currentPage);
+generatePaginationButtons();
 
-// Initialize pagination if elements exist
-if (document.querySelector(".testimonials-grid")) {
-  new TestimonialPagination();
-}
+
 
 // User Menu Toggle for Mobile
 const userIcon = document.querySelector(".fa-user");
@@ -653,3 +673,4 @@ window.addEventListener("scroll", animateOnScroll);
 window.addEventListener("load", animateOnScroll);
 </script>
 </html>
+

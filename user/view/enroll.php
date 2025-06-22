@@ -1,3 +1,24 @@
+<?php
+require "../../config/Database.php";
+session_start();
+// if set session then enter userdashboard
+
+if(!isset($_SESSION['username'])) {
+  //  header("Location: ../../index.php");
+      echo '<script>window.location.href = " ../../index.php";</script>';
+    exit();
+}
+?>
+<!-- logout and session destroy -->
+<?php
+if(isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+    echo '<script>window.location.href = " ../../index.php";</script>';
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +34,28 @@
     header{
           background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
     }
+    
+ .logout {
+  width: 100px;
+  height: 35px;
+  border-radius: 8px;
+  outline: none;
+  border: 2px solid #fff;
+  font-weight: 600;
+  background: transparent;
+  color: #fff;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.4s linear;
+}
+
+.logout:hover {
+  background-color: #eee;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+
 </style>
 <body>
         <header id="header">
@@ -25,8 +68,10 @@
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
-                    <a href="#" class="user-name" >User Name</a>
-                    <a href="#" class="cta-button">Logout</a>
+                    <a href="#" class="user-name" style="color:rgb(238, 208, 38);" ><?PHP echo $_SESSION['username']; ?></a>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                        <input type="submit" name="logout" value="Logout" class="logout">
+                    </form>
                 </ul>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -40,7 +85,7 @@
     <section class="heading">
 
             <div class="top-header">
-            <a href="../user_dashboad.php" class="cta-button">Home</a>> <a href="#" class="cta-button">Enroll</a>
+            <a href="../user_dashboard.php" class="cta-button">Home</a>> <a href="#" class="cta-button">Enroll</a>
             </div>
     </section>
     <br>

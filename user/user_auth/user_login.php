@@ -115,5 +115,17 @@ session_start();
   });
 });
     </script>
+
+    <script>
+    function preventBack() {
+        window.history.forward();
+    }
+
+    setTimeout(preventBack, 0);
+
+    window.onunload = function () {
+        // Optional: force unload
+    };
+</script>
 </body>
 </html>
