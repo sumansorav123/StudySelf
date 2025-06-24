@@ -11,6 +11,7 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    <link rel="stylesheet" href="../user_assets/css/login.css">
 </head>
+
 <body>
     <!-- Floating notebook icons for decoration -->
     <i class="fas fa-book-open floating-notebook notebook-1"></i>
@@ -91,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                     <!-- register button------------------------ -->
                     <input type="submit" name="register" value="Register">
                      <div class="div">
-                        <p>Already have an account? <a href="#" class="switch-to-login ">Sign In</a></p>
+                        <p>Already have an account? <a href="./user_login.php" class="switch-to-login ">Sign In</a></p>
                      </div>
                 </form>
                 <div class="content">
@@ -99,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                            <i class="fas fa-book-open-reader"></i>
                            <span>StudySelf</span>
                     </div>
-                    <a href="#" class="switch-to-login">Sign In</a>
+                    <a href="./user_login.php" class="switch-to-login">Sign In</a>
                 </div>
             </div>
         </div>
@@ -108,5 +109,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
    </reg-section>
   
    <!-- <script src="../user_assets/js/script.js"></script> -->
+    <script>
+document.addEventListener('mousemove', function(e) {
+    const content = document.querySelector('.content');
+    const x = (e.clientX / window.innerWidth) * 100;
+    const y = (e.clientY / window.innerHeight) * 100;
+    content.style.backgroundPosition = `${x}% ${y}%`;
+});
+</script>
+
 </body>
 </html>

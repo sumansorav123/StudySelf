@@ -81,7 +81,7 @@ session_start();
                         ?>
                         <input type="submit" name="login" value="LogIn">
                         <div class="div">
-                            <p>Don't have an account? <a href="#" class="switch-to-register">Create new account</a></p>
+                            <p>Don't have an account? <a href="./user_sigin.php" class="switch-to-register">Create new account</a></p>
                         </div>
                     </form>
                     
@@ -90,7 +90,7 @@ session_start();
                             <i class="fas fa-book-open-reader"></i>
                             <span>StudySelf</span>
                         </div>
-                        <a href="#" class="switch-to-register">Create new account</a>
+                        <a href="./user_sigin.php" class="switch-to-register">Create new account</a>
                     </div>
                 </div>
             </div>

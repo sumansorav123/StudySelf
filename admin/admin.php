@@ -135,21 +135,21 @@ if(isset($_POST['logout'])) {
                             <textarea id="note-description" class="form-control" placeholder="Enter note description" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="note-file" class="form-label">Upload File</label>
+                            <label for="note-file" class="form-label size-file">Upload File</label><div class="warining"></div>
                             <div class="file-upload-wrapper">
                                 <input type="file" id="note-file" class="form-control" required>
                                 <div class="file-upload-preview"></div>
                             </div>
                         </div>
                          <div class="form-group">
-                            <label for="note-file" class="form-label">Upload Thumbnail</label>
+                            <label for="note-file" class="form-label size"  >Upload Thumbnail</label>
                             <div class="file-upload-wrapper">
                                 <input type="file" id="note-file" class="form-control" required>
                                 <div class="file-upload-preview"></div>
                             </div>
                         </div>
                             <div class="form-group">
-                                <label for="note-file" class="form-label">Demo picture 1</label>
+                                <label for="note-file" class="form-label size">Demo picture 1</label>
                                 <div class="file-upload-wrapper">
                                     <input type="file" id="note-file" class="form-control" required>
                                     <div class="file-upload-preview"></div>
@@ -157,7 +157,7 @@ if(isset($_POST['logout'])) {
 
                            </div>
                             <div class="form-group">
-                                <label for="note-file" class="form-label">Demo picture 2</label>
+                                <label for="note-file" class="form-label size">Demo picture 2</label>
                                 <div class="file-upload-wrapper">
                                     <input type="file" id="note-file" class="form-control" required>
                                     <div class="file-upload-preview"></div>
@@ -165,7 +165,7 @@ if(isset($_POST['logout'])) {
 
                            </div>
                             <div class="form-group">
-                                <label for="note-file" class="form-label">Demo picture 3</label>
+                                <label for="note-file" class="form-label size">Demo picture 3</label>
                                 <div class="file-upload-wrapper">
                                     <input type="file" id="note-file" class="form-control" required>
                                     <div class="file-upload-preview"></div>
@@ -177,12 +177,86 @@ if(isset($_POST['logout'])) {
                             <input type="number" id="note-price" class="form-control" placeholder="Enter price" min="0" step="1">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Upload Notes</button>
+                            <button type="submit" class="btn btn-primary" name="uploadNotes" >Upload Notes</button>
                             <button type="reset" class="btn btn-secondary">Reset</button>
                         </div>
                     </form>
                 </div>
             </div>
+
+             <!-- Upload Notes Section -->
+              <div id="update-notes" class="section">
+    <div class="section-title">
+        <h2>Update Notes</h2>
+    </div>
+    <div class="form-container">
+        <form id="uploadForm" action="./upload.php" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="note-title" class="form-label">Note Title</label>
+                <input type="text" id="note-title" class="form-control" name="note-title" placeholder="Enter note title" required>
+            </div>
+            <div class="form-group">
+                <label for="note-category" class="form-label">Category</label>
+                <select id="note-category" class="form-control" name="note-category" required>
+                    <option value="">Select category</option>
+                    <option value="programming">Programming</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="science">Science</option>
+                    <option value="business">Business</option>
+                    <option value="engineering">Engineering</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="note-description" class="form-label">Description</label>
+                <textarea id="note-description" class="form-control" name="note-description" placeholder="Enter note description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="note-file" class="form-label size-file">Upload File</label>
+                <div class="warning"></div>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="note-file" class="form-control" name="note-file" accept=".pdf" required>
+                    <div class="file-upload-preview"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="note-thumbnail" class="form-label size">Upload Thumbnail</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="note-thumbnail" class="form-control" name="note-thumbnail" accept=".jpg,.jpeg,.png" required>
+                    <div class="file-upload-preview"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="demo-picture-1" class="form-label size">Demo picture 1</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="demo-picture-1" class="form-control" name="demo-picture-1" accept=".jpg,.jpeg,.png" required>
+                    <div class="file-upload-preview"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="demo-picture-2" class="form-label size">Demo picture 2</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="demo-picture-2" class="form-control" name="demo-picture-2" accept=".jpg,.jpeg,.png">
+                    <div class="file-upload-preview"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="demo-picture-3" class="form-label size">Demo picture 3</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="demo-picture-3" class="form-control" name="demo-picture-3" accept=".jpg,.jpeg,.png">
+                    <div class="file-upload-preview"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="note-price" class="form-label">Price (₹)</label>
+                <input type="number" id="note-price" class="form-control" name="note-price" placeholder="Enter price" min="0" step="1" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" name="uploadNotes">Upload Notes</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
 
             <!-- Manage Notes Section -->
             <div id="manage-notes" class="section">
@@ -487,153 +561,6 @@ if(isset($_POST['logout'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script>
-        // Toggle sidebar on mobile
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            document.querySelector('.menu-slide').classList.toggle('active');
-            document.querySelector('main').classList.toggle('expanded');
-        });
-
-        // Navigation between sections
-        document.querySelectorAll('.menu-list li').forEach(item => {
-            item.addEventListener('click', function() {
-                // Remove active class from all menu items
-                document.querySelectorAll('.menu-list li').forEach(li => {
-                    li.classList.remove('active');
-                });
-                
-                // Add active class to clicked menu item
-                this.classList.add('active');
-                
-                const targetId = this.getAttribute('data-section');
-                
-                // Hide all sections
-                document.querySelectorAll('.section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Show target section with animation
-                const targetSection = document.getElementById(targetId);
-                targetSection.classList.add('active');
-                targetSection.style.animation = 'fadeIn 0.5s ease';
-                
-                // Close sidebar on mobile
-                if (window.innerWidth < 992) {
-                    document.querySelector('.menu-slide').classList.remove('active');
-                    document.querySelector('main').classList.remove('expanded');
-                }
-            });
-        });
-
-        // Show dashboard by default
-        document.getElementById('dashboard').classList.add('active');
-
-        // Form submission handlers
-        document.getElementById('uploadForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-            submitBtn.disabled = true;
-            
-            // Simulate upload delay
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-                
-                // Show success notification
-                showNotification('Notes uploaded successfully!', 'success');
-                
-                // Reset form
-                this.reset();
-            }, 2000);
-        });
-
-        // Action buttons with confirmation
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to delete this item?')) {
-                    const row = this.closest('tr');
-                    row.style.animation = 'fadeOut 0.3s ease';
-                    setTimeout(() => {
-                        row.remove();
-                        showNotification('Item deleted successfully!', 'success');
-                    }, 300);
-                }
-            });
-        });
-
-        // Search functionality
-        document.getElementById('search-notes').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#manage-notes tbody tr');
-            
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
-        });
-
-        document.getElementById('search-users').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#users tbody tr');
-            
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
-        });
-
-        // Filter functionality
-        document.getElementById('download-filter').addEventListener('change', function() {
-            const filterValue = this.value;
-            // In a real app, you would fetch filtered data from the server
-            showNotification(`Filter changed to: ${filterValue}`, 'info');
-        });
-
-        // Dark mode toggle
-        document.querySelector('.dark-mode-toggle').addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            const icon = this.querySelector('i');
-            if (document.body.classList.contains('dark-mode')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        });
-
-        // Notification system
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `notification-${type}`;
-            notification.textContent = message;
-            notification.style.position = 'fixed';
-            notification.style.bottom = '20px';
-            notification.style.right = '20px';
-            notification.style.padding = '15px 20px';
-            notification.style.backgroundColor = type === 'success' ? 'var(--success)' : 
-                                              type === 'error' ? 'var(--danger)' : 'var(--primary)';
-            notification.style.color = 'white';
-            notification.style.borderRadius = '5px';
-            notification.style.boxShadow = 'var(--shadow-lg)';
-            notification.style.zIndex = '1000';
-            notification.style.animation = 'fadeIn 0.3s ease';
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'fadeOut 0.3s ease';
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            }, 3000);
-        }
-
-      
-    </script>
+    <script src="../assets/js/admin.js"></script>
 </body>
 </html>

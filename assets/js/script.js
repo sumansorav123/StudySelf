@@ -207,3 +207,5 @@ userIcon.addEventListener("click", () => {
     menu.style.visibility = "hidden";
   }
 });
+
+

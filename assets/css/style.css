@@ -774,3 +774,19 @@
             background-color: #f5f5f5;
             color: var(--dark);
         }
+
+        .form-label::after{
+          content: " * ";
+          color: red;
+          font-size: 18px;
+        }
+        .size-file::after{
+          content: " max file size 3mb * ";
+            color: red;
+             font-size: 12px;
+        }
+          .size::after{
+          content: " max file size 1mb * ";
+            color: red;
+             font-size: 12px;
+        }
