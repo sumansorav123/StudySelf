@@ -15,6 +15,57 @@ if(isset($_POST['logout'])) {
     header("Location: ./auth/admin_register.php");
     exit();
 }
+ // Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
+    // Get input data
+    $title = htmlspecialchars($_POST['title']);
+    $description = htmlspecialchars($_POST['description']);
+    $category_id = intval($_POST['category_id']);
+    $price = isset($_POST['price']) ? floatval($_POST['price']) : 0.00;
+
+    // Upload directories
+    $noteDir = "uploads/notes/";
+    $thumbDir = "uploads/thumbnails/";
+    $demoDir = "uploads/demos/";
+
+    // Create directories if not exist
+    if (!is_dir($noteDir)) mkdir($noteDir, 0777, true);
+    if (!is_dir($thumbDir)) mkdir($thumbDir, 0777, true);
+    if (!is_dir($demoDir)) mkdir($demoDir, 0777, true);
+
+    // Handle uploads
+    $file_path = $noteDir . basename($_FILES['file_path']['name']);
+    $thumbnail_path = $thumbDir . basename($_FILES['thumbnail_path']['name']);
+    $demo1_path = $demoDir . basename($_FILES['demo1_path']['name']);
+    $demo2_path = $demoDir . basename($_FILES['demo2_path']['name']);
+    $demo3_path = $demoDir . basename($_FILES['demo3_path']['name']);
+
+    // Move uploaded files
+    move_uploaded_file($_FILES['file_path']['tmp_name'], $file_path);
+    move_uploaded_file($_FILES['thumbnail_path']['tmp_name'], $thumbnail_path);
+    move_uploaded_file($_FILES['demo1_path']['tmp_name'], $demo1_path);
+    move_uploaded_file($_FILES['demo2_path']['tmp_name'], $demo2_path);
+    move_uploaded_file($_FILES['demo3_path']['tmp_name'], $demo3_path);
+
+    // Insert into DB
+    $stmt = $connection->prepare("INSERT INTO notes 
+        (title, category_id, description, file_path, thumbnail_path, demo1_path, demo2_path, demo3_path, price) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sissssssd", $title, $category_id, $description, $file_path, $thumbnail_path, $demo1_path, $demo2_path, $demo3_path, $price);
+
+   if ($stmt->execute()) {
+    echo '<script>alert("Note uploaded successfully!");</script>';
+    header("Location: ../admin/admin.php");
+    $stmt->close();
+    exit();
+} else {
+    echo '<script>alert("Error uploading note: ' . $stmt->error . '");</script>';
+    header("Location: ../admin/admin.php");
+    $stmt->close();
+    exit();
+}
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,73 +165,27 @@ if(isset($_POST['logout'])) {
                     <h2>Upload New Notes</h2>
                 </div>
                 <div class="form-container">
-                    <form id="uploadForm">
-                        <div class="form-group">
-                            <label for="note-title" class="form-label">Note Title</label>
-                            <input type="text" id="note-title" class="form-control" placeholder="Enter note title" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="note-category" class="form-label">Category</label>
-                            <select id="note-category" class="form-control" required>
+                    <!-- Upload Notes Form -->
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <input type="text" name="title" placeholder="Enter note title" required><br>
+                            <label for="note-category">Category:</label>
+                            <select id="note-category" name="category_id" required>
                                 <option value="">Select category</option>
-                                <option value="programming">Programming</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="science">Science</option>
-                                <option value="business">Business</option>
-                                <option value="engineering">Engineering</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="note-description" class="form-label">Description</label>
-                            <textarea id="note-description" class="form-control" placeholder="Enter note description" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="note-file" class="form-label">Upload File</label>
-                            <div class="file-upload-wrapper">
-                                <input type="file" id="note-file" class="form-control" required>
-                                <div class="file-upload-preview"></div>
-                            </div>
-                        </div>
-                         <div class="form-group">
-                            <label for="note-file" class="form-label">Upload Thumbnail</label>
-                            <div class="file-upload-wrapper">
-                                <input type="file" id="note-file" class="form-control" required>
-                                <div class="file-upload-preview"></div>
-                            </div>
-                        </div>
-                            <div class="form-group">
-                                <label for="note-file" class="form-label">Demo picture 1</label>
-                                <div class="file-upload-wrapper">
-                                    <input type="file" id="note-file" class="form-control" required>
-                                    <div class="file-upload-preview"></div>
-                                </div>
-
-                           </div>
-                            <div class="form-group">
-                                <label for="note-file" class="form-label">Demo picture 2</label>
-                                <div class="file-upload-wrapper">
-                                    <input type="file" id="note-file" class="form-control" required>
-                                    <div class="file-upload-preview"></div>
-                                </div>
-
-                           </div>
-                            <div class="form-group">
-                                <label for="note-file" class="form-label">Demo picture 3</label>
-                                <div class="file-upload-wrapper">
-                                    <input type="file" id="note-file" class="form-control" required>
-                                    <div class="file-upload-preview"></div>
-                                </div>
-
-                           </div>
-                        <div class="form-group">
-                            <label for="note-price" class="form-label">Price (₹)</label>
-                            <input type="number" id="note-price" class="form-control" placeholder="Enter price" min="0" step="1">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Upload Notes</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
-                        </div>
-                    </form>
+                                <option value="1">Programming</option>
+                                <option value="2">Mathematics</option>
+                                <option value="3">Science</option>
+                                <option value="4">Business</option>
+                                <option value="5">Engineering</option>
+                            </select><br>
+                            <textarea name="description" placeholder="Enter note description" required></textarea><br>
+                            <input type="file" name="file_path" accept=".pdf,.docx,.pptx" required><br>
+                            <input type="file" name="thumbnail_path" accept="image/*" required><br>
+                            <input type="file" name="demo1_path" accept="image/*" required><br>
+                            <input type="file" name="demo2_path" accept="image/*" required><br>
+                            <input type="file" name="demo3_path" accept="image/*" required><br>
+                            <input type="number" name="price" step="0.01" placeholder="Enter price (optional)"><br>
+                            <input type="submit" value="Upload Note">
+                        </form>
                 </div>
             </div>
 
@@ -526,7 +531,7 @@ if(isset($_POST['logout'])) {
         });
 
         // Show dashboard by default
-        document.getElementById('dashboard').classList.add('active');
+        // document.getElementById('dashboard').classList.add('active');
 
         // Form submission handlers
         document.getElementById('uploadForm').addEventListener('submit', function(e) {
