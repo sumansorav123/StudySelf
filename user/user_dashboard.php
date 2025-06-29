@@ -47,6 +47,7 @@ if(isset($_POST['logout'])) {
   font-weight: 700;
 }
 
+
 </style>
 <body>
      <!-- Header -->
@@ -57,12 +58,16 @@ if(isset($_POST['logout'])) {
                 <span>StudySelf</span>
             </div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="./view/enroll.php">enroll</a></li>
-                <li><a href="#notes">Notes</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><i class="fa-solid fa-house-user"></i><a href="#home">Home</a></li>
+                <li><i class="fa-solid fa-bookmark"></i><a href="./view/enroll.php">enroll</a></li>
+                <li><i class="fa-solid fa-book"></i><a href="#notes">Notes</a></li>
+                <li><i class="fa-solid fa-users"></i><a href="#testimonials">Testimonials</a></li>
+                
             </ul>
+              <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i> <!-- Moon icon for light mode -->
+                <i class="fas fa-sun"></i> <!-- Sun icon for dark mode -->
+                </button>
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
@@ -71,6 +76,7 @@ if(isset($_POST['logout'])) {
                         <input type="submit" name="logout" value="Logout" class="logout">
                     </form>
                 </ul>
+              
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
                 </div>
@@ -78,6 +84,15 @@ if(isset($_POST['logout'])) {
 
         </div>
     </header>
+
+     <div class="contact">
+     
+            <a href=" https://wa.me/8294800888?text=hii..." target="_blank" class="whatsapp-link">
+                <span class="whatsapp-text">Contact Us</span>
+              <img src="../uploads/images/icons8-whatsapp-50.png" alt="contact">
+            </a>
+       
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -87,7 +102,7 @@ if(isset($_POST['logout'])) {
                 <p>Access high-quality, curated notes from top students and educators. Boost your grades and save time
                     with our comprehensive study materials.</p>
                 <div class="hero-buttons">
-                    <a href="#" class="cta-button"
+                    <a href="#notes" class="cta-button"
                         style="background-color: transparent; color: white; border: 2px solid white;">Explore
                         Notes</a>
                 </div>
@@ -220,7 +235,7 @@ if(isset($_POST['logout'])) {
                     </div>
                     <div class="note-content">
                         <h3>SQL programming Management</h3>
-                        <p>Learn SQL basics, programming design, and advanced queries for effective data management and
+                        <p>Learn SQL basics, and advanced queries for effective data management and
                             analysis.</p>
                         <div class="note-stats">
                             
@@ -434,6 +449,41 @@ if(isset($_POST['logout'])) {
     window.location.href = "./view/notes_view.php" 
   });
 
+
+// Function to toggle dark mode
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  
+  if (currentTheme === 'dark') {
+    html.removeAttribute('data-theme');
+    localStorage.setItem('theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+// Check for saved user preference or system preference
+function loadTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', loadTheme);
+
+// Add event listener to your dark mode toggle button
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+if (darkModeToggle) {
+  darkModeToggle.addEventListener('click', toggleDarkMode);
+}
 </script>
+
+
 </html>
 

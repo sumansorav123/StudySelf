@@ -54,6 +54,14 @@ if(isset($_POST['logout'])) {
   color: var(--text-primary);
   font-weight: 700;
 }
+.heading {
+    width: auto;
+    margin: auto;
+    position: relative;
+    top: 79px;
+    background:rgba(21, 48, 78, 0.73);
+    height: 100px;
+}
 
 
 </style>
@@ -64,10 +72,22 @@ if(isset($_POST['logout'])) {
                 <i class="fas fa-book-open-reader"></i>
                 <span>StudySelf</span>
             </div>
+              <ul class="nav-links">
+                <li><i class="fa-solid fa-house-user"></i><a href="#home">Home</a></li>
+                <li><i class="fa-solid fa-bookmark"></i><a href="./view/enroll.php">enroll</a></li>
+                <li><i class="fa-solid fa-book"></i><a href="#notes">Notes</a></li>
+                <li><i class="fa-solid fa-users"></i><a href="#testimonials">Testimonials</a></li>
+                <li><i class="fa-solid fa-address-book"></i><a href="#contact">Contact</a></li>
+            </ul>
+              <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i> <!-- Moon icon for light mode -->
+                <i class="fas fa-sun"></i> <!-- Sun icon for dark mode -->
+                </button>
          
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
+                  
                     <a href="#" class="user-name" style="color:rgb(238, 208, 38);" ><?PHP echo $_SESSION['username']; ?></a>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <input type="submit" name="logout" value="Logout" class="logout">
@@ -85,7 +105,7 @@ if(isset($_POST['logout'])) {
     <section class="heading">
 
             <div class="top-header">
-            <a href="../user_dashboard.php" class="cta-button">Home</a>> <a href="#" class="cta-button">Enroll</a>
+            <a href="../user_dashboard.php" class="cta-button">Home</a> |  <a href="#" class="cta-button">Enroll</a>
             </div>
     </section>
     <br>
@@ -308,6 +328,40 @@ document.querySelectorAll(".feature-card, .note-card").forEach(el => {
 
 window.addEventListener("scroll", animateOnScroll);
 window.addEventListener("load", animateOnScroll);
+
+   
+// Function to toggle dark mode
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  
+  if (currentTheme === 'dark') {
+    html.removeAttribute('data-theme');
+    localStorage.setItem('theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+// Check for saved user preference or system preference
+function loadTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', loadTheme);
+
+// Add event listener to your dark mode toggle button
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+if (darkModeToggle) {
+  darkModeToggle.addEventListener('click', toggleDarkMode);
+}
 </script>
 
 </html>

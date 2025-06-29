@@ -8,11 +8,7 @@
      <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
 </head>
 <style>
-
-    .cta{
-        background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
-    }
-    :root {
+  :root {
   --primary: #046178;
   --secondary: #f5a623;
   --accent: #014a5c;
@@ -25,6 +21,57 @@
   --border: #e0e0e0;
 }
 
+
+
+[data-theme="dark"] {
+  --primary: #38bdf8;  
+  --secondary: #f59e0b;     
+  --accent: #0ea5e9;       
+  --success: #34d399;     
+  --danger: #f87171;       
+  --bg: #0f172a;            
+  /* --card-bg: #1e293b;      */
+  --text-primary: #303030;   
+  --text-secondary: #94a3b8;
+  --border: #334155;       
+}
+
+.dark-mode-toggle {
+      background: transparent;
+    border: 1px solid;
+    color: #f9f9f9;
+    cursor: pointer;
+    font-size: 1.6rem;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 50px;
+    position: fixed;
+    bottom: 5%;
+    left: 20px;
+    background: #292828;
+}
+
+/* Hide the sun icon by default */
+.dark-mode-toggle .fa-sun {
+  display: none;
+}
+
+/* In dark mode, hide moon and show sun */
+[data-theme="dark"] .dark-mode-toggle .fa-moon {
+  display: none;
+}
+
+[data-theme="dark"] .dark-mode-toggle .fa-sun {
+  display: block;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
 * {
   margin: 0;
   padding: 0;
@@ -559,8 +606,16 @@ header.scrolled {
   color: var(--primary);
   font-size: 1.2rem;
 }
+.user-name{
+  text-decoration: none;
+    
+    font-weight: 600;
+    font-size: 20px;
+}
 
 /* Testimonials */
+
+
 .testimonials {
   padding: 5rem 2rem;
   max-width: 1200px;
@@ -641,32 +696,38 @@ header.scrolled {
   font-size: 0.9rem;
 }
 
-.testimonial-pagination {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-}
+  .testimonial-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+  }
 
-.testimonial-pagination button {
-  background-color: var(--card-bg);
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+  .testimonial-pagination button {
+    background-color: var(--card-bg);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-.testimonial-pagination button.active {
-  background-color: var(--primary);
-  color: white;
-}
+  .testimonial-pagination button:hover {
+    background-color: var(--primary);
+    color: white;
+  }
 
-.testimonial-pagination button:hover {
-  background-color: var(--primary);
-  color: white;
-}
+  .testimonial-pagination button.active {
+    background-color: var(--primary);
+    color: white;
+  }
 
+  @media (max-width: 768px) {
+    .testimonial-pagination {
+      flex-wrap: wrap;
+    }
+  }
 .slider-nav {
   display: flex;
   justify-content: center;
@@ -686,6 +747,21 @@ header.scrolled {
 .slider-dot.active {
   background-color: var(--primary);
   transform: scale(1.2);
+}
+/* heading */
+.heading{
+      width: 1200px;
+    margin: auto;
+    position: relative;
+    top: 79px;
+    background: #e8e8e8;
+    height: 100px;
+}
+.top-header{
+  display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1.8rem;
 }
 
 /* CTA Section */
@@ -832,6 +908,28 @@ footer {
   display: flex;
   gap: 19px;
   padding: 10px;
+  align-items: baseline;
+}
+.search-input{
+      width: -webkit-fill-available;
+    padding: 7px 30px;
+    font-size: 18px;
+    border-radius: 75px;
+    outline: none;
+    border: none;
+    box-shadow: 0px 0px 8px 0px #04657a;
+}
+.btn-download{
+      width: 120px;
+      height: 30px;
+    background:var(--primary);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 3px;
+    border-radius: 4px;
+    color: #ffffff;
+    text-decoration: none;
 }
 
 /* Animations */
@@ -986,29 +1084,38 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .nav-links {
-    position: fixed;
-    top: 52px;
-    left: -100%;
-    width: 100%;
-    height: calc(100vh - 80px);
-    background-color: var(--primary);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.5s ease;
-    padding: 2rem 0;
-    /* backdrop-filter: blur(10px); */
-     background: linear-gradient(135deg,rgba(1, 15, 37, 0.934),rgba(0, 155, 190, 0.89));
+  
+  
+        .nav-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height:max-content;
+        background-color: var(--primary);
+        flex-direction: column;
+        /* align-items: center; */
+        /* justify-content: center; */
+        transition: all 0.5s ease;
+        padding: 2rem 0;
+        /* backdrop-filter: blur(10px); */
+        background: linear-gradient(135deg, rgba(1, 15, 37, 0.934), rgba(0, 155, 190, 0.89));
+        }
+
+         .nav-links li {
+        margin: 1px 0;
+        background: #000000a8;
+        width: 100%;
+        padding: 15px 25px 15px 25px;
+        /* border-top: 1px solid; */
+        /* border-bottom: 1px solid; */
+        /* outline: 1px solid;*/
   }
 
   .nav-links.active {
     left: 0;
   }
 
-  .nav-links li {
-    margin: 1rem 0;
-  }
 
   .hamburger {
     display: block;
@@ -1188,7 +1295,219 @@ footer {
     align-items: center;
     padding: 2px;
 }
+
+
+
+/* view */
+.notes_detail {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    padding: 2rem 0;
+}
+
+.notes-det-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.note-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.top {
+    padding: 15px;
+    text-align: right;
+    background-color: #f8f9fa;
+}
+
+.top span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.top span:hover {
+    color: #343a40;
+}
+
+.bottom {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.image {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.main-img {
+    width: 100%;
+    height: 300px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.main-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-option {
+    display: flex;
+    gap: 10px;
+}
+
+.img-option img {
+    width: 80px;
+    height: 60px;
+    background-color: #e9ecef;
+    border-radius: 3px;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.content h2 {
+    color: #212529;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.content h4 {
+    color: #495057;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.content button {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background-color 0.3s;
+}
+
+.content button:hover {
+    background-color: #0b5ed7;
+}
+
+.txt-content {
+    margin-top: 10px;
+}
+
+.description {
+    color: #495057;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.txt-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.txt-content li {
+    padding: 5px 0;
+    color: #495057;
+    position: relative;
+    padding-left: 25px;
+}
+
+.txt-content li:before {
+    content: "•";
+    color: #0d6efd;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: -2px;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+    .bottom {
+        flex-direction: row;
+        gap: 30px;
+    }
+    
+    .image {
+        flex: 1;
+    }
+    
+    .content {
+        flex: 1;
+    }
+    
+    .main-img {
+        height: 350px;
+    }
+        .notes_detail{
+           width: -webkit-fill-available;
+    transform: translateX(0%);
+         }
+         .bottom{
+            flex-direction:column;
+      
+         }
+}
+.contact {
+    position: fixed;
+    z-index: 999;
+    bottom: 10%;
+}
+
+.whatsapp-link {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.whatsapp-text {
+    justify-content: flex-end;
+    background: #ffffffdb;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    width: 28px;
+    color: transparent; 
+    border-radius: 20px;
+    position: absolute;
+    left: 26px;
+    z-index: -1;
+    padding: 0px 10px 0px 0px;
+    transition: all 0.3s ease-in-out; 
+    overflow: hidden; 
+    white-space: nowrap; 
+}
+.contact:hover .whatsapp-text {
+    width: 125px; 
+    color:black;
+}
 </style>
+
 <body>
      <!-- Header -->
     <header id="header">
@@ -1202,8 +1521,12 @@ footer {
                 <li><a href="#features">Features</a></li>
                 <li><a href="#notes">Notes</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="#contact">Contact</a></li>
+                
             </ul>
+             <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i> <!-- Moon icon for light mode -->
+                <i class="fas fa-sun"></i> <!-- Sun icon for dark mode -->
+                </button>
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
@@ -1218,6 +1541,15 @@ footer {
         </div>
     </header>
 
+    <div class="contact">
+     
+            <a href=" https://wa.me/8294800888?text=hii..." target="_blank" class="whatsapp-link">
+                <span class="whatsapp-text">Contact Us</span>
+              <img src="./uploads/images/icons8-whatsapp-50.png" alt="contact">
+            </a>
+       
+    </div>
+
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
@@ -1226,7 +1558,7 @@ footer {
                 <p>Access high-quality, curated notes from top students and educators. Boost your grades and save time
                     with our comprehensive study materials.</p>
                 <div class="hero-buttons">
-                    <a href="#" class="cta-button"
+                    <a href="#notes" class="cta-button"
                         style="background-color: transparent; color: white; border: 2px solid white;">Explore
                         Notes</a>
                 </div>
@@ -1325,22 +1657,7 @@ footer {
             </div>
             <div class="notes-grid">
                 <!-- Note 1 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="Chemistry Notes">
-                        <span class="note-category">Pyhton</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>Python Notes For Beginner</h3>
-                        <p>Introduction to Python programming with syntax, data types, control structures, and libraries
-                            for data analysis.</p>
-                        <div class="note-stats">
-                            <span><i class="fas fa-eye"></i>2345</span>
-                            <span class="note-price"> ₹ 16 </span>
-                        </div>
-                    </div>
-                </div>
+ 
 
                 <!-- Note 2 -->
                 <div class="note-card" data-category="programming">
@@ -1423,8 +1740,7 @@ footer {
                     </div>
                     <div class="note-content">
                         <h3>10th Bihar Boad Physics Notes</h3>
-                        <p>testimonial-detailed notes covering key concepts in physics for 10th-grade students, including mechanics,
-                            optics, and thermodynamics.</p>
+                        <p>testimonial-detailed notes covering key concepts in physics for 10th-grade students, and thermodynamics.</p>
                         <div class="note-stats">
                             <span><i class="fas fa-eye"></i> 1,234</span>
                             <span class="note-price"> ₹ 10 </span>
@@ -1554,10 +1870,10 @@ footer {
             <h2>Ready to Boost Your Grades?</h2>
             <p>Join thousands of students who are achieving academic success with NoteSphere. Sign up today and get
                 access to premium study materials.</p>
-            <a href="#" class="cta-button"
+            <a href="./user/user_auth/user_sigin.php" class="cta-button"
                 style="background-color: white; color: var(--primary); margin: 0 auto; display: inline-block;">Sing
                 Up</a>
-            <a href="#" class="cta-button"
+            <a href="./user/user_auth/user_login.php" class="cta-button"
                 style="background-color: white; color: var(--primary); margin: 0 auto; display: inline-block;">Sign
                 In</a>
         </div>
@@ -1601,7 +1917,7 @@ footer {
                 <h3>Contact Us</h3>
                 <p><i class="fas fa-map-marker-alt"></i> 123 Education St, Boston, MA</p>
                 <p><i class="fas fa-phone"></i> (555) 123-4567</p>
-                <p><i class="fas fa-envelope"></i> info@noteshere.com</p>
+                <p><i class="fas fa-envelope"></i>studyselfzohomail.in</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -1622,5 +1938,39 @@ footer {
     window.onunload = function () {
         // Optional: force unload
     };
+
+    
+// Function to toggle dark mode
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  
+  if (currentTheme === 'dark') {
+    html.removeAttribute('data-theme');
+    localStorage.setItem('theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+// Check for saved user preference or system preference
+function loadTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', loadTheme);
+
+// Add event listener to your dark mode toggle button
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+if (darkModeToggle) {
+  darkModeToggle.addEventListener('click', toggleDarkMode);
+}
 </script>
 </html>

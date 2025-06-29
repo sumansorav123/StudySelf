@@ -46,14 +46,7 @@ if (!isset($_SESSION["otp"])) {
     // Send email
     $mail = new PHPMailer(true);
     try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.zoho.in';
-        $mail->SMTPAuth = true;
-        $mail->Username = "studyself@zohomail.in";
-         $mail->Password = 'mgPX Rf5W BQPM';  
-        $mail->SMTPSecure = 'TLS';
-        $mail->Port = 587;
-
+        require "../../config/otp_confing.php"; // Load SMTP configuration
         $mail->setFrom('studyself@zohomail.in', 'Study Self');
         $mail->addAddress($email, $name);
         $mail->isHTML(true);
@@ -79,6 +72,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST["verify"])) {
             if ($stmt->affected_rows > 0) {
                 unset($_SESSION["otp"], $_SESSION["name"], $_SESSION["email"], $_SESSION["password"], $_SESSION["otp_created_at"]);
                 header("Location: user_login.php");
+              // a msg send ti the email of user that account is created successfully
+               $mail = new PHPMailer(true);
+    try {
+        require "../../config/otp_confing.php"; // Load SMTP configuration
+        $mail->setFrom('studyself@zohomail.in', 'Study Self');
+        $mail->addAddress($email, $name);
+        $mail->isHTML(true);
+        $mail->Subject = 'Your are successfully registered in Study Self';
+        $mail->Body = 'Congratulations ' . $name . ',<br><br>' .
+                      'Your account has been successfully created on Study Self. You can now log in using your email and password.<br><br>
+                      Thank you for joining us!<br><br>';
+        $mail->send();
+    } catch (Exception $e) {
+        $message = "<p style='color:red;'>Mailer Error: " . $mail->ErrorInfo . "</p>";
+    }
                 exit();
             } else {
                 $message = "<p style='color:red;'>Database error! Please try again later.</p>";
