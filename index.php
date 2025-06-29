@@ -1,3 +1,12 @@
+<?php
+require 'config/Database.php';
+session_start();
+
+if(isset($_SESSION["useremail"], $_SESSION["username"])){
+  header("Location: user/user_dashboard.php");
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

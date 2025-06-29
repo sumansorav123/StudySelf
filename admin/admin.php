@@ -67,6 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
 
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,11 +114,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
                     <a href="#users"><i class="fa-solid fa-users"></i> Users</a>
                 </li>
                 <li data-section="download-detail">
-                    <a href="#download-detail"><i class="fa-solid fa-file-download"></i> Download Details</a>
+                    <a href="#download-detail"><i class="fa-solid fa-file-download"></i> Purchase Details</a>
                 </li>
-                <li data-section="downloads">
-                    <a href="#downloads"><i class="fa-solid fa-download"></i> Downloads</a>
-                </li>
+                
                 <li>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <button type="submit" name="logout" class="logout-btn">
@@ -137,22 +137,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
                 
                 <div class="stats-container">
                     <div class="stat-card users animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-                        <div class="stat-value">1,245</div>
+                        <div class="stat-value">
+                            <?php
+                                $sql = "SELECT COUNT(*) AS total_users FROM userdetails";
+                                $userc = mysqli_query($connection, $sql);
+
+                                if ($userc && $row = mysqli_fetch_assoc($userc)) {
+                                    echo $row['total_users'];
+                                } else {
+                                    echo "Error fetching data.";
+                                }
+                            ?>
+                        </div>
                         <div class="stat-label">Total Users</div>
                         
                     </div>
                     <div class="stat-card notes animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-                        <div class="stat-value">568</div>
+                        <div class="stat-value">
+                             <?php
+                                $sql = "SELECT COUNT(*) AS total_users FROM notes";
+                                $notesc = mysqli_query($connection, $sql);
+
+                                if ($notesc && $row = mysqli_fetch_assoc($notesc)) {
+                                    echo $row['total_users'];
+                                } else {
+                                    echo "Error fetching data.";
+                                }
+                            ?>
+                        </div>
                         <div class="stat-label">Total Notes</div>
                     
                     </div>
                     <div class="stat-card downloads animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-                        <div class="stat-value">3,784</div>
-                        <div class="stat-label">Total Downloads</div>
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Total Purchase</div>
                         
                     </div>
                     <div class="stat-card revenue animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
-                        <div class="stat-value">₹24,560</div>
+                        <div class="stat-value">₹0</div>
                         <div class="stat-label">Total Revenue</div>
                         
                     </div>
@@ -202,86 +224,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
                     </div>
                 </div>
                 <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Upload Date</th>
+                    <?php
+                        $notes_result = $connection->query("SELECT * FROM notes ORDER BY uploaded_at DESC");
+                        if ($notes_result->num_rows > 0) {
+                    ?>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Upload Date</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            while ($row = $notes_result->fetch_assoc()) {
+                $note_id = htmlspecialchars($row['id']);
+                $title = htmlspecialchars($row['title']);
+                $price = htmlspecialchars($row['price']);
+                $uploaded_at = htmlspecialchars($row['uploaded_at']);
+                $category_id = htmlspecialchars($row['category_id']);
 
-                                <th>Price</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>101</td>
-                                <td>Python Basics</td>
-                                <td>Programming</td>
-                                <td>2023-05-15</td>
-                                
-                                <td>99</td>
-                                <td>
-                                    <button class="action-btn view-btn">View</button>
-                                    <button class="action-btn edit-btn">Edit</button>
-                                    <button class="action-btn delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>102</td>
-                                <td>Calculus II</td>
-                                <td>Mathematics</td>
-                                <td>2023-06-02</td>
-                                
-                                <td>49</td>
-                                <td>
-                                    <button class="action-btn view-btn">View</button>
-                                    <button class="action-btn edit-btn">Edit</button>
-                                    <button class="action-btn delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>103</td>
-                                <td>Organic Chemistry</td>
-                                <td>Science</td>
-                                <td>2023-06-10</td>
-                                
-                                <td>199</td>
-                                <td>
-                                    <button class="action-btn view-btn">View</button>
-                                    <button class="action-btn edit-btn">Edit</button>
-                                    <button class="action-btn delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>104</td>
-                                <td>Financial Accounting</td>
-                                <td>Business</td>
-                                <td>2023-06-18</td>
-                                <td>918</td>
-                            
-                                <td>
-                                    <button class="action-btn view-btn">View</button>
-                                    <button class="action-btn edit-btn">Edit</button>
-                                    <button class="action-btn delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>105</td>
-                                <td>Data Structures</td>
-                                <td>Programming</td>
-                                <td>2023-06-20</td>
-                            
-                                <td>49</td>
-                                <td>
-                                    <button class="action-btn view-btn">View</button>
-                                    <button class="action-btn edit-btn">Edit</button>
-                                    <button class="action-btn delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                // Fetch category name
+                $category_name = "Unknown Category";
+                $category_query = $connection->query("SELECT name FROM categories WHERE id = $category_id");
+                if ($category_query && $category_query->num_rows > 0) {
+                    $category_row = $category_query->fetch_assoc();
+                    $category_name = htmlspecialchars($category_row['name']);
+                }
+            ?>
+                <tr>
+                    <td><?php echo $note_id; ?></td>
+                    <td><?php echo $title; ?></td>
+                    <td><?php echo $category_name; ?></td>
+                    <td><?php echo $uploaded_at; ?></td>
+                    <td><?php echo $price ? '₹' . number_format($price, 2) : 'Free'; ?></td>
+                    <td>
+                        <button class="action-btn view-btn">View</button>
+                        <button class="action-btn edit-btn">Edit</button>
+                        <button class="action-btn delete-btn">Delete</button>
+                    </td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
+    </table>
+<?php
+} else {
+    echo "<p>There are no posts uploaded yet.</p>";
+}
+?>
                 </div>
             </div>
 
@@ -295,6 +291,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
                     </div>
                 </div>
                 <div class="table-container">
+                    <?PHP
+                        $user_data = $connection->query("SELECT * FROM userdetails ORDER BY id DESC");
+                        if ($user_data->num_rows > 0) {
+                       ?>
                     <table>
                         <thead>
                             <tr>
@@ -306,50 +306,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                             while ($rows = $user_data->fetch_assoc()) {
+                            $user_id = htmlspecialchars($rows["id"]);
+                            $user_name = htmlspecialchars($rows["name"]);
+                            $user_email = htmlspecialchars($rows["email"]);
+                            $created_at = htmlspecialchars($rows["created_at"]);
+                        ?>
                             <tr>
-                                <td>1001</td>
-                                <td>user123</td>
-                                <td>user123@example.com</td>
-                                <td>2023-01-15</td>
-                               
+                                <td>
+                                    <?php echo $user_id;?>
+                                </td>
+                                <td>
+                                    <?php echo $user_name;?>
+                                </td>
+                                <td>
+                                    <?php echo $user_email;?>
+                                </td>
+                                <td>
+                                    <?php echo $created_at;?>
+                                </td>                               
                             </tr>
-                            <tr>
-                                <td>1002</td>
-                                <td>student456</td>
-                                <td>student456@example.com</td>
-                                <td>2023-02-20</td>
-                               
-                            </tr>
-                            <tr>
-                                <td>1003</td>
-                                <td>learner789</td>
-                                <td>learner789@example.com</td>
-                                <td>2023-03-05</td>
-                               
-                            </tr>
-                            <tr>
-                                <td>1004</td>
-                                <td>teacher101</td>
-                                <td>teacher101@example.com</td>
-                                <td>2023-04-12</td>
-                              
-                            </tr>
-                            <tr>
-                                <td>1005</td>
-                                <td>banned_user</td>
-                                <td>banned@example.com</td>
-                                <td>2023-01-10</td>
-                              
-                            </tr>
+                        <?php  
+                        }
+                        ?>
                         </tbody>
                     </table>
+                    <?php
+                    } else {
+                            echo "<p>There are no posts uploaded yet.</p>";
+                        }
+                    ?>
                 </div>
             </div>
 
             <!-- download details -->
             <div id="download-detail" class="section">
                 <div class="section-title">
-                    <h2>Download Details</h2>
+                    <h2>Purchase Details</h2>
                     <div class="search-box">
                         <i class="fas fa-search"></i>
                         <input type="text" id="search-downloads" class="form-control" placeholder="Search downloads...">
@@ -375,114 +369,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
                                 <td>
                                     7
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>1002</td>
-                                <td>student456</td>
-                                <td>student456@example.com</td>
-                                <td>Science</td>
-                                <td>
-                                    5
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1003</td>
-                                <td>learner789</td>
-                                <td>learner789@example.com</td>
-                                <td>Mathematics</td>
-                                <td>
-                                   2
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1004</td>
-                                <td>teacher101</td>
-                                <td>teacher101@example.com</td>
-                                <td>Programing</td>
-                                <td>
-                                    5
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1005</td>
-                                <td>banned_user</td>
-                                <td>banned@example.com</td>
-                                <td>Science</td>
-                                <td>
-                                   3
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Downloads Section -->
-            <div id="downloads" class="section">
-                <div class="section-title">
-                    <h2>Download Statistics</h2>
-                    <div>
-                        <select id="download-filter" class="form-control" style="display: inline-block; width: auto;">
-                            <option value="all">All Time</option>
-                            <option value="month">This Month</option>
-                            <option value="week">This Week</option>
-                            <option value="today">Today</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Note ID</th>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Downloads</th>
-                                <th>Revenue</th>
-                                <th>Trend</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>101</td>
-                                <td>Python Basics</td>
-                                <td>Programming</td>
-                                <td>245</td>
-                                <td>₹2,450</td>
-                                <td><i class="fas fa-arrow-up" style="color: var(--success);"></i> 12%</td>
-                            </tr>
-                            <tr>
-                                <td>102</td>
-                                <td>Calculus II</td>
-                                <td>Mathematics</td>
-                                <td>187</td>
-                                <td>₹1,870</td>
-                                <td><i class="fas fa-arrow-up" style="color: var(--success);"></i> 8%</td>
-                            </tr>
-                            <tr>
-                                <td>103</td>
-                                <td>Organic Chemistry</td>
-                                <td>Science</td>
-                                <td>132</td>
-                                <td>₹1,320</td>
-                                <td><i class="fas fa-arrow-down" style="color: var(--danger);"></i> 5%</td>
-                            </tr>
-                            <tr>
-                                <td>104</td>
-                                <td>Financial Accounting</td>
-                                <td>Business</td>
-                                <td>98</td>
-                                <td>₹980</td>
-                                <td><i class="fas fa-arrow-up" style="color: var(--success);"></i> 15%</td>
-                            </tr>
-                            <tr>
-                                <td>105</td>
-                                <td>Data Structures</td>
-                                <td>Programming</td>
-                                <td>76</td>
-                                <td>₹760</td>
-                                <td><i class="fas fa-arrow-down" style="color: var(--danger);"></i> 3%</td>
-                            </tr>
+                            </tr>                           
                         </tbody>
                     </table>
                 </div>
