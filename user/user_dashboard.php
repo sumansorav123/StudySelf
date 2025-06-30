@@ -24,10 +24,14 @@ if(isset($_POST['logout'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudySelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="stylesheet" href="./user_assets/css/style.css">
+   <!-- <link rel="stylesheet" href="./user_assets/css/style.css"> -->
+    <link rel="stylesheet" href="./user_assets/css/styles.css">
+
 </head>
 <style>
- .logout {
+ 
+
+.logout {
   width: 100px;
   height: 35px;
   border-radius: 8px;
@@ -46,6 +50,22 @@ if(isset($_POST['logout'])) {
   color: var(--text-primary);
   font-weight: 700;
 }
+.notes-grid {
+     
+    gap: 2rem;
+    height: 100vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-wrap: wrap;
+        justify-content: center;
+}
+.note-card {
+      width: 270px;
+}
+
+
+
 
 
 </style>
@@ -58,10 +78,10 @@ if(isset($_POST['logout'])) {
                 <span>StudySelf</span>
             </div>
             <ul class="nav-links">
-                <li><i class="fa-solid fa-house-user"></i><a href="#home">Home</a></li>
-                <li><i class="fa-solid fa-bookmark"></i><a href="./view/enroll.php">enroll</a></li>
-                <li><i class="fa-solid fa-book"></i><a href="#notes">Notes</a></li>
-                <li><i class="fa-solid fa-users"></i><a href="#testimonials">Testimonials</a></li>
+                <a href="#home"><i class="fa-solid fa-house-user"></i><span >Home</span></a>
+                <a href="./view/enroll.php"><i class="fa-solid fa-bookmark"></i><span>enroll</span></a>
+                <a href="#notes"><i class="fa-solid fa-book"></i><span>Notes</span></a>
+                <a href="#testimonials"><i class="fa-solid fa-users"></i><span >Testimonials</span></a>
                 
             </ul>
               <button id="dark-mode-toggle" class="dark-mode-toggle">
@@ -207,8 +227,63 @@ if(isset($_POST['logout'])) {
                         </div>
                     </div>
                 </div>
+                
+
+                <div class="note-card" data-category="programming">
+                    <div class="note-image">
+                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                            alt="Java Notes">
+                        <span class="note-category note-title">Java</span>
+                    </div>
+                    <div class="note-content">
+                        <h3>Java Programming Essentials</h3>
+                        <p>Learn the core concepts of Java programming including OOP principles, exception handling,
+                            and collections.</p>
+                        <div class="note-stats">
+                            
+                            <span class="note-price">price: ₹ 14 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
+                        </div>
+                    </div>
+                </div>  
 
                 <!-- Note 4 -->
+                <div class="note-card" data-category="programming">
+                    <div class="note-image">
+                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                            alt="React Notes">
+                        <span class="note-category note-title">React</span>
+                    </div>
+                    <div class="note-content">
+                        <h3>React.js Fundamentals</h3>
+                        <p>Master the basics of React.js including components, state management, and hooks for building
+                            interactive UIs.</p>
+                        <div class="note-stats">
+                            
+                            <span class="note-price">price: ₹ 18 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-card" data-category="programming">
+                    <div class="note-image">
+                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                            alt="React Notes">
+                        <span class="note-category note-title">React</span>
+                    </div>
+                    <div class="note-content">
+                        <h3>React.js Fundamentals</h3>
+                        <p>Master the basics of React.js including components, state management, and hooks for building
+                            interactive UIs.</p>
+                        <div class="note-stats">
+                            
+                            <span class="note-price">price: ₹ 18 </span>
+                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="note-card" data-category="programming">
                     <div class="note-image">
                         <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
@@ -412,20 +487,20 @@ if(isset($_POST['logout'])) {
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#features">Features</a></li>
+                    <li><a href="./view/enroll.php">Enroll</a></li>
                     <li><a href="#notes">Notes</a></li>
                     <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#">Pricing</a></li>
+             
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>Subjects</h3>
                 <ul class="footer-links">
-                    <li><a href="#">Science</a></li>
-                    <li><a href="#">Mathematics</a></li>
-                    <li><a href="#">Humanities</a></li>
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Engineering</a></li>
+                    <li><a data-filter="Science">Science</a></li>
+                    <li><a data-filter="Mathematics">Mathematics</a></li>
+                    <li><a data-filter="programing">Programing</a></li>
+                    <li><a data-filter="Business">Business</a></li>
+                    <li><a data-filter="Engineering">Engineering</a></li>
                 </ul>
             </div>
             <div class="footer-col">

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Java Notes - Product View</title>
-    <link rel="stylesheet" href="../user_assets/css/view.css">
+    <link rel="stylesheet" href="../user_assets/css/view_book.css">
 </head>
 <body>
     <main>

@@ -1,61 +1,45 @@
+
+
 const hamburger = document.querySelector(".hamburger");
 const navLinks = document.querySelector(".nav-links");
 
-hamburger.addEventListener("click", () => {
+function toggleMobileMenu() {
   navLinks.classList.toggle("active");
   hamburger.innerHTML = navLinks.classList.contains("active")
-    ? '<i class="fas fa-times"></i>'
-    : '<i class="fas fa-times"></i>';
-});
+    ? '<i class="fa-solid fa-xmark"></i>'
+    : '<i class="fa-solid fa-bars"></i>';
+}
+
+hamburger.addEventListener("click", toggleMobileMenu);
 
 // Close mobile menu when clicking a link
 document.querySelectorAll(".nav-links a").forEach((link) => {
   link.addEventListener("click", () => {
     navLinks.classList.remove("active");
-    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
   });
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".hamburger")) {
+    toggleMobileMenu();
+  }
 });
 
 // Sticky Header
 const header = document.getElementById("header");
 
-window.addEventListener("scroll", () => {
-  const navLinks = document.querySelectorAll(".nav-links");
-
+function handleScroll() {
   if (window.scrollY > 100) {
     header.classList.add("scrolled");
-    navLinks.forEach((link) => link.classList.remove("active"));
-    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+    navLinks.classList.remove("active");
+    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
   } else {
     header.classList.remove("scrolled");
   }
-});
+}
 
-// Notes Filter
-const filterButtons = document.querySelectorAll(".filter-btn");
-const noteCards = document.querySelectorAll(".note-card");
-
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    // Remove active class from all buttons
-    filterButtons.forEach((btn) => btn.classList.remove("active"));
-    // Add active class to clicked button
-    button.classList.add("active");
-
-    const filterValue = button.getAttribute("data-filter");
-
-    noteCards.forEach((card) => {
-      if (
-        filterValue === "all" ||
-        card.getAttribute("data-category") === filterValue
-      ) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
-    });
-  });
-});
+window.addEventListener("scroll", handleScroll);
 
 // Testimonial Slider
 const testimonialSlides = document.querySelectorAll(".testimonial-slide");
@@ -191,21 +175,76 @@ function updateActiveButton() {
 displayTestimonials(currentPage);
 generatePaginationButtons();
 
-const mediaQuery = window.matchMedia("(max-width: 968px)");
+
+
+// User Menu Toggle for Mobile
 const userIcon = document.querySelector(".fa-user");
-if (mediaQuery.matches) {
-  userIcon.style.display = "block";
-} else {
-  userIcon.style.display = "none";
+if (userIcon) {
+  const userMenu = document.querySelector(".btn ul");
+  
+  function checkMobileMenu() {
+    if (window.matchMedia("(max-width: 968px)").matches) {
+      userIcon.style.display = "block";
+      userMenu.style.visibility = "hidden";
+    } else {
+      userIcon.style.display = "none";
+      userMenu.style.visibility = "visible";
+    }
+  }
+  
+  userIcon.addEventListener("click", () => {
+    userMenu.style.visibility = userMenu.style.visibility === "visible" 
+      ? "hidden" 
+      : "visible";
+  });
+  
+  window.addEventListener("resize", checkMobileMenu);
+  checkMobileMenu();
 }
 
-userIcon.addEventListener("click", () => {
-  const menu = document.querySelector(".btn ul");
-  if (menu.style.visibility === "hidden" || menu.style.visibility === "") {
-    menu.style.visibility = "visible";
-  } else {
-    menu.style.visibility = "hidden";
-  }
+// Search Functionality
+const searchInput = document.getElementById("search-data");
+if (searchInput) {
+  searchInput.addEventListener("input", function() {
+    const term = this.value.trim().toLowerCase();
+    const cards = document.querySelectorAll(".note-card");
+    
+    cards.forEach(card => {
+      const title = card.querySelector("h3")?.textContent.toLowerCase() || "";
+      const category = card.querySelector(".note-category")?.textContent.toLowerCase() || "";
+      
+      if (title.includes(term) || category.includes(term)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+
+      }
+    });
+  });
+}
+
+// Scroll Animations
+function animateOnScroll() {
+  const elements = document.querySelectorAll(".feature-card, .note-card");
+  const windowHeight = window.innerHeight;
+  
+  elements.forEach(el => {
+    const elementTop = el.getBoundingClientRect().top;
+    const revealPoint = 150;
+    
+    if (elementTop < windowHeight - revealPoint) {
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    }
+  });
+}
+
+// Initialize scroll animations
+document.querySelectorAll(".feature-card, .note-card").forEach(el => {
+  el.style.opacity = "0";
+  el.style.transform = "translateY(20px)";
+  el.style.transition = "all 0.5s ease";
 });
 
-
+window.addEventListener("scroll", animateOnScroll);
+window.addEventListener("load", animateOnScroll);

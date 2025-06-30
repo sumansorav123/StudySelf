@@ -33,14 +33,15 @@
 // });
 
 
+
 const hamburger = document.querySelector(".hamburger");
 const navLinks = document.querySelector(".nav-links");
 
 function toggleMobileMenu() {
   navLinks.classList.toggle("active");
   hamburger.innerHTML = navLinks.classList.contains("active")
-    ? '<i class="fas fa-times"></i>'
-    : '<i class="fas fa-bars"></i>';
+    ? '<i class="fa-solid fa-xmark"></i>'
+    : '<i class="fa-solid fa-bars"></i>';
 }
 
 hamburger.addEventListener("click", toggleMobileMenu);
@@ -49,8 +50,14 @@ hamburger.addEventListener("click", toggleMobileMenu);
 document.querySelectorAll(".nav-links a").forEach((link) => {
   link.addEventListener("click", () => {
     navLinks.classList.remove("active");
-    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
   });
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".hamburger")) {
+    toggleMobileMenu();
+  }
 });
 
 // Sticky Header
@@ -60,7 +67,7 @@ function handleScroll() {
   if (window.scrollY > 100) {
     header.classList.add("scrolled");
     navLinks.classList.remove("active");
-    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
   } else {
     header.classList.remove("scrolled");
   }

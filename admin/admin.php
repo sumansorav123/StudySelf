@@ -202,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
                                 <option value="4">Business</option>
                                 <option value="5">Engineering</option>
                             </select><br>
-                            <textarea name="description" placeholder="Enter note description" required></textarea><br>
+                            <textarea name="description" placeholder="Enter note description" maxlength="100" required></textarea><br>
                             <input type="file" name="file_path" accept=".pdf,.docx,.pptx" required><br>
                             <input type="file" name="thumbnail_path" accept="image/*" required><br>
                             <input type="file" name="demo1_path" accept="image/*" required><br>
@@ -259,11 +259,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['file_path'])) {
                 <tr>
                     <td><?php echo $note_id; ?></td>
                     <td><?php echo $title; ?></td>
-                    <td><?php echo $category_name; ?></td>
+                    <td class="title"><?php echo $category_name; ?></td>
                     <td><?php echo $uploaded_at; ?></td>
                     <td><?php echo $price ? '₹' . number_format($price, 2) : 'Free'; ?></td>
                     <td>
-                        <button class="action-btn view-btn">View</button>
+                        
                         <button class="action-btn edit-btn">Edit</button>
                         <button class="action-btn delete-btn">Delete</button>
                     </td>
