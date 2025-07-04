@@ -26,7 +26,7 @@ if(isset($_POST['logout'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudySelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../user_assets/css/styles.css">
+    <link rel="stylesheet" href="../user_assets/css/style.css">
    
  
 </head>
@@ -34,6 +34,7 @@ if(isset($_POST['logout'])) {
     header{
           background: linear-gradient(135deg,rgba(1, 15, 37, 0.9),rgba(0, 155, 190, 0.699));
     }
+
     
  .logout {
   width: 100px;
@@ -73,11 +74,11 @@ if(isset($_POST['logout'])) {
                 <span>StudySelf</span>
             </div>
               <ul class="nav-links">
-                <li><i class="fa-solid fa-house-user"></i><a href="#home">Home</a></li>
-                <li><i class="fa-solid fa-bookmark"></i><a href="./view/enroll.php">enroll</a></li>
-                <li><i class="fa-solid fa-book"></i><a href="#notes">Notes</a></li>
-                <li><i class="fa-solid fa-users"></i><a href="#testimonials">Testimonials</a></li>
-                <li><i class="fa-solid fa-address-book"></i><a href="#contact">Contact</a></li>
+                <a  href="../user_dashboard.php" ><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+                <!-- <a href="./view/enroll.php"><i class="fa-solid fa-bookmark"></i><span >enroll</span></a> -->
+                <a  href="#notes" ><i class="fa-solid fa-book"></i><span>Notes</span></a>
+                <a href="#testimonials"><i class="fa-solid fa-users"></i><span >Testimonials</span></a>
+                <a  href="#contact"><i class="fa-solid fa-address-book"></i><span>Contact</span></a>
             </ul>
               <button id="dark-mode-toggle" class="dark-mode-toggle">
                 <i class="fas fa-moon"></i> <!-- Moon icon for light mode -->

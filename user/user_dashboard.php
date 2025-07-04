@@ -25,7 +25,7 @@ if(isset($_POST['logout'])) {
     <title>StudySelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
    <!-- <link rel="stylesheet" href="./user_assets/css/style.css"> -->
-    <link rel="stylesheet" href="./user_assets/css/styles.css">
+    <link rel="stylesheet" href="./user_assets/css/style.css">
 
 </head>
 <style>
@@ -50,18 +50,29 @@ if(isset($_POST['logout'])) {
   color: var(--text-primary);
   font-weight: 700;
 }
-.notes-grid {
-     
-    gap: 2rem;
-    height: 100vh;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    display: flex;
-    flex-wrap: wrap;
-        justify-content: center;
+@media (max-width: 992px) {
+    .testimonial-list {
+        margin-bottom: 2rem;
+       
+    }
 }
-.note-card {
-      width: 270px;
+
+@media (max-width: 568px) {
+    .testimonial-list {
+        margin-bottom: 2rem;
+        width: 280px;
+    }
+     .testimonial-review {
+   margin-left: -20px;
+}
+
+
+}
+.testimonial-review {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -348,125 +359,107 @@ if(isset($_POST['logout'])) {
             <h2>Testimonials</h2>
             <p>Read what other students have to say about their experience with Studyself</p>
         </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Sarah L.</p>
-                    <p class="testimonial-role">Biology Major</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    Studyself's biology notes were a lifesaver! They were so well-organized and easy to understand,
-                    which made studying for my exams much less stressful.
-                </blockquote>
-         
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">John D.</p>
-                    <p class="testimonial-role">College Student</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The calculus notes were incredibly helpful for my advanced math course. The step-by-step solutions
-                    made even the most challenging problems seem manageable.
-                </blockquote>
 
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Emily R.</p>
-                    <p class="testimonial-role">High School Student</p>
+        <div class="testimonial-container">
+            <div class="testimonial-review">
+                                   <i class="fa-solid fa-arrow-up scrl"></i>
+                <div class="testimonial-list">
+                    <div class="testimonial-card">
+                        <div class="testimonail-name">
+                            <p><b>Name</b></p>
+                            <p><span>school name</span></p>
+                        </div>
+                        <div class="testimonial-message">
+                            <p>" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero inventore consequatur nostrum sunt modi nobis laudantium corporis animi alias. Vitae cupiditate dolorum fuga quo ullam ducimus magni perspiciatis, delectus consectetur? "</p>
+                        </div>
                     </div>
-                <blockquote class="testimonial-quote">
-                    I used the world history notes to prepare for my final exam and scored the highest in my class! The
-                    timelines and summaries were fantastic.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">David K.</p>
-                    <p class="testimonial-role">Computer Science Student</p>
+
+                     <div class="testimonial-card">
+                        <div class="testimonail-name">
+                            <p><b>Name</b></p>
+                            <p><span>school name</span></p>
+                        </div>
+                        <div class="testimonial-message">
+                            <p>" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero inventore consequatur nostrum sunt modi nobis laudantium corporis animi alias. Vitae cupiditate dolorum fuga quo ullam ducimus magni perspiciatis, delectus consectetur? "</p>
+                        </div>
+                     </div>    
+
+
+                     
+                     <div class="testimonial-card">
+                        <div class="testimonail-name">
+                            <p><b>Name</b></p>
+                            <p><span>school name</span></p>
+                        </div>
+                        <div class="testimonial-message">
+                            <p>" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero inventore consequatur nostrum sunt modi nobis laudantium corporis animi alias. Vitae cupiditate dolorum fuga quo ullam ducimus magni perspiciatis, delectus consectetur? "</p>
+                        </div>
+                     </div> 
+
+                     
+                     <div class="testimonial-card">
+                        <div class="testimonail-name">
+                            <p><b>Name</b></p>
+                            <p><span>school name</span></p>
+                        </div>
+                        <div class="testimonial-message">
+                            <p>" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero inventore consequatur nostrum sunt modi nobis laudantium corporis animi alias. Vitae cupiditate dolorum fuga quo ullam ducimus magni perspiciatis, delectus consectetur? "</p>
+                        </div>
+                     </div> 
+
+                     
+                     <div class="testimonial-card">
+                        <div class="testimonail-name">
+                            <p><b>Name</b></p>
+                            <p><span>school name</span></p>
+                        </div>
+                        <div class="testimonial-message">
+                            <p>" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero inventore consequatur nostrum sunt modi nobis laudantium corporis animi alias. Vitae cupiditate dolorum fuga quo ullam ducimus magni perspiciatis, delectus consectetur? "</p>
+                        </div>
+                     </div> 
+
+                     
+                     <div class="testimonial-card">
+                        <div class="testimonail-name">
+                            <p><b>Name</b></p>
+                            <p><span>school name</span></p>
+                        </div>
+                        <div class="testimonial-message">
+                            <p>" Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero inventore consequatur nostrum sunt modi nobis laudantium corporis animi alias. Vitae cupiditate dolorum fuga quo ullam ducimus magni perspiciatis, delectus consectetur? "</p>
+                        </div>
+                     </div> 
                 </div>
-                <blockquote class="testimonial-quote">
-                    The organic chemistry notes broke down complex reactions into easy-to-follow mechanisms. Definitely
-                    improved my understanding of the subject.
-                </blockquote>
+               
+
+                  <i class="fa-solid fa-arrow-down scrl"></i>
+   
+                 
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Laura W.</p>
-                    <p class="testimonial-role">Economics Major</p>
+
+            <div class="testimonial-form">
+                <div class="form-container">
+                    <h2>Feedback</h2>
+                    <form action="">
+                          <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" placeholder="enter your name" name="name">
+                     </div>
+                      <div class="form-group">
+                        <label for="education">Education:</label>
+                        <input type="text" placeholder="enter your name" name="education">
+                     </div>
+                       <div class="form-group">
+                        <label for="education">Message:</label>
+                        <textarea name="msg" id="msg" rows="3"></textarea>
+                     </div>
+                     <input type="submit" name="submit" class="rev-btn">
+                    </form>
+                     
                 </div>
-                <blockquote class="testimonial-quote">
-                    The microeconomics notes provided a clear and concise overview of key concepts. Helped me grasp the
-                    fundamentals quickly.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Michael R.</p>
-                    <p class="testimonial-role">Data Science Student</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The statistics notes were excellent for brushing up on concepts before my data analysis project.
-                    Well-explained and easy to reference.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Sophia T.</p>
-                    <p class="testimonial-role">High School Student</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    I found the software engineering notes incredibly helpful for understanding system design
-                    principles. Highly recommended for CS students.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                <p class="testimonial-author">Daniel S.</p>
-                <p class="testimonial-role">Marketing Intern</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The marketing strategy notes gave me practical insights that I could immediately apply to my
-                    internship. Very valuable resource!
-                </blockquote>
-            
-            </div>
-             <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Michael R.</p>
-                    <p class="testimonial-role">Data Science Student</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The statistics notes were excellent for brushing up on concepts before my data analysis project.
-                    Well-explained and easy to reference.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Sophia T.</p>
-                    <p class="testimonial-role">High School Student</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    I found the software engineering notes incredibly helpful for understanding system design
-                    principles. Highly recommended for CS students.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                <p class="testimonial-author">Daniel S.</p>
-                <p class="testimonial-role">Marketing Intern</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The marketing strategy notes gave me practical insights that I could immediately apply to my
-                    internship. Very valuable resource!
-                </blockquote>
-            
             </div>
         </div>
-      <div class="testimonial-pagination" id="testimonial-pagination">
             
-        </div>
+        
     </section>
     
     <!-- Footer -->
@@ -517,7 +510,7 @@ if(isset($_POST['logout'])) {
     </footer>
 
 </body>
-<script src="./user_assets/js/script.js"></script>
+<script src="./user_assets/js/user_dashboad.js"></script>
 <script>
   let notesOpen = document.querySelector('.note-card');
   notesOpen.addEventListener('click',() =>{
@@ -557,6 +550,21 @@ const darkModeToggle = document.getElementById('dark-mode-toggle');
 if (darkModeToggle) {
   darkModeToggle.addEventListener('click', toggleDarkMode);
 }
+</script>
+
+
+<script>
+    let up = document.querySelector('.fa-arrow-up');
+    let down = document.querySelector('.fa-arrow-down');
+    let testimonial = document.querySelector('.testimonial-list');
+
+    up.addEventListener('click', () => {
+        testimonial.scrollTop += 100;
+    });
+
+    down.addEventListener('click', () => {
+        testimonial.scrollTop -= 100; 
+    });
 </script>
 
 

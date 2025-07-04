@@ -4,8 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Java Notes - Product View</title>
-    <link rel="stylesheet" href="../user_assets/css/view_book.css">
+    <link rel="stylesheet" href="../user_assets/css/views.css">
 </head>
+<style>
+    .notes-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+ .card img{
+                width: -webkit-fill-available;
+    }
+      .card {
+      background: #ffff;
+      padding: 20px 20px 20px 20px;
+      width: 300px;
+      border-radius: 12px;
+      box-shadow: 2px 2px 4px 4px #dbdbdb;
+      
+  }
+
+  @media (max-width:568px) {
+    .card{
+        width: 300px;
+    }
+    .card img{
+                width: -webkit-fill-available;
+    }
+    
+  }
+
+  .content h4 {
+      color: #003b74;
+      font-size: 25px;
+  }
+  .content p {
+    color:gray;
+    font-size:14px;
+  }
+  .price{
+        display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top:15px;
+  }
+  .price p{
+        color: #004e7e;
+  }
+  .price button{
+        padding: 4px;
+    border: none;
+    background: #014b86;
+    color: #fff;
+    border-radius: 5px;
+    width: 100px;
+    cursor: pointer;
+  }
+</style>
 <body>
     <main>
         <div class="container">
@@ -39,6 +95,53 @@
                   <div class="actions">
                       <button class="btn btn-secondary" onclick="buyNow()">Download</button>
                   </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="suggest">
+          
+            <div class="notes-list">
+                <div class="notes-card">
+                    <div class="card">
+                        <img src="https://tse4.mm.bing.net/th/id/OIP.4kSdlOKEQqdYroo_Bdg_dAHaEK?pid=Api&P=0&h=180" alt="">
+                        <div class="content">
+                            <h4>title</h4>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur amet asperiores odit, laudantium tempora ipsam provident delectus iure, rem natus aperiam ea, nobis quasi tenetur beatae id minima distinctio ex.</p>
+                        </div>
+                        <div class="price">
+                            <p>Price : <b>34</b></p>
+                             <button type="button">Download</button>
+                        </div>
+                       
+                    </div>
+
+                     <div class="card">
+                        <img src="https://tse2.mm.bing.net/th/id/OIP.29oTLzeQn5MIQjnX6tqauwHaEK?pid=Api&P=0&h=180" alt="">
+                        <div class="content">
+                            <h4>title</h4>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur amet asperiores odit, laudantium tempora ipsam provident delectus iure, rem natus aperiam ea, nobis quasi tenetur beatae id minima distinctio ex.</p>
+                        </div>
+                        <div class="price">
+                            <p>Price : <b>34</b></p>
+                             <button type="button">Download</button>
+                        </div>
+                       
+                    </div>
+
+                     <div class="card">
+                        <img src="https://tse4.mm.bing.net/th/id/OIP.t6WIW8KEM-3rQT6REb1OYAHaEO?pid=Api&P=0&h=180" alt="">
+                        <div class="content">
+                            <h4>title</h4>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur amet asperiores odit, laudantium tempora ipsam provident delectus iure, rem natus aperiam ea, nobis quasi tenetur beatae id minima distinctio ex.</p>
+                        </div>
+                        <div class="price">
+                            <p>Price : <b>34</b></p>
+                             <button type="button">Download</button>
+                        </div>
+                       
+                    </div>
+                </div>
             </div>
         </div>
    </main>

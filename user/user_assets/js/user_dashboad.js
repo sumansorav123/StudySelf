@@ -75,139 +75,139 @@ function handleScroll() {
 
 window.addEventListener("scroll", handleScroll);
 
-// Testimonial Slider
-const testimonialSlides = document.querySelectorAll(".testimonial-slide");
-const sliderDots = document.querySelectorAll(".slider-dot");
-let currentSlide = 0;
+// // Testimonial Slider
+// const testimonialSlides = document.querySelectorAll(".testimonial-slide");
+// const sliderDots = document.querySelectorAll(".slider-dot");
+// let currentSlide = 0;
 
-function showSlide(index) {
-  testimonialSlides.forEach((slide) => slide.classList.remove("active"));
-  sliderDots.forEach((dot) => dot.classList.remove("active"));
+// function showSlide(index) {
+//   testimonialSlides.forEach((slide) => slide.classList.remove("active"));
+//   sliderDots.forEach((dot) => dot.classList.remove("active"));
 
-  testimonialSlides[index].classList.add("active");
-  sliderDots[index].classList.add("active");
-  currentSlide = index;
-}
+//   testimonialSlides[index].classList.add("active");
+//   sliderDots[index].classList.add("active");
+//   currentSlide = index;
+// }
 
-sliderDots.forEach((dot, index) => {
-  dot.addEventListener("click", () => {
-    showSlide(index);
-  });
-});
+// sliderDots.forEach((dot, index) => {
+//   dot.addEventListener("click", () => {
+//     showSlide(index);
+//   });
+// });
 
-// Auto slide change
-setInterval(() => {
-  currentSlide = (currentSlide + 1) % testimonialSlides.length;
-  showSlide(currentSlide);
-}, 5000);
+// // Auto slide change
+// setInterval(() => {
+//   currentSlide = (currentSlide + 1) % testimonialSlides.length;
+//   showSlide(currentSlide);
+// }, 5000);
 
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
+// // Smooth scrolling for anchor links
+// document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+//   anchor.addEventListener("click", function (e) {
+//     e.preventDefault();
 
-    const targetId = this.getAttribute("href");
-    if (targetId === "#") return;
+//     const targetId = this.getAttribute("href");
+//     if (targetId === "#") return;
 
-    const targetElement = document.querySelector(targetId);
-    if (targetElement) {
-      window.scrollTo({
-        top: targetElement.offsetTop - 80,
-        behavior: "smooth",
-      });
-    }
-  });
-});
+//     const targetElement = document.querySelector(targetId);
+//     if (targetElement) {
+//       window.scrollTo({
+//         top: targetElement.offsetTop - 80,
+//         behavior: "smooth",
+//       });
+//     }
+//   });
+// });
 
-// Animation on scroll
-function animateOnScroll() {
-  const elements = document.querySelectorAll(
-    ".feature-card, .note-card, .testimonial-slide"
-  );
+// // Animation on scroll
+// function animateOnScroll() {
+//   const elements = document.querySelectorAll(
+//     ".feature-card, .note-card, .testimonial-slide"
+//   );
 
-  elements.forEach((element) => {
-    const elementPosition = element.getBoundingClientRect().top;
-    const screenPosition = window.innerHeight / 1.2;
+//   elements.forEach((element) => {
+//     const elementPosition = element.getBoundingClientRect().top;
+//     const screenPosition = window.innerHeight / 1.2;
 
-    if (elementPosition < screenPosition) {
-      element.style.opacity = "1";
-      element.style.transform = "translateY(0)";
-    }
-  });
-}
+//     if (elementPosition < screenPosition) {
+//       element.style.opacity = "1";
+//       element.style.transform = "translateY(0)";
+//     }
+//   });
+// }
 
-// Set initial state for animated elements
-document.querySelectorAll(".feature-card, .note-card").forEach((element) => {
-  element.style.opacity = "0";
-  element.style.transform = "translateY(20px)";
-  element.style.transition = "all 0.5s ease";
-});
+// // Set initial state for animated elements
+// document.querySelectorAll(".feature-card, .note-card").forEach((element) => {
+//   element.style.opacity = "0";
+//   element.style.transform = "translateY(20px)";
+//   element.style.transition = "all 0.5s ease";
+// });
 
-window.addEventListener("scroll", animateOnScroll);
-window.addEventListener("load", animateOnScroll);
+// window.addEventListener("scroll", animateOnScroll);
+// window.addEventListener("load", animateOnScroll);
 
-// Testimonial Pagination Logic
-const testimonialGrid = document.querySelector(".testimonials-grid");
-const testimonialCards = document.querySelectorAll(".testimonial-card");
-const paginationContainer = document.getElementById("testimonial-pagination");
-const testimonialsPerPage = 3;
-let currentPage = 1;
+// // Testimonial Pagination Logic
+// const testimonialGrid = document.querySelector(".testimonials-grid");
+// const testimonialCards = document.querySelectorAll(".testimonial-card");
+// const paginationContainer = document.getElementById("testimonial-pagination");
+// const testimonialsPerPage = 3;
+// let currentPage = 1;
 
-function displayTestimonials(page) {
-  const startIndex = (page - 1) * testimonialsPerPage;
-  const endIndex = startIndex + testimonialsPerPage;
+// function displayTestimonials(page) {
+//   const startIndex = (page - 1) * testimonialsPerPage;
+//   const endIndex = startIndex + testimonialsPerPage;
 
-  testimonialCards.forEach((card, index) => {
-    if (index >= startIndex && index < endIndex) {
-      card.style.display = "grid";
-    } else {
-      card.style.display = "none";
-    }
-  });
-}
+//   testimonialCards.forEach((card, index) => {
+//     if (index >= startIndex && index < endIndex) {
+//       card.style.display = "grid";
+//     } else {
+//       card.style.display = "none";
+//     }
+//   });
+// }
 
-function generatePaginationButtons() {
-  const totalPages = Math.ceil(testimonialCards.length / testimonialsPerPage);
-  paginationContainer.innerHTML = "";
+// function generatePaginationButtons() {
+//   const totalPages = Math.ceil(testimonialCards.length / testimonialsPerPage);
+//   paginationContainer.innerHTML = "";
 
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement("button");
-    button.textContent = i;
-    if (i === currentPage) {
-      button.classList.add("active");
-    }
-    button.addEventListener("click", () => {
-      currentPage = i;
-      displayTestimonials(currentPage);
-      updateActiveButton();
-    });
-    paginationContainer.appendChild(button);
-  }
+//   for (let i = 1; i <= totalPages; i++) {
+//     const button = document.createElement("button");
+//     button.textContent = i;
+//     if (i === currentPage) {
+//       button.classList.add("active");
+//     }
+//     button.addEventListener("click", () => {
+//       currentPage = i;
+//       displayTestimonials(currentPage);
+//       updateActiveButton();
+//     });
+//     paginationContainer.appendChild(button);
+//   }
 
-  // Add "Next" button if there are more pages
-  if (totalPages > 1) {
-    const nextButton = document.createElement("button");
-    nextButton.textContent = "Next";
-    nextButton.addEventListener("click", () => {
-      if (currentPage < totalPages) {
-        currentPage++;
-        displayTestimonials(currentPage);
-        updateActiveButton();
-      }
-    });
-    paginationContainer.appendChild(nextButton);
-  }
-}
+//   // Add "Next" button if there are more pages
+//   if (totalPages > 1) {
+//     const nextButton = document.createElement("button");
+//     nextButton.textContent = "Next";
+//     nextButton.addEventListener("click", () => {
+//       if (currentPage < totalPages) {
+//         currentPage++;
+//         displayTestimonials(currentPage);
+//         updateActiveButton();
+//       }
+//     });
+//     paginationContainer.appendChild(nextButton);
+//   }
+// }
 
-function updateActiveButton() {
-  const buttons = paginationContainer.querySelectorAll("button");
-  buttons.forEach((button) => button.classList.remove("active"));
-  buttons[currentPage - 1]?.classList.add("active"); // Select the correct numbered button
-}
+// function updateActiveButton() {
+//   const buttons = paginationContainer.querySelectorAll("button");
+//   buttons.forEach((button) => button.classList.remove("active"));
+//   buttons[currentPage - 1]?.classList.add("active"); // Select the correct numbered button
+// }
 
-// Initial setup
-displayTestimonials(currentPage);
-generatePaginationButtons();
+// // Initial setup
+// displayTestimonials(currentPage);
+// generatePaginationButtons();
 
 
 
