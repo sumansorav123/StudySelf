@@ -4,8 +4,8 @@ session_start();
 // if set session then enter userdashboard
 
 if(!isset($_SESSION['username'])) {
-      echo '<script>window.location.href = "../index.php";</script>';
-    exit();
+      header("Location: ../index.php");
+      exit();
 }
 ?>
 <!-- logout and session destroy -->
