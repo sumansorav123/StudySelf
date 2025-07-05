@@ -17,7 +17,27 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
      <link rel="stylesheet" href="./assets/css/index.css">
 </head>
 <style>
- 
+/* scroll bar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+/* end scroll bar */
+
 </style>
 
 <body>

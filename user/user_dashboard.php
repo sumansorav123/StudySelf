@@ -4,8 +4,8 @@ session_start();
 // if set session then enter userdashboard
 
 if(!isset($_SESSION['username'])) {
-      echo '<script>window.location.href = "../index.php";</script>';
-    exit();
+      header("Location: ../index.php");
+      exit();
 }
 ?>
 <!-- logout and session destroy -->
@@ -17,6 +17,16 @@ if(isset($_POST['logout'])) {
     exit();
 }
 ?>
+
+<!-- notes open -->
+ <?php
+// open notes view page
+if(isset($_POST['notes_btn'])) {
+    $note_id = $_POST['note_id'];
+    header("Location: ./view/notes_view.php?note_id=" . urlencode($note_id));
+    exit();
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,11 +84,26 @@ if(isset($_POST['logout'])) {
     justify-content: center;
     align-items: center;
 }
+/* scroll bar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
 
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
 
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
 
-
-
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+/* end scroll bar */
 </style>
 <body>
      <!-- Header -->
@@ -177,178 +202,49 @@ if(isset($_POST['logout'])) {
                  </form>
             </div>
             <div class="notes-grid ">
-                <!-- Note 1 -->
-                <div class="note-card" data-category="programming" >
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="JavaScript Notes">
-                        <span class="note-category">Python</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>Python </h3>
-                        <p>
-                            Comprehensive guide to JavaScript fundamentals including variables, functions, and DOM
-                            manipulation.
-                        </p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 39 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
-        
+              <?php
+    $notes_result = $connection->query("SELECT * FROM notes ORDER BY uploaded_at DESC");
+    if ($notes_result->num_rows > 0) {
+        while ($row = $notes_result->fetch_assoc()) {
+            $note_id = htmlspecialchars($row['id']);
+            $title = htmlspecialchars($row['title']);
+            $price = htmlspecialchars($row['price']);
+            $uploaded_at = htmlspecialchars($row['uploaded_at']);
+            $category_id = htmlspecialchars($row['category_id']);
+            $thumbnail = htmlspecialchars($row['thumbnail_path']);
 
-        
-                <!-- Note 2 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="JavaScript Notes">
-                        <span class="note-category note-title">JavaScript</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>JavaScript Basics</h3>
-                        <p>
-                            Comprehensive guide to JavaScript fundamentals including variables, functions, and DOM
-                            manipulation.
-                        </p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 12 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
+            // Fetch category name
+            $category_name = "Unknown Category";
+            $category_query = $connection->query("SELECT name FROM categories WHERE id = $category_id");
+            if ($category_query && $category_query->num_rows > 0) {
+                $category_row = $category_query->fetch_assoc();
+                $category_name = htmlspecialchars($category_row['name']);
+            }
+    ?>
+        <div class="note-card" data-category="<?php echo strtolower($category_name); ?>">
+            <div class="note-image">
+                <img src="<?php echo '../admin/' . $thumbnail; ?>" alt="<?php echo $title; ?>" width="100px" height="200px">
+                <span class="note-category"><?php echo $category_name; ?></span>
+            </div>
+            <div class="note-content">
+                <h3><?php echo $title; ?></h3>
+                <p>
+                    A detailed note on <?php echo $category_name; ?> concepts.
+                </p>
+                <div class="note-stats">
+                    <span class="note-price">Price: ₹<?php echo $price; ?></span>
+                    <a href="./view/notes_view.php?id=<?php echo $note_id; ?>" class="btn-download">
+                        View Note <i class="fa-solid fa-download" style="color: #eaeef5;"></i>
+                    </a>
                 </div>
-                <!-- Note 3 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="Java Notes">
-                        <span class="note-category note-title">Java</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>Java Programming Essentials</h3>
-                        <p>Learn the core concepts of Java programming including OOP principles, exception handling,
-                            and collections.</p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 14 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
-                
-
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="Java Notes">
-                        <span class="note-category note-title">Java</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>Java Programming Essentials</h3>
-                        <p>Learn the core concepts of Java programming including OOP principles, exception handling,
-                            and collections.</p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 14 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>  
-
-                <!-- Note 4 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="React Notes">
-                        <span class="note-category note-title">React</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>React.js Fundamentals</h3>
-                        <p>Master the basics of React.js including components, state management, and hooks for building
-                            interactive UIs.</p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 18 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="React Notes">
-                        <span class="note-category note-title">React</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>React.js Fundamentals</h3>
-                        <p>Master the basics of React.js including components, state management, and hooks for building
-                            interactive UIs.</p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 18 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="React Notes">
-                        <span class="note-category note-title">React</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>React.js Fundamentals</h3>
-                        <p>Master the basics of React.js including components, state management, and hooks for building
-                            interactive UIs.</p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 18 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Note 5 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image ">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="SQL Notes">
-                        <span class="note-category note-title">SQL</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>SQL programming Management</h3>
-                        <p>Learn SQL basics, and advanced queries for effective data management and
-                            analysis.</p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 15 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Note 6 -->
-                <div class="note-card" data-category="10thbiharBoad">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="10th Bihar Boad Notes">
-                        <span class="note-category note-title">Physics</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>10th Bihar Boad Physics Notes</h3>
-                        <p>testimonial-detailed notes covering key concepts in physics for 10th-grade students,  and thermodynamics.</p>
-                        <div class="note-stats">
-                            
-                            <span class="note-price">price: ₹ 10 </span>
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
-               
+            </div>
+        </div>
+    <?php
+        }
+    } else {
+        echo "<p>There are no posts uploaded yet.</p>";
+    }
+    ?>  
             </div>
         </div>
     </section>
@@ -512,10 +408,10 @@ if(isset($_POST['logout'])) {
 </body>
 <script src="./user_assets/js/user_dashboad.js"></script>
 <script>
-  let notesOpen = document.querySelector('.note-card');
-  notesOpen.addEventListener('click',() =>{
-    window.location.href = "./view/notes_view.php" 
-  });
+//   let notesOpen = document.querySelector('.note-card');
+//   notesOpen.addEventListener('click',() =>{
+//     window.location.href = "./view/notes_view.php" 
+//   });
 
 
 // Function to toggle dark mode
