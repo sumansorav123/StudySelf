@@ -6,10 +6,6 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
   header("Location: user/user_dashboard.php");
   exit();
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 38f4abb1611297834920d6d920bf3e3bc42f656e
 ?>
 <!DOCTYPE html>
 <html lang="en">
