@@ -37,7 +37,21 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
   background: #555;
 }
 /* end scroll bar */
-
+.right-link{
+        position: fixed;
+    right: 0;
+    background: orange;
+    padding: 5px;
+    border-radius: 5px;
+    writing-mode: sideways-lr;
+}
+  .right-link a{
+    color: #ff;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
+  }
 </style>
 
 <body>
@@ -85,6 +99,9 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
 
     <!-- Hero Section -->
     <section class="hero" id="home">
+          <div class="right-link">
+        <a href="./store/store.php">StudySelf Store</a>
+    </div>
         <div class="hero-content">
             <div class="hero-text">
                 <h1 style="padding:2px 0px ">Premium Study Notes for Academic <span style="color: #27AE60;"> Success </span> </h1>

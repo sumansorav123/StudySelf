@@ -178,15 +178,3 @@
 
   }
 
-  .card {
-      background: #ffff;
-      padding: 20px 20px 20px 20px;
-      width: 350px;
-      border-radius: 12px;
-      box-shadow: 2px 2px 4px 4px #dbdbdb;
-  }
-
-  .content h4 {
-      color: #003b74;
-      font-size: 25px;
-  }
