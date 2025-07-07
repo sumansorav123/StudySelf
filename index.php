@@ -46,12 +46,58 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
     writing-mode: sideways-lr;
 }
   .right-link a{
-    color: #ff;
     color: #fff;
     text-decoration: none;
     padding: 10px;
     cursor: pointer;
   }
+
+        
+/* Dark Mode Styles */
+[data-theme="dark"] {
+  --primary: #38bdf8;
+  --secondary: #f59e0b;
+  --accent: #0ea5e9;
+  --success: #34d399;
+  --danger: #f87171;
+  --bg: #0f172a;
+  --text-primary:rgb(36, 33, 33);
+  --text-secondary: #94a3b8;
+  --border: #334155;
+  --heading: #ffffff;
+}
+
+/* Dark mode toggle button styles */
+.dark-mode-toggle {
+  background: transparent;
+  border: 1px solid;
+  color: #f9f9f9;
+  cursor: pointer;
+  font-size: 1.6rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 50px;
+  position: fixed;
+  bottom: 5%;
+  left: 20px;
+  background: #292828;
+  z-index: 1000;
+}
+
+/* Icon visibility control */
+.dark-mode-toggle .fa-sun {
+  display: none;
+}
+
+[data-theme="dark"] .dark-mode-toggle .fa-moon {
+  display: none;
+}
+
+[data-theme="dark"] .dark-mode-toggle .fa-sun {
+  display: block;
+}
 </style>
 
 <body>
@@ -533,26 +579,67 @@ function handleScroll() {
 
 window.addEventListener("scroll", handleScroll);
 
+
+</script>
+<script>
+      // Dark Mode Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const html = document.documentElement;
+        
+        // Initialize theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                html.setAttribute('data-theme', 'dark');
+            }
+            updateToggleIcon();
+        }
+        
+        // Toggle theme
+        function toggleTheme() {
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateToggleIcon();
+        }
+        
+        // Update toggle icon
+        function updateToggleIcon() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const moonIcon = darkModeToggle.querySelector('.fa-moon');
+            const sunIcon = darkModeToggle.querySelector('.fa-sun');
+            
+            moonIcon.style.display = isDark ? 'none' : 'inline';
+            sunIcon.style.display = isDark ? 'inline' : 'none';
+        }
+        
+        // Initialize
+        initTheme();
+        
+        // Event listener
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Watch for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) {
+                    html.setAttribute('data-theme', 'dark');
+                } else {
+                    html.removeAttribute('data-theme');
+                }
+                updateToggleIcon();
+            }
+        });
+    });
     
-// Dark Mode Toggle
-const darkModeToggle = document.querySelector(".dark-mode-toggle");
-darkModeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-  darkModeToggle.classList.toggle("active");
-  
-  // Change icon based on mode
-  const moonIcon = darkModeToggle.querySelector(".fa-moon");
-  const sunIcon = darkModeToggle.querySelector(".fa-sun");
-  
-  if (document.body.classList.contains("dark-mode")) {
-    moonIcon.style.display = "none";
-    sunIcon.style.display = "inline";
-  } else {
-    moonIcon.style.display = "inline";
-    sunIcon.style.display = "none";
-  }
-});
-
-
 </script>
 </html>

@@ -44,7 +44,7 @@ if(isset($_POST['notes_btn'])) {
             border: 2px solid #fff;
             font-weight: 600;
             background: transparent;
-            color: #fff;
+            color:var(--heading);
             letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.4s linear;
@@ -55,40 +55,38 @@ if(isset($_POST['notes_btn'])) {
             color: var(--text-primary);
             font-weight: 700;
         }
+          
+        
+[data-theme="dark"] {
+  --primary: #38bdf8;       /* Brighter, more vibrant blue */
+  --secondary: #f59e0b;     /* Slightly warmer orange */
+  --accent: #0ea5e9;        /* Deep sky blue */
+  --success: #34d399;       /* Softer green */
+  --danger: #f87171;        /* Softer red */
+  --bg: #0f172a;            /* Deep navy blue instead of pure black */
+  /* --card-bg: #1e293b;       Slightly lighter navy for cards */
+  --text-primary:rgb(90, 87, 87);   /* Very light gray (almost white) */
+  --text-secondary: #94a3b8; /* Medium gray for secondary text */
+  --border: #334155;         /* Dark gray-blue for borders */
+  --heading:#ffff;
+    color:#fff;
 
-        /* Dark mode toggle styles */
-        .dark-mode-toggle {
-            background: transparent;
-            border: 1px solid;
-            color: #f9f9f9;
-            cursor: pointer;
-            font-size: 1.6rem;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-radius: 50px;
-            position: fixed;
-            bottom: 5%;
-            left: 20px;
-            background: #292828;
-            z-index: 999;
-        }
+}
 
-        /* Hide the sun icon by default */
-        .dark-mode-toggle .fa-sun {
-            display: none;
-        }
 
-        /* In dark mode, hide moon and show sun */
-        [data-theme="dark"] .dark-mode-toggle .fa-moon {
-            display: none;
-        }
+/* Hide the sun icon by default */
+.dark-mode-toggle .fa-sun {
+  display: none;
+}
 
-        [data-theme="dark"] .dark-mode-toggle .fa-sun {
-            display: block;
-        }
+/* In dark mode, hide moon and show sun */
+[data-theme="dark"] .dark-mode-toggle .fa-moon {
+  display: none;
+}
 
+[data-theme="dark"] .dark-mode-toggle .fa-sun {
+  display: block;
+}
         /* Floating animation for hero notes */
         @keyframes float {
             0%, 100% {
@@ -201,11 +199,13 @@ if(isset($_POST['notes_btn'])) {
     writing-mode: sideways-lr;
 }
   .right-link a{
-    color: #ff;
     color: #fff;
     text-decoration: none;
     padding: 10px;
     cursor: pointer;
+  }
+  .testimonials{
+    background:transparent;
   }
     </style>
 </head>
@@ -408,7 +408,8 @@ if(isset($_POST['notes_btn'])) {
                         </div>
                         <div class="form-group">
                             <label for="msg" class="lbl">Your Experience:</label>
-                            <textarea name="msg" id="msg" class="ipt" placeholder="Share your story..." required></textarea>
+                        <textarea name="msg" id="msg" class="ipt" placeholder="Share your story..." maxlength="100" required></textarea>
+
                         </div>
                         <button type="submit" class="submit-btn" id="submit-btn">Submit Testimonial</button>
                     </form>
@@ -528,58 +529,60 @@ if(isset($_POST['notes_btn'])) {
 
     <script src="./user_assets/js/user_dashboad.js"></script>
     <script>
-        // Dark mode functionality
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            
-            if (currentTheme === 'dark') {
-                html.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Check for saved user preference or system preference
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        }
-
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', loadTheme);
-
-        // Add event listener to dark mode toggle button
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        if (darkModeToggle) {
-            darkModeToggle.addEventListener('click', toggleDarkMode);
-        }
-
-        // Mobile menu toggle
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
+    // Dark mode functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme on page load
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    }
+
+    // Toggle dark mode
+    function toggleDarkMode() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        
+        if (currentTheme === 'dark') {
+            html.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    // Load the initial theme
+    loadTheme();
+
+    // Add event listener to dark mode toggle button
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+    }
+
+    // Rest of your existing JavaScript code...
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
         });
+    });
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-     
-
-        // Search functionality
-        const searchInput = document.getElementById('search-data');
+    // Search functionality
+    const searchInput = document.getElementById('search-data');
+    if (searchInput) {
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
             const noteCards = document.querySelectorAll('.note-card');
@@ -595,36 +598,38 @@ if(isset($_POST['notes_btn'])) {
                 }
             });
         });
+    }
 
-        // Filter functionality
-        document.querySelectorAll('[data-filter]').forEach(filter => {
-            filter.addEventListener('click', function() {
-                const filterValue = this.getAttribute('data-filter').toLowerCase();
-                const noteCards = document.querySelectorAll('.note-card');
+    // Filter functionality
+    document.querySelectorAll('[data-filter]').forEach(filter => {
+        filter.addEventListener('click', function() {
+            const filterValue = this.getAttribute('data-filter').toLowerCase();
+            const noteCards = document.querySelectorAll('.note-card');
+            
+            noteCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
                 
-                noteCards.forEach(card => {
-                    const cardCategory = card.getAttribute('data-category');
-                    
-                    if (filterValue === 'all' || cardCategory.includes(filterValue)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                if (filterValue === 'all' || cardCategory.includes(filterValue)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
+    });
 
-
-        const submit = document.querySelector("#submit-btn");
-const alert = document.querySelector(".testimonial-alert");
-
-submit.addEventListener("click", () => {
-    alert.style.display = "block";
-    setTimeout(() => {
-        alert.style.display = "none";
-    }, 3000);
+    const submit = document.querySelector("#submit-btn");
+    const alert = document.querySelector(".testimonial-alert");
+    
+    if (submit && alert) {
+        submit.addEventListener("click", () => {
+            alert.style.display = "block";
+            setTimeout(() => {
+                alert.style.display = "none";
+            }, 3000);
+        });
+    }
 });
-
     </script>
 
 </body>
