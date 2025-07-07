@@ -27,6 +27,38 @@ if(isset($_POST['notes_btn'])) {
     exit();
 }
  ?>
+
+ <!-- testimonials database -->
+ <?php
+    // inset testimonials
+    if (isset($_POST['testimonial_submit'])) {
+    $name = htmlspecialchars($_POST['name']);
+    $education = htmlspecialchars($_POST['education']);
+    $email = htmlspecialchars($_POST['email']);
+    $msg = htmlspecialchars($_POST['msg']);
+
+    // Validate inputs
+    if (empty($name) || empty($education) || empty($email) || empty($msg)) {
+        $_SESSION['testimonial_error'] = "All fields are required.";
+    } else {
+        $stmt = $connection->prepare("INSERT INTO testimonials (name, education, email, message) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $name, $education, $email, $msg);
+
+        if ($stmt->execute()) {
+            $_SESSION['testimonial_success'] = true;
+        } else {
+            $_SESSION['testimonial_error'] = "Error submitting testimonial. Please try again.";
+        }
+
+        $stmt->close();
+    }
+
+    // Redirect to prevent duplicate submission
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -355,7 +387,7 @@ if(isset($_POST['notes_btn'])) {
         </div>
     </section>
 
-    <!-- Testimonials Section -->
+     <!-- Testimonials Section -->
     <section class="testimonials" id="testimonials">
         <div class="section-title">
             <h2>Testimonials</h2>
@@ -387,97 +419,72 @@ if(isset($_POST['notes_btn'])) {
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <form action=" " method="POST" id="testimonialForm">
-                        <div class="form-group">
-                            <label for="name" class="lbl">Name:</label>
-                            <input type="text" name="name" id="name" class="ipt" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="education" class="lbl">Education Level:</label>
-                            <select name="education" id="education" class="ipt" required>
-                                <option value="">Select your level</option>
-                                <option value="High School">High School</option>
-                                <option value="Undergraduate">Undergraduate</option>
-                                <option value="Graduate">Graduate</option>
-                                <option value="Professional">Professional</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="lbl">Email:</label>
-                            <input type="email" name="email" id="email" class="ipt" placeholder="your@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="msg" class="lbl">Your Experience:</label>
-                        <textarea name="msg" id="msg" class="ipt" placeholder="Share your story..." maxlength="100" required></textarea>
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST" id="testimonialForm">
+    <div class="form-group">
+        <label for="name" class="lbl">Name:</label>
+        <input type="text" name="name" id="name" class="ipt" placeholder="Your name" required>
+    </div>
+    <div class="form-group">
+        <label for="education" class="lbl">Education Level:</label>
+        <select name="education" id="education" class="ipt" required>
+            <option value="">Select your level</option>
+            <option value="High School">High School</option>
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Graduate">Graduate</option>
+            <option value="Professional">Professional</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="email" class="lbl">Email:</label>
+        <input type="email" name="email" id="email" class="ipt" placeholder="your@email.com" required>
+    </div>
+    <div class="form-group">
+        <label for="msg" class="lbl">Your Experience:</label>
+        <textarea name="msg" id="msg" class="ipt" placeholder="Share your story..." required></textarea>
+    </div>
+    <input type="submit" name="testimonial_submit"  value="Submit Testimonial">
+</form>
 
-                        </div>
-                        <button type="submit" class="submit-btn" id="submit-btn">Submit Testimonial</button>
-                    </form>
                 </div>
-            </div>
-            
+            </div>            
             <div class="testimonial-msg">
-                <h2>What Our Students Say</h2>
-               <div class="testimonial-list">
-                 <div class="testimonial-hanging active" style="--delay: 0">
-                    
-                    <div class="hanging-card">
-                        <div class="user-info">
-                            <div class="user-avatar">JS</div>
-                            <h4>John Smith</h4>
-                            <span>Computer Science</span>
-                        </div>
-                        <div class="testimonial-text">
-                            <p>"Studyself transformed my learning approach completely. The personalized plans helped me improve my grades significantly!"</p>
-                        </div>
-                     
+    <h2>What Our Students Say</h2>
+    <div class="testimonial-list">
+        <?php
+        // Fetch testimonials from the database
+        $testimonial_result = $connection->query("SELECT * FROM testimonials ORDER BY id DESC");
+        if ($testimonial_result->num_rows > 0) {
+            $delay = 0;
+            while ($testimonial = $testimonial_result->fetch_assoc()) {
+                $name = htmlspecialchars($testimonial['name']);
+                $education = htmlspecialchars($testimonial['education']);
+                $message = htmlspecialchars($testimonial['message']);
+                $created_at = date("d M Y", strtotime($testimonial['submitted_at'])); // format date
+                $initials = strtoupper(substr($name, 0, 1)) . (strpos($name, " ") !== false ? strtoupper(substr(explode(" ", $name)[1], 0, 1)) : "");
+        ?>
+            <div class="testimonial-hanging active" style="--delay: <?= $delay ?>s">
+                <div class="hanging-card">
+                    <div class="user-info">
+                        <div class="user-avatar"><?= $initials ?></div>
+                        <h4><?= $name ?></h4>
+                        <span><?= $education ?></span>
+                    </div>
+                    <div class="testimonial-text">
+                        <p>"<?= $message ?>"</p>
+                        <small><?= $created_at ?></small>
                     </div>
                 </div>
-
-                <div class="testimonial-hanging" style="--delay: 0.2">
-                  
-                    <div class="hanging-card">
-                        <div class="user-info">
-                            <div class="user-avatar">MA</div>
-                            <h4>Maria Alvarez</h4>
-                            <span>High School</span>
-                        </div>
-                        <div class="testimonial-text">
-                            <p>"The scheduling tools were a game-changer. I went from barely passing to honor roll in just one semester!"</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-hanging" style="--delay: 0.4">
-                 
-                    <div class="hanging-card">
-                        <div class="user-info">
-                            <div class="user-avatar">TD</div>
-                            <h4>Thomas Doe</h4>
-                            <span>MBA Student</span>
-                        </div>
-                        <div class="testimonial-text">
-                            <p>"As a working professional, the flexibility and mobile access made all the difference in my graduate studies."</p>
-                        </div>
-                    </div>
-                </div>
-
-                 <div class="testimonial-hanging" style="--delay: 0.4">
-                 
-                    <div class="hanging-card">
-                        <div class="user-info">
-                            <div class="user-avatar">TD</div>
-                            <h4>Thomas Doe</h4>
-                            <span>MBA Student</span>
-                        </div>
-                        <div class="testimonial-text">
-                            <p>"As a working professional, the flexibility and mobile access made all the difference in my graduate studies."</p>
-                        </div>
-        
-                    </div>
-                </div>
-                </div> 
             </div>
+        <?php
+                $delay += 0.2; // stagger animation
+            }
+        } else {
+            echo "<p>No testimonials yet!</p>";
+        }
+        ?>
+    </div>
+</div>
+
         </div>
     </section>
     
@@ -617,19 +624,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-
-    const submit = document.querySelector("#submit-btn");
-    const alert = document.querySelector(".testimonial-alert");
-    
-    if (submit && alert) {
-        submit.addEventListener("click", () => {
-            alert.style.display = "block";
-            setTimeout(() => {
-                alert.style.display = "none";
-            }, 3000);
-        });
-    }
 });
+//     const submit = document.querySelector("#submit-btn");
+//     const alert = document.querySelector(".testimonial-alert");
+    
+//     if (submit && alert) {
+//         submit.addEventListener("click", () => {
+//             alert.style.display = "block";
+//             setTimeout(() => {
+//                 alert.style.display = "none";
+//             }, 3000);
+//         });
+//     }
+
     </script>
 
 </body>
