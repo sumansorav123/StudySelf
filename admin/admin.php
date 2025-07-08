@@ -455,7 +455,7 @@ if ($id > 0) {
     </main>
 
     <script src="./assets/js/index.js"></script>
-    <div class="dark-mode-toggle" title="Toggle Dark Mode">
+    <div class="dark-mode-toggle " title="Toggle Dark Mode">
         <i class="fas fa-moon"></i>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>

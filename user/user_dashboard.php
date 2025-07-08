@@ -87,6 +87,20 @@ if(isset($_POST['notes_btn'])) {
             color: var(--text-primary);
             font-weight: 700;
         }
+
+        .dark-mode{
+                position: fixed;
+    left: 20px;
+    top: 90%;
+    padding: 5px;
+    font-size: 24px;
+    z-index: 1;
+    background: #303030;
+    color: #fff;
+    width: 42px;
+    border-radius: 50px;
+    border: none;
+        }
           
         
 [data-theme="dark"] {
@@ -104,6 +118,8 @@ if(isset($_POST['notes_btn'])) {
     color:#fff;
 
 }
+
+
 
 
 /* Hide the sun icon by default */
@@ -231,13 +247,21 @@ if(isset($_POST['notes_btn'])) {
     writing-mode: sideways-lr;
 }
   .right-link a{
-    color: #fff;
+    color:var(--bg);
     text-decoration: none;
     padding: 10px;
     cursor: pointer;
   }
   .testimonials{
     background:transparent;
+  }
+  .testi-btn{
+        padding: 11px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--accent);
   }
     </style>
 </head>
@@ -256,10 +280,7 @@ if(isset($_POST['notes_btn'])) {
                 <a href="#testimonials"><i class="fa-solid fa-users"></i><span >Testimonials</span></a>
                 
             </ul>
-              <button id="dark-mode-toggle" class="dark-mode-toggle">
-                <i class="fas fa-moon"></i> <!-- Moon icon for light mode -->
-                <i class="fas fa-sun"></i> <!-- Sun icon for dark mode -->
-                </button>
+             
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
@@ -321,8 +342,15 @@ if(isset($_POST['notes_btn'])) {
                     </div>
                 </div>
             </div>
+          
         </div>
+      
     </section>
+
+         <button id="dark-mode-toggle" class="dark-mode-toggle dark-mode">
+                <i class="fas fa-moon"></i> <!-- Moon icon for light mode -->
+                <i class="fas fa-sun"></i> <!-- Sun icon for dark mode -->
+          </button>
 
     <!-- Notes Section -->
     <section class="notes" id="notes">
@@ -442,7 +470,7 @@ if(isset($_POST['notes_btn'])) {
         <label for="msg" class="lbl">Your Experience:</label>
         <textarea name="msg" id="msg" class="ipt" placeholder="Share your story..." required></textarea>
     </div>
-    <input type="submit" name="testimonial_submit"  value="Submit Testimonial">
+    <input type="submit" name="testimonial_submit"  value="Submit Testimonial" class="testi-btn">
 </form>
 
                 </div>
@@ -536,41 +564,6 @@ if(isset($_POST['notes_btn'])) {
 
     <script src="./user_assets/js/user_dashboad.js"></script>
     <script>
-    // Dark mode functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize theme on page load
-    function loadTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        }
-    }
-
-    // Toggle dark mode
-    function toggleDarkMode() {
-        const html = document.documentElement;
-        const currentTheme = html.getAttribute('data-theme');
-        
-        if (currentTheme === 'dark') {
-            html.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light');
-        } else {
-            html.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-        }
-    }
-
-    // Load the initial theme
-    loadTheme();
-
-    // Add event listener to dark mode toggle button
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-    }
-
     // Rest of your existing JavaScript code...
     // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
@@ -581,11 +574,62 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Close mobile menu when clicking on a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
-    });
+   
+     function preventBack() {
+        window.history.forward();
+    }
+
+    setTimeout(preventBack, 0);
+
+    window.onunload = function () {
+        // Optional: force unload
+    };
+
+
+    
+
+const hamburger = document.querySelector(".hamburger");
+const navLinks = document.querySelector(".nav-links");
+
+function toggleMobileMenu() {
+  navLinks.classList.toggle("active");
+  hamburger.innerHTML = navLinks.classList.contains("active")
+    ? '<i class="fa-solid fa-xmark"></i>'
+    : '<i class="fa-solid fa-bars"></i>';
+}
+
+hamburger.addEventListener("click", toggleMobileMenu);
+
+// Close mobile menu when clicking a link
+document.querySelectorAll(".nav-links a").forEach((link) => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("active");
+    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".hamburger")) {
+    toggleMobileMenu();
+  }
+});
+
+// Sticky Header
+const header = document.getElementById("header");
+
+function handleScroll() {
+  if (window.scrollY > 100) {
+    header.classList.add("scrolled");
+    navLinks.classList.remove("active");
+    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
+  } else {
+    header.classList.remove("scrolled");
+  }
+}
+
+
+
+
 
     // Search functionality
     const searchInput = document.getElementById('search-data');
@@ -624,19 +668,42 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-});
-//     const submit = document.querySelector("#submit-btn");
-//     const alert = document.querySelector(".testimonial-alert");
-    
-//     if (submit && alert) {
-//         submit.addEventListener("click", () => {
-//             alert.style.display = "block";
-//             setTimeout(() => {
-//                 alert.style.display = "none";
-//             }, 3000);
-//         });
-//     }
 
+    const submit = document.querySelector(".testi-btn");
+    const alert = document.querySelector(".testimonial-alert");
+    
+    if (submit && alert) {
+        submit.addEventListener("click", () => {
+            alert.style.display = "block";
+            setTimeout(() => {
+                alert.style.display = "none";
+            }, 3000);
+        });
+    }
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+  const toggleBtn = document.querySelector('.dark-mode-toggle');
+  const html = document.documentElement;
+
+  // Check for saved theme preference
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+  }
+
+  // Toggle function
+  toggleBtn.addEventListener('click', function() {
+    if (html.getAttribute('data-theme') === 'dark') {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+});
     </script>
 
 </body>
