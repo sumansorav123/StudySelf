@@ -566,8 +566,8 @@ if(isset($_POST['notes_btn'])) {
     <script>
     // Rest of your existing JavaScript code...
     // Mobile menu toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+    // const hamburger = document.querySelector('.hamburger');
+    // const navLinks = document.querySelector('.nav-links');
     
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');

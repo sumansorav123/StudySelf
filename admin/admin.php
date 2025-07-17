@@ -463,7 +463,7 @@ if ($id > 0) {
         // Your existing JavaScript code remains the same
         // Toggle sidebar on mobile
         document.querySelector('.fa-bars').addEventListener('click', function() {
-            if( document.querySelector('.menu-slide').style.transform =  "translateX(-100%)";){
+            if( document.querySelector('.menu-slide').style.transform =  "translateX(-100%)"){
                       document.querySelector('.menu-slide').style.transform =  "translateX(0%)";
             }else{
                   document.querySelector('.menu-slide').style.transform =  "translateX(-100%)";

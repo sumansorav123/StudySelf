@@ -15,6 +15,8 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
     <title>StudySelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
      <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="stylesheet" href="user/user_assets/css/style.css">
+
 </head>
 <style>
 /* scroll bar */
@@ -52,7 +54,6 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
     cursor: pointer;
   }
 
-        
 /* Dark Mode Styles */
 [data-theme="dark"] {
   --primary: #38bdf8;
@@ -97,6 +98,15 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
 
 [data-theme="dark"] .dark-mode-toggle .fa-sun {
   display: block;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 
@@ -185,293 +195,163 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="section-title">
-            <h2>Why Choose NoteSphere?</h2>
-            <p>We provide the best study resources to help you excel in your academic journey</p>
+            <h2 class="reveal">Why Choose NoteSphere?</h2>
+            <p class="reveal">We provide the best study resources to help you excel in your academic journey</p>
         </div>
-        <div class="features-grid">
+        <div class="features-grid reveal">
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star reveal"></i>
                 </div>
-                <h3>Premium Quality</h3>
-                <p>All notes are carefully curated and verified by top students and educators to ensure accuracy and
+                <h3 class="reveal">Premium Quality</h3>
+                <p class="reveal">All notes are carefully curated and verified by top students and educators to ensure accuracy and
                     completeness.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-search"></i>
+                    <i class="fas fa-search reveal"></i>
                 </div>
-                <h3>Easy to Understand</h3>
-                <p>Complex concepts broken down into simple, digestible formats with visuals and examples for better
+                <h3 class="reveal">Easy to Understand</h3>
+                <p class="reveal">Complex concepts broken down into simple, digestible formats with visuals and examples for better
                     retention.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-clock"></i>
+                    <i class="fas fa-clock reveal"></i>
                 </div>
-                <h3>Save Time</h3>
-                <p>Spend less time organizing your study materials and more time actually learning and mastering the
+                <h3 class="reveal">Save Time</h3>
+                <p class="reveal">Spend less time organizing your study materials and more time actually learning and mastering the
                     content.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-mobile-alt"></i>
+                    <i class="fas fa-mobile-alt reveal"></i>
                 </div>
-                <h3>Access Anywhere</h3>
-                <p>Available on all devices - study on your laptop, tablet, or phone whenever and wherever you want.</p>
+                <h3 class="reveal">Access Anywhere</h3>
+                <p class="reveal">Available on all devices - study on your laptop, tablet, or phone whenever and wherever you want.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-graduation-cap"></i>
+                    <i class="fas fa-graduation-cap reveal"></i>
                 </div>
-                <h3>Exam Focused</h3>
-                <p>Notes are tailored to help you ace your exams with key points, common questions, and study
+                <h3 class="reveal">Exam Focused</h3>
+                <p class="reveal">Notes are tailored to help you ace your exams with key points, common questions, and study
                     strategies.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-users reveal"></i>
                 </div>
-                <h3>Community Driven</h3>
-                <p>Contribute your own notes and earn rewards while helping other students succeed in their studies.</p>
+                <h3 class="reveal">Community Driven</h3>
+                <p class="reveal">Contribute your own notes and earn rewards while helping other students succeed in their studies.</p>
             </div>
         </div>
     </section>
 
-    <!-- Notes Section -->
+     <!-- Notes Section -->
     <section class="notes" id="notes">
         <div class="notes-container">
             <div class="section-title">
-                <h2>Popular Study Notes</h2>
-                <p>Browse our most popular notes across various subjects and levels</p>
+                <h2 class="reveal">Popular Study Notes</h2>
+                <p class="reveal">Browse our most popular notes across various subjects and levels</p>
             </div>
+           
             <div class="notes-filter">
-                <button class="filter-btn active" data-filter="all">All Subjects</button>
-                <button class="filter-btn" data-filter="programming">programming</button>
-                <button class="filter-btn" data-filter="10thbiharBoad">10th Bihar Boad</button>
-                <button class="filter-btn" data-filter="12thbiharBoad">12th Bihar Boad</button>
+                 <form action="" style="width:-webkit-fill-available;">
+                    <div class="search-data">
+                        <input type="search" name="search-data" id="search-data" class="search-input reveal" placeholder="Search Course here ....">
+                    </div>
+                 </form>
             </div>
-            <div class="notes-grid">
-                <!-- Note 1 -->
- 
+            <div class="notes-grid reveal">
+              <?php
+    $notes_result = $connection->query("SELECT * FROM notes ORDER BY uploaded_at DESC LIMIT 6");
+    if ($notes_result->num_rows > 0) {
+        while ($row = $notes_result->fetch_assoc()) {
+            $note_id = htmlspecialchars($row['id']);
+            $title = htmlspecialchars($row['title']);
+            $price = htmlspecialchars($row['price']);
+            $uploaded_at = htmlspecialchars($row['uploaded_at']);
+            $category_id = htmlspecialchars($row['category_id']);
+            $thumbnail = htmlspecialchars($row['thumbnail_path']);
 
-                <!-- Note 2 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="JavaScript Notes">
-                        <span class="note-category">JavaScript</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>JavaScript Basics</h3>
-                        <p>
-                            Comprehensive guide to JavaScript fundamentals including variables, functions, and DOM
-                            manipulation.
-                        </p>
-                        <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,234</span>
-                            <span class="note-price"> ₹ 12 </span>
-                        </div>
-                    </div>
+            // Fetch category name
+            $category_name = "Unknown Category";
+            $category_query = $connection->query("SELECT name FROM categories WHERE id = $category_id");
+            if ($category_query && $category_query->num_rows > 0) {
+                $category_row = $category_query->fetch_assoc();
+                $category_name = htmlspecialchars($category_row['name']);
+            }
+    ?>
+        <div class="note-card" data-category="<?php echo strtolower($category_name); ?>">
+            <div class="note-image">
+                <img src="<?php echo 'admin/' . $thumbnail; ?>" alt="<?php echo $title; ?>" width="100px" height="200px">
+                <span class="note-category"><?php echo $category_name; ?></span>
+            </div>
+            <div class="note-content">
+                <h3><?php echo $title; ?></h3>
+                <p>
+                    A detailed note on <?php echo $category_name; ?> concepts.
+                </p>
+                <div class="note-stats">
+                    <span class="note-price">Price: ₹<?php echo $price; ?></span>
+                    <a href="user/view/notes_view.php?id=<?php echo $note_id; ?>" class="btn-download">
+                        View Note <i class="fa-solid fa-download" style="color: #eaeef5;"></i>
+                    </a>
                 </div>
-                <!-- Note 3 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="Java Notes">
-                        <span class="note-category">Java</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>Java Programming Essentials</h3>
-                        <p>Learn the core concepts of Java programming including OOP principles, exception handling,
-                            and collections.</p>
-                        <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,567</span>
-                            <span class="note-price"> ₹ 14 </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Note 4 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="React Notes">
-                        <span class="note-category">React</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>React.js Fundamentals</h3>
-                        <p>Master the basics of React.js including components, state management, and hooks for building
-                            interactive UIs.</p>
-                        <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 2,345</span>
-                            <span class="note-price"> ₹ 18 </span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Note 5 -->
-                <div class="note-card" data-category="programming">
-                    <div class="note-image ">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="SQL Notes">
-                        <span class="note-category">SQL</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>SQL programming Management</h3>
-                        <p>Learn SQL basics, programming design, and advanced queries for effective data management and
-                            analysis.</p>
-                        <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,890</span>
-                            <span class="note-price"> ₹ 15 </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Note 6 -->
-                <div class="note-card" data-category="10thbiharBoad">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="10th Bihar Boad Notes">
-                        <span class="note-category">Physics</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>10th Bihar Boad Physics Notes</h3>
-                        <p>testimonial-detailed notes covering key concepts in physics for 10th-grade students, and thermodynamics.</p>
-                        <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,234</span>
-                            <span class="note-price"> ₹ 10 </span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Note 7 -->
-                <div class="note-card" data-category="12thbiharBoad">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="12th Bihar Boad Notes">
-                        <span class="note-category">Chemistry</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>12th Bihar Boad Chemistry Notes</h3>
-                        <p>Comprehensive notes for 12th-grade chemistry covering organic, inorganic, and physical
-                            chemistry with solved examples.</p>
-                        <div class="note-stats">
-                            <span><i class="fas fa-eye"></i> 1,567</span>
-                            <span class="note-price"> ₹ 12 </span>
-                        </div>
-                    </div>
-                </div>
+            </div>
+        </div>
+    <?php
+        }
+    } else {
+        echo "<p>There are no posts uploaded yet.</p>";
+    }
+    ?>  
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="section-title">
-            <h2>Testimonials</h2>
-            <p>Read what other students have to say about their experience with NoteSphere</p>
-        </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Sarah L.</p>
-                    <p class="testimonial-role">Biology Major</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    NoteSphere's biology notes were a lifesaver! They were so well-organized and easy to understand,
-                    which made studying for my exams much less stressful.
-                </blockquote>
-         
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">John D.</p>
-                    <p class="testimonial-role">College Student</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The calculus notes were incredibly helpful for my advanced math course. The step-by-step solutions
-                    made even the most challenging problems seem manageable.
-                </blockquote>
-
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Emily R.</p>
-                    <p class="testimonial-role">High School Student</p>
+    <section class="testimonials reveal" id="testimonials">
+       
+    <div class="testimonial-msg" style="background-color: whitesmoke;">
+    <h2>What Our Students Say</h2>
+    <div class="testimonial-list">
+        <?php
+        // Fetch testimonials from the database
+        $testimonial_result = $connection->query("SELECT * FROM testimonials ORDER BY id DESC LIMIT 4");
+        if ($testimonial_result->num_rows > 0) {
+            $delay = 0;
+            while ($testimonial = $testimonial_result->fetch_assoc()) {
+                $name = htmlspecialchars($testimonial['name']);
+                $education = htmlspecialchars($testimonial['education']);
+                $message = htmlspecialchars($testimonial['message']);
+                $created_at = date("d M Y", strtotime($testimonial['submitted_at'])); // format date
+                $initials = strtoupper(substr($name, 0, 1)) . (strpos($name, " ") !== false ? strtoupper(substr(explode(" ", $name)[1], 0, 1)) : "");
+        ?>
+            <div class="testimonial-hanging active" style="--delay: <?= $delay ?>s">
+                <div class="hanging-card">
+                    <div class="user-info">
+                        <div class="user-avatar"><?= $initials ?></div>
+                        <h4><?= $name ?></h4>
+                        <span><?= $education ?></span>
                     </div>
-                <blockquote class="testimonial-quote">
-                    I used the world history notes to prepare for my final exam and scored the highest in my class! The
-                    timelines and summaries were fantastic.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">David K.</p>
-                    <p class="testimonial-role">Computer Science Student</p>
+                    <div class="testimonial-text">
+                        <p>"<?= $message ?>"</p>
+                        <small><?= $created_at ?></small>
+                    </div>
                 </div>
-                <blockquote class="testimonial-quote">
-                    The organic chemistry notes broke down complex reactions into easy-to-follow mechanisms. Definitely
-                    improved my understanding of the subject.
-                </blockquote>
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Laura W.</p>
-                    <p class="testimonial-role">Economics Major</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The microeconomics notes provided a clear and concise overview of key concepts. Helped me grasp the
-                    fundamentals quickly.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Michael R.</p>
-                    <p class="testimonial-role">Data Science Student</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The statistics notes were excellent for brushing up on concepts before my data analysis project.
-                    Well-explained and easy to reference.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                    <p class="testimonial-author">Sophia T.</p>
-                    <p class="testimonial-role">High School Student</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    I found the software engineering notes incredibly helpful for understanding system design
-                    principles. Highly recommended for CS students.
-                </blockquote>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-detail">
-                <p class="testimonial-author">Daniel S.</p>
-                <p class="testimonial-role">Marketing Intern</p>
-                </div>
-                <blockquote class="testimonial-quote">
-                    The marketing strategy notes gave me practical insights that I could immediately apply to my
-                    internship. Very valuable resource!
-                </blockquote>
-            
-            </div>
-        </div>
-        <div class="testimonial-pagination" id="testimonial-pagination">
-            
-        </div>
-    </section>
+        <?php
+                $delay += 0.2; // stagger animation
+            }
+        } else {
+            echo "<p>No testimonials yet!</p>";
+        }
+        ?>
+    </div>
+</div>
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="cta-container">
-            <h2>Ready to Boost Your Grades?</h2>
-            <p>Join thousands of students who are achieving academic success with NoteSphere. Sign up today and get
-                access to premium study materials.</p>
-            <a href="./user/user_auth/user_sigin.php" class="cta-button"
-                style="background-color: white; color: var(--primary); margin: 0 auto; display: inline-block;">Sing
-                Up</a>
-            <a href="./user/user_auth/user_login.php" class="cta-button"
-                style="background-color: white; color: var(--primary); margin: 0 auto; display: inline-block;">Sign
-                In</a>
         </div>
     </section>
 
@@ -524,6 +404,25 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
 
 </body>
 <script src="./assets/js/index.js"></script>
+<script>
+      // scroll eff
+      document.addEventListener("DOMContentLoaded", function () {
+        const elements = document.querySelectorAll(".reveal");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
+            });
+          },
+          { threshold: 0.2 }
+        ); // Trigger when 20% of the element is visible
+
+        elements.forEach((el) => observer.observe(el));
+      });
+    </script>
  <script>
     function preventBack() {
         window.history.forward();
@@ -642,4 +541,5 @@ window.addEventListener("scroll", handleScroll);
     });
     
 </script>
+
 </html>
