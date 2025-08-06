@@ -56,12 +56,16 @@ session_start();
                                         if($result->num_rows === 1){
                                             $row = $result->fetch_assoc();
                                             $hashed_password = $row['password'];
-                                            if(password_verify($password, $hashed_password)){
-                                                // Password is correct, set session variables and redirect to dashboard
-                                                $_SESSION['username'] = $row['name'];
-                                                $_SESSION['useremail'] = $row['email'];
-                                                header("Location: ../user_dashboard.php");
-                                                exit();
+                                             if(password_verify($password, $hashed_password)) {
+                                         
+                                            $_SESSION['userid'] = $row['id'];
+                                            $_SESSION['username'] = htmlspecialchars($row['name']);
+                                            $_SESSION['useremail'] = htmlspecialchars($row['email']);
+                                            
+                                            // Redirect to dashboard with user_id parameter
+                                            header("Location: ../user_dashboard.php?user_id=" . $row['id']);
+                                            exit();
+                                        
                                             } else {
                                                 echo "<u style='color:red;'>Invalid password</u><br>";
                                             }

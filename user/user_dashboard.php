@@ -7,6 +7,9 @@ if(!isset($_SESSION['username'])) {
       header("Location: ../index.php");
       exit();
 }
+
+ $user_id = intval($_GET['user_id']);
+
 ?>
 <!-- logout and session destroy -->
 <?php
@@ -67,215 +70,19 @@ if(isset($_POST['notes_btn'])) {
     <title>StudySelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="./user_assets/css/style.css">
-    <style>
-        .logout {
-            width: 100px;
-            height: 35px;
-            border-radius: 8px;
-            outline: none;
-            border: 2px solid #fff;
-            font-weight: 600;
-            background: transparent;
-            color:var(--heading);
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.4s linear;
-        }
-
-        .logout:hover {
-            background-color: #eee;
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .dark-mode{
-                position: fixed;
-    left: 20px;
-    top: 90%;
-    padding: 5px;
-    font-size: 24px;
-    z-index: 1;
-    background: #303030;
-    color: #fff;
-    width: 42px;
-    border-radius: 50px;
-    border: none;
-        }
-          
-        
-[data-theme="dark"] {
-  --primary: #38bdf8;       /* Brighter, more vibrant blue */
-  --secondary: #f59e0b;     /* Slightly warmer orange */
-  --accent: #0ea5e9;        /* Deep sky blue */
-  --success: #34d399;       /* Softer green */
-  --danger: #f87171;        /* Softer red */
-  --bg: #0f172a;            /* Deep navy blue instead of pure black */
-  /* --card-bg: #1e293b;       Slightly lighter navy for cards */
-  --text-primary:rgb(90, 87, 87);   /* Very light gray (almost white) */
-  --text-secondary: #94a3b8; /* Medium gray for secondary text */
-  --border: #334155;         /* Dark gray-blue for borders */
-  --heading:#ffff;
-    color:#fff;
-
-}
-
-
-
-
-/* Hide the sun icon by default */
-.dark-mode-toggle .fa-sun {
-  display: none;
-}
-
-/* In dark mode, hide moon and show sun */
-[data-theme="dark"] .dark-mode-toggle .fa-moon {
-  display: none;
-}
-
-[data-theme="dark"] .dark-mode-toggle .fa-sun {
-  display: block;
-}
-        /* Floating animation for hero notes */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(-5deg);
-            }
-            50% {
-                transform: translateY(-20px) rotate(5deg);
-            }
-        }
-
-        @keyframes float2 {
-            0%, 100% {
-                transform: translateY(0) rotate(3deg);
-            }
-            50% {
-                transform: translateY(-15px) rotate(-3deg);
-            }
-        }
-
-        @keyframes float3 {
-            0%, 100% {
-                transform: translateY(0) rotate(-8deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(8deg);
-            }
-        }
-
-        .note-1 {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .note-2 {
-            animation: float2 5s ease-in-out infinite;
-        }
-
-        .note-3 {
-            animation: float3 7s ease-in-out infinite;
-        }
-
-        /* Testimonial animations */
-        @keyframes swingIn {
-            0% {
-                transform: translateY(-50px) rotate(-5deg);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0) rotate(0);
-                opacity: 1;
-            }
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        /* Contact button animation */
-        .whatsapp-text {
-            transition: all 0.3s ease-in-out;
-            width: 28px;
-            color: transparent;
-        }
-
-        .contact:hover .whatsapp-text {
-            width: 125px;
-            color: black;
-        }
-      @media (max-width: 768px) {
-    .testimonial-card {
-        width: 100%;
-    }
-}
-  @media (max-width: 568px) {
-.testimonial-alert {
- 
-    z-index: 1;
-}
-.fa-circle-check {
-    font-size: 45px;
-    color: #06ea06;
-}
-.alert-card h2 {
-    font-size: 17px;
-}
-  }
-
-  .testimonial-alert{
-    display: none;
-  }
-.right-link{
-        position: fixed;
-    right: 0;
-    background: orange;
-    padding: 5px;
-    border-radius: 5px;
-    writing-mode: sideways-lr;
-}
-  .right-link a{
-    color:var(--bg);
-    text-decoration: none;
-    padding: 10px;
-    cursor: pointer;
-  }
-  .testimonials{
-    background:transparent;
-  }
-  .testi-btn{
-        padding: 11px;
-    border: none;
-    border-radius: 6px;
-    font-weight: 500;
-    color: var(--bg);
-    background: var(--accent);
-  }
-    </style>
+  
 </head>
 <body>
      <!-- Header -->
     <header id="header">
         <div class="navbar">
             <div class="logo">
-                <i class="fas fa-book-open-reader"></i>
+                <i class="fas fa-book-open-reader"></i>  
                 <span>StudySelf</span>
             </div>
             <ul class="nav-links">
                 <a href="#home"><i class="fa-solid fa-house-user"></i><span >Home</span></a>
-                <a href="./view/enroll.php"><i class="fa-solid fa-bookmark"></i><span>enroll</span></a>
+                <a href="./view/enroll.php?user_id=<?php echo $user_id; ?>"><i class="fa-solid fa-bookmark"></i><span>enroll</span></a>
                 <a href="#notes"><i class="fa-solid fa-book"></i><span>Notes</span></a>
                 <a href="#testimonials"><i class="fa-solid fa-users"></i><span >Testimonials</span></a>
                 
@@ -368,7 +175,19 @@ if(isset($_POST['notes_btn'])) {
                  </form>
             </div>
             <div class="notes-grid ">
+
               <?php
+            
+
+// (Optional) If you need more details about the user, run this:
+$user_query = $connection->query("SELECT * FROM userdetails ");
+if ( $user_query->num_rows > 0) {
+     while ($row = $user_query->fetch_assoc()) {
+        $user_id = htmlspecialchars($row['id']);
+     }
+
+  
+}
     $notes_result = $connection->query("SELECT * FROM notes ORDER BY uploaded_at DESC");
     if ($notes_result->num_rows > 0) {
         while ($row = $notes_result->fetch_assoc()) {
@@ -399,9 +218,10 @@ if(isset($_POST['notes_btn'])) {
                 </p>
                 <div class="note-stats">
                     <span class="note-price">Price: ₹<?php echo $price; ?></span>
-                    <a href="./view/notes_view.php?id=<?php echo $note_id; ?>" class="btn-download">
-                        View Note <i class="fa-solid fa-download" style="color: #eaeef5;"></i>
-                    </a>
+                    <a href="./view/notes_view.php?note_id=<?php echo $note_id; ?>&user_id=<?php echo $user_id; ?>" class="btn-download">
+                    View Note <i class="fa-solid fa-download" style="color: #eaeef5;"></i>
+                </a>
+
                 </div>
             </div>
         </div>
@@ -562,149 +382,7 @@ if(isset($_POST['notes_btn'])) {
         </div>
     </footer>
 
-    <script src="./user_assets/js/user_dashboad.js"></script>
-    <script>
-    // Rest of your existing JavaScript code...
-    // Mobile menu toggle
-    // const hamburger = document.querySelector('.hamburger');
-    // const navLinks = document.querySelector('.nav-links');
+    <script src="./user_assets/js/userdashboad.js"></script>
     
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking on a link
-   
-     function preventBack() {
-        window.history.forward();
-    }
-
-    setTimeout(preventBack, 0);
-
-    window.onunload = function () {
-        // Optional: force unload
-    };
-
-
-    
-
-const hamburger = document.querySelector(".hamburger");
-const navLinks = document.querySelector(".nav-links");
-
-function toggleMobileMenu() {
-  navLinks.classList.toggle("active");
-  hamburger.innerHTML = navLinks.classList.contains("active")
-    ? '<i class="fa-solid fa-xmark"></i>'
-    : '<i class="fa-solid fa-bars"></i>';
-}
-
-hamburger.addEventListener("click", toggleMobileMenu);
-
-// Close mobile menu when clicking a link
-document.querySelectorAll(".nav-links a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navLinks.classList.remove("active");
-    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
-  });
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target.closest(".hamburger")) {
-    toggleMobileMenu();
-  }
-});
-
-// Sticky Header
-const header = document.getElementById("header");
-
-function handleScroll() {
-  if (window.scrollY > 100) {
-    header.classList.add("scrolled");
-    navLinks.classList.remove("active");
-    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
-  } else {
-    header.classList.remove("scrolled");
-  }
-}
-
-
-
-
-
-    // Search functionality
-    const searchInput = document.getElementById('search-data');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const noteCards = document.querySelectorAll('.note-card');
-            
-            noteCards.forEach(card => {
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                const category = card.querySelector('.note-category').textContent.toLowerCase();
-                
-                if (title.includes(searchTerm) || category.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    }
-
-    // Filter functionality
-    document.querySelectorAll('[data-filter]').forEach(filter => {
-        filter.addEventListener('click', function() {
-            const filterValue = this.getAttribute('data-filter').toLowerCase();
-            const noteCards = document.querySelectorAll('.note-card');
-            
-            noteCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
-                
-                if (filterValue === 'all' || cardCategory.includes(filterValue)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
-
-    const submit = document.querySelector(".testi-btn");
-    const alert = document.querySelector(".testimonial-alert");
-    
-    if (submit && alert) {
-        submit.addEventListener("click", () => {
-            alert.style.display = "block";
-            setTimeout(() => {
-                alert.style.display = "none";
-            }, 3000);
-        });
-    }
-
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-  const toggleBtn = document.querySelector('.dark-mode-toggle');
-  const html = document.documentElement;
-
-  // Check for saved theme preference
-  const currentTheme = localStorage.getItem('theme') || 'light';
-  if (currentTheme === 'dark') {
-    html.setAttribute('data-theme', 'dark');
-  }
-
-  // Toggle function
-  toggleBtn.addEventListener('click', function() {
-    if (html.getAttribute('data-theme') === 'dark') {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
-    } else {
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    }
-  });
-});
-    </script>
-
 </body>
 </html>

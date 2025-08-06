@@ -2,17 +2,93 @@
 require "../config/Database.php";
 session_start();
 
+
+
 // Redirect if not logged in
-if(!isset($_SESSION['adminusername'])) {
+if (!isset($_SESSION['adminusername'])) {
     header("Location: ./auth/admin_register.php");
     exit();
 }
 
+// Generate CSRF token if not exists
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // Handle logout
-if(isset($_POST['logout'])) {
+if (isset($_POST['logout'])) {
+    // Validate CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $_SESSION['errors'] = ["Invalid CSRF token"];
+        header("Location: admin.php");
+        exit();
+    }
+    
     session_unset();
     session_destroy();
     header("Location: ./auth/admin_register.php");
+    exit(); 
+}
+
+// Handle delete
+if (isset($_POST['id']) && $_POST['id'] > 0) {
+    // Validate CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $_SESSION['errors'] = ["Invalid CSRF token"];
+        header("Location: admin.php");
+        exit();
+    }
+
+    $id = intval($_POST['id']);
+    
+    // First get file paths to delete them
+    $getFilesQuery = "SELECT file_path, demo_path, thumbnail_path, demo1_path, demo2_path, demo3_path FROM notes WHERE id = ?";
+    $stmt = $connection->prepare($getFilesQuery);
+    if (!$stmt) {
+        $_SESSION['errors'] = ["Database error: " . $connection->error];
+        header("Location: admin.php");
+        exit();
+    }
+    
+    $stmt->bind_param("i", $id);
+    if (!$stmt->execute()) {
+        $_SESSION['errors'] = ["Error fetching files: " . $stmt->error];
+        $stmt->close();
+        header("Location: admin.php");
+        exit();
+    }
+    
+    $result = $stmt->get_result();
+    $files = $result->fetch_assoc();
+    $stmt->close();
+    
+    // Delete files from server
+    if ($files) {
+        foreach ($files as $filePath) {
+            if ($filePath && file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+    }
+    
+    // Delete from database
+    $delquery = "DELETE FROM notes WHERE id = ?";
+    $stmt = $connection->prepare($delquery);
+    if (!$stmt) {
+        $_SESSION['errors'] = ["Database error: " . $connection->error];
+        header("Location: admin.php");
+        exit();
+    }
+    
+    $stmt->bind_param("i", $id);
+    
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Record deleted successfully";
+    } else {
+        $_SESSION['errors'] = ["Error deleting record: " . $stmt->error];
+    }
+    $stmt->close();
+    header("Location: admin.php");
     exit();
 }
 
@@ -20,10 +96,17 @@ if(isset($_POST['logout'])) {
 $notes_data = [];
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['logout']) && !isset($_POST['id'])) {
+    // Validate CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $_SESSION['errors'] = ["Invalid CSRF token"];
+        header("Location: admin.php");
+        exit();
+    }
+
     // Get input data with proper validation
-    $title = isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';
-    $description = isset($_POST['description']) ? htmlspecialchars($_POST['description']) : '';
+    $title = isset($_POST['title']) ? htmlspecialchars(trim($_POST['title'])) : '';
+    $description = isset($_POST['description']) ? htmlspecialchars(trim($_POST['description'])) : '';
     $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
     $price = isset($_POST['price']) ? floatval($_POST['price']) : 0.00;
     $isUpdate = isset($_POST['note_id']) && $_POST['note_id'] > 0;
@@ -34,31 +117,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: admin.php");
         exit();
     }
+
+    // Validate price
+    if ($price < 0) {
+        $_SESSION['errors'] = ["Price cannot be negative"];
+        header("Location: admin.php");
+        exit();
+    }
+
     // File upload validation
     $allowedTypes = [
         'file_path' => ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'],
+        'demo_path' => ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'],
         'thumbnail_path' => ['image/jpeg', 'image/png', 'image/gif'],
         'demo1_path' => ['image/jpeg', 'image/png', 'image/gif'],
         'demo2_path' => ['image/jpeg', 'image/png', 'image/gif'],
         'demo3_path' => ['image/jpeg', 'image/png', 'image/gif']
     ];
 
+    $allowedExtensions = [
+        'file_path' => ['pdf', 'doc', 'docx', 'ppt', 'pptx'],
+        'demo_path' => ['pdf', 'doc', 'docx', 'ppt', 'pptx'],
+        'thumbnail_path' => ['jpg', 'jpeg', 'png', 'gif'],
+        'demo1_path' => ['jpg', 'jpeg', 'png', 'gif'],
+        'demo2_path' => ['jpg', 'jpeg', 'png', 'gif'],
+        'demo3_path' => ['jpg', 'jpeg', 'png', 'gif']
+    ];
+
+    $maxFileSize = 10 * 1024 * 1024; // 10MB
     $upload_errors = [];
     $filePaths = [];
 
     // Upload directories
     $noteDir = "uploads/notes/";
+    $demoDir = "uploads/demofile/";
     $thumbDir = "uploads/thumbnails/";
-    $demoDir = "uploads/demos/";
+    $demoImgDir = "uploads/demos/";
 
     // Create directories if not exist
     if (!is_dir($noteDir)) mkdir($noteDir, 0777, true);
-    if (!is_dir($thumbDir)) mkdir($thumbDir, 0777, true);
     if (!is_dir($demoDir)) mkdir($demoDir, 0777, true);
+    if (!is_dir($thumbDir)) mkdir($thumbDir, 0777, true);
+    if (!is_dir($demoImgDir)) mkdir($demoImgDir, 0777, true);
 
     // Process file uploads
-    foreach (['file_path', 'thumbnail_path', 'demo1_path', 'demo2_path', 'demo3_path'] as $file) {
+    foreach (['file_path', 'demo_path', 'thumbnail_path', 'demo1_path', 'demo2_path', 'demo3_path'] as $file) {
         if (!empty($_FILES[$file]['name'])) {
+            // Validate file size
+            if ($_FILES[$file]['size'] > $maxFileSize) {
+                $upload_errors[] = "File $file is too large (max 10MB)";
+                continue;
+            }
+
             // Validate file type
             $fileType = mime_content_type($_FILES[$file]['tmp_name']);
             if (!in_array($fileType, $allowedTypes[$file])) {
@@ -66,56 +176,92 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 continue;
             }
 
+            // Validate file extension
+            $extension = strtolower(pathinfo($_FILES[$file]['name'], PATHINFO_EXTENSION));
+            if (!in_array($extension, $allowedExtensions[$file])) {
+                $upload_errors[] = "Invalid file extension for $file. Allowed: " . implode(', ', $allowedExtensions[$file]);
+                continue;
+            }
+
             // Generate unique filename
-            $extension = pathinfo($_FILES[$file]['name'], PATHINFO_EXTENSION);
             $filename = uniqid() . '.' . $extension;
             
             // Determine target directory
             $targetDir = ($file === 'file_path') ? $noteDir : 
-                        ($file === 'thumbnail_path' ? $thumbDir : $demoDir);
+                        ($file === 'demo_path' ? $demoDir : 
+                        ($file === 'thumbnail_path' ? $thumbDir : $demoImgDir));
             
             $targetPath = $targetDir . $filename;
 
             if (move_uploaded_file($_FILES[$file]['tmp_name'], $targetPath)) {
                 $filePaths[$file] = $targetPath;
+                
+                // Delete old file if updating
+                if ($isUpdate && !empty($_POST['existing_' . $file]) && file_exists($_POST['existing_' . $file])) {
+                    unlink($_POST['existing_' . $file]);
+                }
             } else {
                 $upload_errors[] = "Failed to upload $file";
             }
         } elseif ($isUpdate) {
             // Keep existing file if not updating
             $filePaths[$file] = $_POST['existing_' . $file];
+        } elseif (!$isUpdate && in_array($file, ['file_path', 'demo_path', 'thumbnail_path'])) {
+            // Required files for new uploads
+            $upload_errors[] = "$file is required for new uploads";
         }
     }
 
     if (empty($upload_errors)) {
         if ($isUpdate) {
             // Update existing note
-            $stmt = $connection->prepare("UPDATE notes SET title=?, category_id=?, description=?, file_path=?, thumbnail_path=?, demo1_path=?, demo2_path=?, demo3_path=?, price=? WHERE id=?");
-            $stmt->bind_param("sissssssdi", $title, $category_id, $description, 
-                $filePaths['file_path'], $filePaths['thumbnail_path'], 
+            $stmt = $connection->prepare("UPDATE notes SET title=?, category_id=?, description=?, file_path=?, demo_path=?, thumbnail_path=?, demo1_path=?, demo2_path=?, demo3_path=?, price=? WHERE id=?");
+            if (!$stmt) {
+                $_SESSION['errors'] = ["Database error: " . $connection->error];
+                header("Location: admin.php");
+                exit();
+            }
+            
+            $stmt->bind_param("sisssssssdi", $title, $category_id, $description, 
+                $filePaths['file_path'], $filePaths['demo_path'], $filePaths['thumbnail_path'], 
                 $filePaths['demo1_path'], $filePaths['demo2_path'], 
                 $filePaths['demo3_path'], $price, $_POST['note_id']);
         } else {
             // Insert new note
-            $stmt = $connection->prepare("INSERT INTO notes (title, category_id, description, file_path, thumbnail_path, demo1_path, demo2_path, demo3_path, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sissssssd", $title, $category_id, $description, 
-                $filePaths['file_path'], $filePaths['thumbnail_path'], 
+            $stmt = $connection->prepare("INSERT INTO notes (title, category_id, description, file_path, demo_path, thumbnail_path, demo1_path, demo2_path, demo3_path, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            if (!$stmt) {
+                $_SESSION['errors'] = ["Database error: " . $connection->error];
+                header("Location: admin.php");
+                exit();
+            }
+            
+            $stmt->bind_param("sisssssssd", $title, $category_id, $description, 
+                $filePaths['file_path'], $filePaths['demo_path'], $filePaths['thumbnail_path'], 
                 $filePaths['demo1_path'], $filePaths['demo2_path'], 
                 $filePaths['demo3_path'], $price);
         }
 
         if ($stmt->execute()) {
             $_SESSION['message'] = $isUpdate ? "Note updated successfully!" : "Note uploaded successfully!";
-            header("Location: admin.php");
-            exit();
         } else {
-            $upload_errors[] = "Database error: " . $stmt->error;
+            $_SESSION['errors'] = ["Database error: " . $stmt->error];
+            
+            // Clean up uploaded files if database operation failed
+            if (!$isUpdate) {
+                foreach ($filePaths as $path) {
+                    if (file_exists($path)) {
+                        unlink($path);
+                    }
+                }
+            }
         }
         $stmt->close();
-    }
-
-    if (!empty($upload_errors)) {
+        header("Location: admin.php");
+        exit();
+    } else {
         $_SESSION['errors'] = $upload_errors;
+        header("Location: admin.php");
+        exit();
     }
 }
 
@@ -123,8 +269,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if ($id > 0) {
     $sql = "SELECT * FROM notes WHERE id = ?";
     $stmt = $connection->prepare($sql);
+    if (!$stmt) {
+        $_SESSION['errors'] = ["Database error: " . $connection->error];
+        header("Location: admin.php");
+        exit();
+    }
+    
     $stmt->bind_param("i", $id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        $_SESSION['errors'] = ["Error fetching note: " . $stmt->error];
+        $stmt->close();
+        header("Location: admin.php");
+        exit();
+    }
+    
     $result = $stmt->get_result();
     
     if ($result->num_rows === 1) {
@@ -135,20 +293,6 @@ if ($id > 0) {
         exit();
     }
     $stmt->close();
-}
-
-// delete
-if ($id > 0) {
-    $delquery = "DELETE FROM notes WHERE id = $id";
-
-   if ($connection->query($delquery)) {
-    echo "<script>alert('Record deleted successfully'); window.location.href='../admin.php';</script>";
-} else {
-    echo "Error deleting record: " . $connection->error;
-}
-
-} else {
-    // echo "Invalid ID";
 }
 ?>
 
@@ -198,6 +342,7 @@ if ($id > 0) {
                 
                 <li>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                         <button type="submit" name="logout" class="logout-btn">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </button>
@@ -212,17 +357,17 @@ if ($id > 0) {
             <!-- Dashboard Overview -->
             <div id="dashboard" class="section active">
                 <h1>Admin Dashboard</h1>
-                <p class="welcome-message">Welcome back, <strong style="color:brown"><?php echo $_SESSION['adminusername']; ?></strong>!</p>
+                <p class="welcome-message">Welcome back, <strong style="color:brown"><?php echo htmlspecialchars($_SESSION['adminusername']); ?></strong>!</p>
                 
                 <!-- Display messages/errors -->
                 <?php if (isset($_SESSION['message'])): ?>
-                    <div class="notification-success"><?php echo $_SESSION['message']; unset($_SESSION['message']); ?></div>
+                    <div class="notification-success"><?php echo htmlspecialchars($_SESSION['message']); unset($_SESSION['message']); ?></div>
                 <?php endif; ?>
                 
                 <?php if (isset($_SESSION['errors'])): ?>
                     <div class="notification-error">
                         <?php foreach ($_SESSION['errors'] as $error): ?>
-                            <p><?php echo $error; ?></p>
+                            <p><?php echo htmlspecialchars($error); ?></p>
                         <?php endforeach; ?>
                         <?php unset($_SESSION['errors']); ?>
                     </div>
@@ -234,7 +379,7 @@ if ($id > 0) {
                             <?php
                                 $sql = "SELECT COUNT(*) AS total_users FROM userdetails";
                                 $userc = $connection->query($sql);
-                                echo $userc ? $userc->fetch_assoc()['total_users'] : "Error";
+                                echo $userc ? htmlspecialchars($userc->fetch_assoc()['total_users']) : "Error";
                             ?>
                         </div>
                         <div class="stat-label">Total Users</div>
@@ -244,13 +389,19 @@ if ($id > 0) {
                             <?php
                                 $sql = "SELECT COUNT(*) AS total_notes FROM notes";
                                 $notesc = $connection->query($sql);
-                                echo $notesc ? $notesc->fetch_assoc()['total_notes'] : "Error";
+                                echo $notesc ? htmlspecialchars($notesc->fetch_assoc()['total_notes']) : "Error";
                             ?>
                         </div>
                         <div class="stat-label">Total Notes</div>
                     </div>
                     <div class="stat-card downloads animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-                        <div class="stat-value">0</div>
+                          <div class="stat-value">
+                            <?php
+                                $sql = "SELECT COUNT(*) AS total_purchase FROM enrolled";
+                                $notesc = $connection->query($sql);
+                                echo $notesc ? htmlspecialchars($notesc->fetch_assoc()['total_purchase']) : "Error";
+                            ?>
+                        </div>
                         <div class="stat-label">Total Purchase</div>
                     </div>
                     <div class="stat-card revenue animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
@@ -267,8 +418,9 @@ if ($id > 0) {
                 </div>
                 <div class="form-container">
                     <form action="" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                         <?php if ($id): ?>
-                            <input type="hidden" name="note_id" value="<?php echo $id; ?>">
+                            <input type="hidden" name="note_id" value="<?php echo htmlspecialchars($id); ?>">
                         <?php endif; ?>
                         
                         <input type="text" name="title" placeholder="Enter note title" 
@@ -279,46 +431,58 @@ if ($id > 0) {
                             <option value="">Select category</option>
                             <?php
                             $categories = $connection->query("SELECT * FROM categories");
-                            while ($cat = $categories->fetch_assoc()):
-                                $selected = ($id && $notes_data['category_id'] == $cat['id']) ? 'selected' : '';
+                            if ($categories) {
+                                while ($cat = $categories->fetch_assoc()):
+                                    $selected = ($id && $notes_data['category_id'] == $cat['id']) ? 'selected' : '';
                             ?>
-                                <option value="<?php echo $cat['id']; ?>" <?php echo $selected; ?>>
+                                <option value="<?php echo htmlspecialchars($cat['id']); ?>" <?php echo $selected; ?>>
                                     <?php echo htmlspecialchars($cat['name']); ?>
                                 </option>
-                            <?php endwhile; ?>
+                            <?php 
+                                endwhile;
+                            }
+                            ?>
                         </select><br>
 
-                        <textarea name="description" placeholder="Enter note description"  required><?php 
+                        <textarea name="description" placeholder="Enter note description" required><?php 
                             echo $id ? htmlspecialchars($notes_data['description']) : ''; 
                         ?></textarea><br>
 
                         <!-- Main File -->
                         <label>Note File (PDF/DOCX/PPTX):</label>
-                        <input type="file" name="file_path" accept=".pdf,.docx,.pptx" <?php echo !$id ? 'required' : ''; ?>><br>
+                        <input type="file" name="file_path" accept=".pdf,.doc,.docx,.ppt,.pptx" <?php echo !$id ? 'required' : ''; ?>><br>
                         <?php if ($id): ?>
-                            <p>Current file: <?php echo basename($notes_data['file_path']); ?></p>
-                            <input type="hidden" name="existing_file_path" value="<?php echo $notes_data['file_path']; ?>">
+                            <p>Current file: <?php echo htmlspecialchars(basename($notes_data['file_path'])); ?></p>
+                            <input type="hidden" name="existing_file_path" value="<?php echo htmlspecialchars($notes_data['file_path']); ?>">
+                        <?php endif; ?>
+
+                       <!-- Demo File -->
+                        <label>Demo File (PDF/DOCX/PPTX):</label>
+                        <input type="file" name="demo_path" accept=".pdf,.doc,.docx,.ppt,.pptx" <?php echo !$id ? 'required' : ''; ?>><br>
+                        <?php if ($id): ?>
+                            <p>Current file: <?php echo htmlspecialchars(basename($notes_data['demo_path'])); ?></p>
+                            <input type="hidden" name="existing_demo_path" value="<?php echo htmlspecialchars($notes_data['demo_path']); ?>">
                         <?php endif; ?>
 
                         <!-- Thumbnail -->
                         <label>Thumbnail Image:</label>
                         <input type="file" name="thumbnail_path" accept="image/*" <?php echo !$id ? 'required' : ''; ?>><br>
                         <?php if ($id): ?>
-                            <p>Current thumbnail: <?php echo basename($notes_data['thumbnail_path']); ?></p>
-                            <input type="hidden" name="existing_thumbnail_path" value="<?php echo $notes_data['thumbnail_path']; ?>">
+                            <p>Current thumbnail: <?php echo htmlspecialchars(basename($notes_data['thumbnail_path'])); ?></p>
+                            <input type="hidden" name="existing_thumbnail_path" value="<?php echo htmlspecialchars($notes_data['thumbnail_path']); ?>">
                         <?php endif; ?>
 
                         <!-- Demo Images -->
                         <?php for ($i = 1; $i <= 3; $i++): ?>
                             <label>Demo Image <?php echo $i; ?>:</label>
-                            <input type="file" name="demo<?php echo $i; ?>_path" accept="image/*" <?php echo !$id ? 'required' : ''; ?>><br>
-                            <?php if ($id): ?>
-                                <p>Current demo <?php echo $i; ?>: <?php echo basename($notes_data["demo{$i}_path"]); ?></p>
-                                <input type="hidden" name="existing_demo<?php echo $i; ?>_path" value="<?php echo $notes_data["demo{$i}_path"]; ?>">
+                            <input type="file" name="demo<?php echo $i; ?>_path" accept="image/*"><br>
+                            <?php if ($id && !empty($notes_data["demo{$i}_path"])): ?>
+                                <p>Current demo <?php echo $i; ?>: <?php echo htmlspecialchars(basename($notes_data["demo{$i}_path"])); ?></p>
+                                <input type="hidden" name="existing_demo<?php echo $i; ?>_path" value="<?php echo htmlspecialchars($notes_data["demo{$i}_path"]); ?>">
                             <?php endif; ?>
                         <?php endfor; ?>
 
-                        <input type="number" name="price" step="0.01" placeholder="Enter price" 
+                        <input type="number" name="price" step="0.01" min="0" placeholder="Enter price" 
                                value="<?php echo $id ? htmlspecialchars($notes_data['price']) : '0.00'; ?>" required><br>
                                  
                         <input type="submit" value="<?php echo $id ? 'Update' : 'Upload'; ?> Note">
@@ -340,7 +504,7 @@ if ($id > 0) {
                         $notes_result = $connection->query("SELECT notes.*, categories.name AS category_name 
                                                            FROM notes LEFT JOIN categories ON notes.category_id = categories.id 
                                                            ORDER BY uploaded_at DESC");
-                        if ($notes_result->num_rows > 0):
+                        if ($notes_result && $notes_result->num_rows > 0):
                     ?>
                         <table>
                             <thead>
@@ -363,11 +527,11 @@ if ($id > 0) {
                                         <td><?php echo $row['price'] ? '₹' . number_format($row['price'], 2) : 'Free'; ?></td>
                                         <td>
                                             <a href="admin.php?id=<?php echo $row['id']; ?>#upload-notes" class="action-btn edit-btn">Edit</a>
-                                            <a href="admin.php?id=<?php echo $row['id']; ?>#upload-notes" class="action-btn delete-btn">Delete</a>
-                                            <!-- <form action="" method="POST" style="display:inline;">
+                                            <form action="" method="POST" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                                <button type="submit" class="action-btn delete-btn" onclick="return confirm('Are you sure want to delete ?')">Delete</button>
-                                            </form> -->
+                                                <button type="submit" class="action-btn delete-btn" onclick="return confirm('Are you sure you want to delete this note?')">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
@@ -391,7 +555,7 @@ if ($id > 0) {
                 <div class="table-container">
                     <?php
                         $user_data = $connection->query("SELECT * FROM userdetails ORDER BY id DESC");
-                        if ($user_data->num_rows > 0):
+                        if ($user_data && $user_data->num_rows > 0):
                     ?>
                         <table>
                             <thead>
@@ -429,46 +593,52 @@ if ($id > 0) {
                     </div>
                 </div>
                 <div class="table-container">
+                      <?php
+                         $enroll_query = $connection->query("SELECT * FROM enrolled ORDER BY enroll_id DESC");
+                        if ($enroll_query && $enroll_query->num_rows > 0):
+                    ?>
                     <table>
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Username</th>
-                                <th>Email</th>
+                                <th>User Id</th>
+                                <th>Notes Id</th>
                                 <th>Subject</th>
-                                <th>Count</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1001</td>
-                                <td>user123</td>
-                                <td>user123@example.com</td>
-                                <td>Programming</td>
-                                <td>7</td>
-                            </tr>                           
+                              <?php while ($row = $enroll_query->fetch_assoc()): ?>
+                          
+                                <tr>
+                                        <td><?php echo htmlspecialchars($row['enroll_id']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['notes_id']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['title']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['enroll_date']); ?></td>
+                                 </tr>          
+                                   <?php endwhile; ?>               
                         </tbody>
                     </table>
+                      <?php else: ?>
+                        <p>There are no purchase records yet.</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </main>
 
     <script src="./assets/js/index.js"></script>
-    <div class="dark-mode-toggle " title="Toggle Dark Mode">
+    <div class="dark-mode-toggle" title="Toggle Dark Mode">
         <i class="fas fa-moon"></i>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script>
-        // Your existing JavaScript code remains the same
         // Toggle sidebar on mobile
-        document.querySelector('.fa-bars').addEventListener('click', function() {
-            if( document.querySelector('.menu-slide').style.transform =  "translateX(-100%)"){
-                      document.querySelector('.menu-slide').style.transform =  "translateX(0%)";
-            }else{
-                  document.querySelector('.menu-slide').style.transform =  "translateX(-100%)";
-            }
-          
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.menu-slide').style.transform = 
+                document.querySelector('.menu-slide').style.transform === 'translateX(0%)' ? 
+                'translateX(-100%)' : 'translateX(0%)';
         });
 
         // Navigation between sections
@@ -485,8 +655,7 @@ if ($id > 0) {
                 targetSection.style.animation = 'fadeIn 0.5s ease';
                 
                 if (window.innerWidth < 992) {
-                    document.querySelector('.menu-slide').classList.remove('active');
-                    document.querySelector('main').classList.remove('expanded');
+                    document.querySelector('.menu-slide').style.transform = 'translateX(-100%)';
                 }
             });
         });
@@ -506,13 +675,31 @@ if ($id > 0) {
             });
         });
 
+        document.getElementById('search-downloads').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            document.querySelectorAll('#download-detail tbody tr').forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
+            });
+        });
+
         // Dark mode toggle
         document.querySelector('.dark-mode-toggle').addEventListener('click', function() {
             document.body.classList.toggle('dark-mode');
             const icon = this.querySelector('i');
             icon.classList.toggle('fa-moon');
             icon.classList.toggle('fa-sun');
+            
+            // Save preference to localStorage
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
         });
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            const icon = document.querySelector('.dark-mode-toggle i');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
     </script>
 </body>
 </html>

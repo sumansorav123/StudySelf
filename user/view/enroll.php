@@ -8,6 +8,31 @@ if(!isset($_SESSION['username'])) {
       echo '<script>window.location.href = " ../../index.php";</script>';
     exit();
 }
+
+if(isset($_GET['user_id'])){
+      $user_id = intval($_GET['user_id']);
+          $enroll_query = $connection->query("SELECT * FROM enrolled WHERE user_id = $user_id");
+
+    if ($enroll_query && $enroll_query->num_rows > 0) {
+        $enroll = $enroll_query->fetch_assoc();
+        
+        $noteid = htmlspecialchars($enroll['notes_id']);
+         $title = htmlspecialchars($enroll['title']);
+        $category = htmlspecialchars($enroll['category_name']);
+        $description = htmlspecialchars($enroll['description']);
+        $thumbnail = htmlspecialchars($enroll['thumbnail_path']);
+        $note_file = htmlspecialchars($enroll['note_file']);
+    }
+      else {
+        echo "Note not found.";
+        exit();
+    }
+}else{
+    echo "No user ID specified.";
+    exit();
+}
+
+
 ?>
 <!-- logout and session destroy -->
 <?php
@@ -17,6 +42,8 @@ if(isset($_POST['logout'])) {
     echo '<script>window.location.href = " ../../index.php";</script>';
     exit();
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +90,24 @@ if(isset($_POST['logout'])) {
     background:rgba(21, 48, 78, 0.73);
     height: 100px;
 }
-
+    .dark-mode{
+                position: fixed;
+    left: 20px;
+    top: 90%;
+    padding: 5px;
+    font-size: 24px;
+    z-index: 1;
+    background: #303030;
+    color: #fff;
+    width: 42px;
+    border-radius: 50px;
+    border: none;
+        }
+        .note-stats{
+              display: flex
+;
+    gap: 20px;
+        }
 
 </style>
 <body>
@@ -74,22 +118,20 @@ if(isset($_POST['logout'])) {
                 <span>StudySelf</span>
             </div>
               <ul class="nav-links">
-                <a  href="../user_dashboard.php" ><i class="fa-solid fa-house-user"></i><span>Home</span></a>
-                <!-- <a href="./view/enroll.php"><i class="fa-solid fa-bookmark"></i><span >enroll</span></a> -->
+                <a  href="../user_dashboard.php?user_id=<?php  echo $user_id; ?>" ><i class="fa-solid fa-house-user"></i><span>Home</span></a>
+              
                 <a  href="#notes" ><i class="fa-solid fa-book"></i><span>Notes</span></a>
                 <a href="#testimonials"><i class="fa-solid fa-users"></i><span >Testimonials</span></a>
                 <a  href="#contact"><i class="fa-solid fa-address-book"></i><span>Contact</span></a>
             </ul>
-              <button id="dark-mode-toggle" class="dark-mode-toggle">
-                <i class="fas fa-moon"></i> <!-- Moon icon for light mode -->
-                <i class="fas fa-sun"></i> <!-- Sun icon for dark mode -->
-                </button>
+      
          
             <div class="btn">
                 <i class="fa-solid fa-user"  style="display: none;"></i>
                 <ul>
                   
                     <a href="#" class="user-name" style="color:rgb(238, 208, 38);" ><?PHP echo $_SESSION['username']; ?></a>
+                       
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <input type="submit" name="logout" value="Logout" class="logout">
                     </form>
@@ -102,13 +144,7 @@ if(isset($_POST['logout'])) {
         </div>
     </header>
     <br>
-    <br>
-    <section class="heading">
-
-            <div class="top-header">
-            <a href="../user_dashboard.php" class="cta-button">Home</a> |  <a href="#" class="cta-button">Enroll</a>
-            </div>
-    </section>
+    
     <br>
     <br>
 
@@ -127,47 +163,48 @@ if(isset($_POST['logout'])) {
                     </div>
                  </form>
             </div>
-            <div class="notes-grid ">
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="JavaScript Notes">
-                        <span class="note-category">Python</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>Python </h3>
-                        <p>
-                            Comprehensive guide to  including variables, functions, and DOM
-                            manipulation.
-                        </p>
-                        <div class="note-stats">
-                            
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-card" data-category="programming">
-                    <div class="note-image">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                            alt="JavaScript Notes">
-                        <span class="note-category">java</span>
-                    </div>
-                    <div class="note-content">
-                        <h3>java </h3>
-                        <p>
-                            Comprehensive guide to Java fundamentals including variables, functions,
-                            manipulation.
-                        </p>
-                        <div class="note-stats">
-                            
-                              <a href="#" class="btn-download">Download<i class="fa-solid fa-download" style="color: #eaeef5;"></i></a>
-                        </div>
-                    </div>
+              <div class="notes-grid ">
+<?php
+    $notes_result = $connection->query("SELECT * FROM enrolled WHERE user_id = $user_id");
+    if ($notes_result->num_rows > 0) {
+        while ($row = $notes_result->fetch_assoc()) {
+            $noteid = htmlspecialchars($row['notes_id']);
+            $title = htmlspecialchars($row['title']);
+            $category = htmlspecialchars($row['category_name']);
+            $description = htmlspecialchars($row['description']);
+            $thumbnail = htmlspecialchars($row['thumbnail_path']);
+            $note_file = htmlspecialchars($row['note_file']);
+?>
+        <div class="note-card" data-category="programming">
+            <div class="note-image">
+                <img src="<?php echo '../../admin/' . $thumbnail; ?>" alt="<?php echo $title; ?>">
+                <span class="note-category"><?php echo $category; ?></span>
+            </div>
+            <div class="note-content">
+                <h3><?php echo $title; ?></h3>
+                <p><?php echo $description; ?></p>
+                <div class="note-stats">
+                    <a href="<?php echo '../../admin/' . $note_file; ?>" class="btn-download" download>
+                        Download <i class="fa-solid fa-download" style="color: #eaeef5;"></i>
+                    </a>
+                    <a href="<?php echo '../../admin/' . $note_file; ?>" class="btn-download" target="_blank">View Note</a>
                 </div>
             </div>
         </div>
+<?php
+        }
+    } else {
+        echo "<p>No notes enrolled.</p>";
+    }
+?>
+</div>
+
+        </div> 
    </section>  
+            <button id="dark-mode-toggle" class="dark-mode-toggle dark-mode">
+                <i class="fas fa-moon"></i> <!-- Moon icon for light mode -->
+                <i class="fas fa-sun"></i> <!-- Sun icon for dark mode -->
+          </button>
    
    
     <!-- Footer -->

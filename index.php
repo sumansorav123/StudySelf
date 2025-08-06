@@ -14,102 +14,19 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudySelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-     <link rel="stylesheet" href="./assets/css/index.css">
-    <link rel="stylesheet" href="user/user_assets/css/style.css">
+       <link rel="stylesheet" href="./assets/css/style.css">
 
 </head>
 <style>
-/* scroll bar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-/* end scroll bar */
-.right-link{
-        position: fixed;
-    right: 0;
-    background: orange;
-    padding: 5px;
-    border-radius: 5px;
-    writing-mode: sideways-lr;
-}
-  .right-link a{
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
-    cursor: pointer;
-  }
-
-/* Dark Mode Styles */
-[data-theme="dark"] {
-  --primary: #38bdf8;
-  --secondary: #f59e0b;
-  --accent: #0ea5e9;
-  --success: #34d399;
-  --danger: #f87171;
-  --bg: #0f172a;
-  --text-primary:rgb(36, 33, 33);
-  --text-secondary: #94a3b8;
-  --border: #334155;
-  --heading: #ffffff;
-}
-
-/* Dark mode toggle button styles */
-.dark-mode-toggle {
-  background: transparent;
-  border: 1px solid;
-  color: #f9f9f9;
-  cursor: pointer;
-  font-size: 1.6rem;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 50px;
-  position: fixed;
-  bottom: 5%;
-  left: 20px;
-  background: #292828;
-  z-index: 1000;
-}
-
-/* Icon visibility control */
-.dark-mode-toggle .fa-sun {
-  display: none;
-}
-
-[data-theme="dark"] .dark-mode-toggle .fa-moon {
-  display: none;
-}
-
-[data-theme="dark"] .dark-mode-toggle .fa-sun {
-  display: block;
-}
-.reveal {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+    @media (max-width: 992px) {
+     .fa-user{
+        display:block;
+     }
+    }
+    .hanging-card{
+        width: 290px;
+    }
 </style>
-
 <body>
      <!-- Header -->
     <header id="header">
@@ -131,8 +48,8 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
                 </button>
             <div class="btn">
               
-                <i class="fa-solid fa-user"  style="display: none;"></i>
-                <ul>
+                <i class="fa-solid fa-user" ></i>
+                <ul class="nav-ul">
                     <a href="./user/user_auth/user_sigin.php" class="cta-button">Sign Up</a>
                     <a href="./user/user_auth/user_login.php" class="cta-button">Sign In</a>
                 </ul>
@@ -295,7 +212,7 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
                 </p>
                 <div class="note-stats">
                     <span class="note-price">Price: ₹<?php echo $price; ?></span>
-                    <a href="user/view/notes_view.php?id=<?php echo $note_id; ?>" class="btn-download">
+                    <a href="./user/user_auth/user_login.php" class="btn-download">
                         View Note <i class="fa-solid fa-download" style="color: #eaeef5;"></i>
                     </a>
                 </div>
@@ -314,8 +231,10 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
     <!-- Testimonials Section -->
     <section class="testimonials reveal" id="testimonials">
        
-    <div class="testimonial-msg" style="background-color: whitesmoke;">
+    <div class="testimonial-msg" >
+        <br>
     <h2>What Our Students Say</h2>
+    <br>
     <div class="testimonial-list">
         <?php
         // Fetch testimonials from the database
@@ -341,6 +260,9 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
                         <small><?= $created_at ?></small>
                     </div>
                 </div>
+
+
+           
             </div>
         <?php
                 $delay += 0.2; // stagger animation
@@ -404,142 +326,5 @@ if(isset($_SESSION["useremail"], $_SESSION["username"])){
 
 </body>
 <script src="./assets/js/index.js"></script>
-<script>
-      // scroll eff
-      document.addEventListener("DOMContentLoaded", function () {
-        const elements = document.querySelectorAll(".reveal");
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("visible");
-              }
-            });
-          },
-          { threshold: 0.2 }
-        ); // Trigger when 20% of the element is visible
-
-        elements.forEach((el) => observer.observe(el));
-      });
-    </script>
- <script>
-    function preventBack() {
-        window.history.forward();
-    }
-
-    setTimeout(preventBack, 0);
-
-    window.onunload = function () {
-        // Optional: force unload
-    };
-
-
-    
-
-const hamburger = document.querySelector(".hamburger");
-const navLinks = document.querySelector(".nav-links");
-
-function toggleMobileMenu() {
-  navLinks.classList.toggle("active");
-  hamburger.innerHTML = navLinks.classList.contains("active")
-    ? '<i class="fa-solid fa-xmark"></i>'
-    : '<i class="fa-solid fa-bars"></i>';
-}
-
-hamburger.addEventListener("click", toggleMobileMenu);
-
-// Close mobile menu when clicking a link
-document.querySelectorAll(".nav-links a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navLinks.classList.remove("active");
-    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
-  });
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target.closest(".hamburger")) {
-    toggleMobileMenu();
-  }
-});
-
-// Sticky Header
-const header = document.getElementById("header");
-
-function handleScroll() {
-  if (window.scrollY > 100) {
-    header.classList.add("scrolled");
-    navLinks.classList.remove("active");
-    hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
-  } else {
-    header.classList.remove("scrolled");
-  }
-}
-
-window.addEventListener("scroll", handleScroll);
-
-
-</script>
-<script>
-      // Dark Mode Functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const html = document.documentElement;
-        
-        // Initialize theme
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                html.setAttribute('data-theme', 'dark');
-            }
-            updateToggleIcon();
-        }
-        
-        // Toggle theme
-        function toggleTheme() {
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-            updateToggleIcon();
-        }
-        
-        // Update toggle icon
-        function updateToggleIcon() {
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            const moonIcon = darkModeToggle.querySelector('.fa-moon');
-            const sunIcon = darkModeToggle.querySelector('.fa-sun');
-            
-            moonIcon.style.display = isDark ? 'none' : 'inline';
-            sunIcon.style.display = isDark ? 'inline' : 'none';
-        }
-        
-        // Initialize
-        initTheme();
-        
-        // Event listener
-        if (darkModeToggle) {
-            darkModeToggle.addEventListener('click', toggleTheme);
-        }
-        
-        // Watch for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (!localStorage.getItem('theme')) {
-                if (e.matches) {
-                    html.setAttribute('data-theme', 'dark');
-                } else {
-                    html.removeAttribute('data-theme');
-                }
-                updateToggleIcon();
-            }
-        });
-    });
-    
-</script>
 
 </html>
